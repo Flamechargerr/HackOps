@@ -1,3 +1,4 @@
+
 import { type Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
@@ -103,6 +104,9 @@ export default {
       },
       boxShadow: {
         'glow': '0 0 4px theme(colors.primary.DEFAULT)',
+        'glass': '0 8px 32px rgba(0, 0, 0, 0.15)',
+        'glow-sm': '0 0 8px theme(colors.accent.DEFAULT)',
+        'glow-md': '0 0 16px theme(colors.accent.DEFAULT)',
       },
     },
   },
