@@ -1,69 +1,78 @@
-# Welcome to your Lovable project
 
-## Project info
+# Password Challenge Game
 
-**URL**: https://lovable.dev/projects/508211b7-fcd3-4e75-a2cf-2af856d4c712
+![Password Challenge Game Screenshot](public/password-game-screenshot.png)
 
-## How can I edit this code?
+## Overview
 
-There are several ways of editing your application.
+The Password Challenge Game is an interactive web application that gamifies the concept of password security. Players must create a password that meets increasingly difficult security requirements as they progress through the game's eight levels.
 
-**Use Lovable**
+## Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/508211b7-fcd3-4e75-a2cf-2af856d4c712) and start prompting.
+- **Progressive Difficulty**: The game introduces new password requirements with each level
+- **Real-time Validation**: Instant feedback on whether each requirement is met
+- **Engaging UI**: Animated, interactive interface with visual feedback
+- **Score Tracking**: Points awarded for each completed requirement
+- **Level System**: Progress through 8 levels of password security
+- **Victory Celebration**: Special animation and feedback when the game is completed
 
-Changes made via Lovable will be committed automatically to this repo.
+## Technical Stack
 
-**Use your preferred IDE**
+- **React**: Frontend UI library
+- **TypeScript**: Type-safe JavaScript
+- **Tailwind CSS**: Utility-first CSS framework
+- **Shadcn/UI**: UI component library
+- **Lucide React**: Icon library
+- **React Router**: Navigation between pages
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Password Requirements
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Level 1**: Password must be at least 5 characters long
+2. **Level 2**: Must contain at least one uppercase letter
+3. **Level 3**: Must contain at least one number
+4. **Level 4**: Must contain at least one special character
+5. **Level 5**: No three consecutive characters can be the same
+6. **Level 6**: Password length must be a prime number
+7. **Level 7**: Must contain a month name (e.g., January)
+8. **Level 8**: Equal number of uppercase and lowercase letters
 
-Follow these steps:
+## Running Locally
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# Clone the repository
+git clone https://github.com/flamechargerr/password-challenge-game.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd password-challenge-game
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Testing
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The project includes comprehensive testing for all components:
 
-**Use GitHub Codespaces**
+```bash
+# Run tests
+npm test
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Educational Value
 
-## What technologies are used for this project?
+The Password Challenge Game serves as an interactive educational tool about password security principles:
 
-This project is built with .
+- Demonstrates why length, complexity, and uniqueness matter in passwords
+- Illustrates various security constraints in an engaging way
+- Makes password security education fun rather than intimidating
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Credits
 
-## How can I deploy this project?
+Created with love by Flamechargerr (Anamay)
 
-Simply open [Lovable](https://lovable.dev/projects/508211b7-fcd3-4e75-a2cf-2af856d4c712) and click on Share -> Publish.
+## License
 
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+MIT
