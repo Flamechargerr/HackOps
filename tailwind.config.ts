@@ -90,6 +90,10 @@ export default {
           "50%": { transform: "scale(1.05)", opacity: "0.7" },
           "100%": { transform: "scale(1)", opacity: "0.5" },
         },
+        "cursor-blink": {
+          "0%, 100%": { borderColor: "transparent" },
+          "50%": { borderColor: "currentColor" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -98,6 +102,7 @@ export default {
         "fly-up": "fly-up 1s ease-out forwards",
         float: "float 3s ease-in-out infinite",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
+        "cursor-blink": "cursor-blink 0.75s step-end infinite"
       },
       perspective: {
         '1000': '1000px',

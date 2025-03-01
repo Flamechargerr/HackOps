@@ -98,7 +98,7 @@
   
   .typing-effect {
     @apply whitespace-nowrap overflow-hidden border-r-2 border-primary animate-cursor-blink;
-    animation: typing 3.5s steps(40, end), cursor-blink 0.75s step-end infinite;
+    animation: typing 3.5s steps(40, end);
   }
   
   .neon-border {
