@@ -118,9 +118,9 @@
   }
   
   .cyber-grid {
-    @apply relative;
-    background-image: linear-gradient(to right, theme(colors.primary.DEFAULT / 5%) 1px, transparent 1px),
-                    linear-gradient(to bottom, theme(colors.primary.DEFAULT / 5%) 1px, transparent 1px);
+    background-image: 
+      linear-gradient(to right, theme(colors.primary.DEFAULT / 5%) 1px, transparent 1px),
+      linear-gradient(to bottom, theme(colors.primary.DEFAULT / 5%) 1px, transparent 1px);
     background-size: 20px 20px;
   }
   
