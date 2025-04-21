@@ -1,7 +1,6 @@
 
 # Password Challenge Game
 
-![Password Challenge Game Screenshot](public/password-game-screenshot.png)
 
 ## Overview
 
