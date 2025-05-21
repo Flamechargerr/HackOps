@@ -7,7 +7,6 @@
 The Password Challenge Game is an interactive web application that gamifies the concept of password security. Players must create a password that meets increasingly difficult security requirements as they progress through the game's eight levels.
 
 ## Features
-
 - **Progressive Difficulty**: The game introduces new password requirements with each level
 - **Real-time Validation**: Instant feedback on whether each requirement is met
 - **Engaging UI**: Animated, interactive interface with visual feedback
