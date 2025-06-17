@@ -1,76 +1,133 @@
+<h1 align="center">🔐 HACKOPS – PASSWORD CHALLENGE GAME 🔐</h1>
+<p align="center"><em>A gamified learning experience that tests and strengthens your understanding of password security – one level at a time.</em></p>
 
-# Password Challenge Game
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/Flamechargerr/HackOps?style=flat-square" alt="Last Commit">
+  <img src="https://img.shields.io/github/languages/top/Flamechargerr/HackOps?style=flat-square" alt="Top Language">
+  <img src="https://img.shields.io/github/languages/count/Flamechargerr/HackOps?style=flat-square" alt="Languages Used">
+</p>
 
+---
 
-## Overview
+## 📌 Overview
 
-The Password Challenge Game is an interactive web application that gamifies the concept of password security. Players must create a password that meets increasingly difficult security requirements as they progress through the game's eight levels.
+**HackOps** is a creative, educational browser game that transforms password-building into a thrilling challenge.  
+Inspired by cybersecurity best practices, it teaches players how to build **secure, strong passwords** in a way that’s interactive and fun.
 
-## Features
-- **Progressive Difficulty**: The game introduces new password requirements with each level
-- **Real-time Validation**: Instant feedback on whether each requirement is met
-- **Engaging UI**: Animated, interactive interface with visual feedback
-- **Score Tracking**: Points awarded for each completed requirement
-- **Level System**: Progress through 8 levels of password security
-- **Victory Celebration**: Special animation and feedback when the game is completed
+Perfect for beginners, learners, and developers who want to **level up their password hygiene** — literally.
 
-## Technical Stack
+---
 
-- **React**: Frontend UI library
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
-- **Shadcn/UI**: UI component library
-- **Lucide React**: Icon library
-- **React Router**: Navigation between pages
+### 🎮 Gameplay Snapshot
 
-## Password Requirements
+- 🧠 8 progressive levels with escalating password constraints  
+- 🔐 Real-time feedback for each condition met  
+- 🧩 Fun mix of logic + regex + game mechanics  
+- 🎉 Celebrate final victory with animations and win screen  
+- 📊 Dynamic scoring and condition-based UI updates
 
-1. **Level 1**: Password must be at least 5 characters long
-2. **Level 2**: Must contain at least one uppercase letter
-3. **Level 3**: Must contain at least one number
-4. **Level 4**: Must contain at least one special character
-5. **Level 5**: No three consecutive characters can be the same
-6. **Level 6**: Password length must be a prime number
-7. **Level 7**: Must contain a month name (e.g., January)
-8. **Level 8**: Equal number of uppercase and lowercase letters
+---
 
-## Running Locally
+## 🛠️ Tech Stack
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
+  <img src="https://img.shields.io/badge/Shadcn/UI-000000?style=for-the-badge&logo=react&logoColor=white">
+  <img src="https://img.shields.io/badge/React_Router-EA4335?style=for-the-badge&logo=react-router&logoColor=white">
+  <img src="https://img.shields.io/badge/Lucide_Icons-yellow?style=for-the-badge">
+</p>
+
+---
+
+## 🔐 Password Logic & Levels
+
+Each level introduces a new requirement. Players must build passwords that meet **all previous + current conditions**.
+
+| Level | Requirement                                 |
+|-------|---------------------------------------------|
+| 1️⃣    | Minimum 5 characters                       |
+| 2️⃣    | At least one uppercase letter              |
+| 3️⃣    | At least one number                        |
+| 4️⃣    | At least one special character             |
+| 5️⃣    | No three consecutive repeating characters  |
+| 6️⃣    | Password length must be a **prime number** |
+| 7️⃣    | Must contain a **month name**              |
+| 8️⃣    | Equal number of uppercase & lowercase chars|
+
+---
+
+## 💡 Educational Value
+
+HackOps promotes **cybersecurity awareness** by helping users:
+- Visualize password vulnerabilities
+- Understand why rules exist (e.g., primes, repetition)
+- Train mental models for secure password creation
+- Have **fun while learning** (rare in infosec!)
+
+Great for:
+- 👨‍🏫 Students  
+- 🧑‍💻 Developers  
+- 🧓🏽 Non-tech users  
+
+---
+
+## 📂 How to Run Locally
 
 ```bash
-# Clone the repository
-git clone https://github.com/flamechargerr/password-challenge-game.git
-
-# Navigate to project directory
-cd password-challenge-game
-
-# Install dependencies
+git clone https://github.com/Flamechargerr/HackOps.git
+cd HackOps
 npm install
-
-# Start the development server
 npm run dev
 ```
 
-## Testing
+➡️ Open `http://localhost:5173` in your browser.  
+✅ No external backend or database needed.
 
-The project includes comprehensive testing for all components:
+---
+
+## 🔮 Future Additions
+
+- 🌐 Online global leaderboard  
+- 🧠 Add hints/tooltips explaining password rules  
+- 📱 Responsive UI improvements  
+- 🔊 Sound & feedback on correct/incorrect guesses  
+- 🧪 Timed mode with challenges & badges
+
+---
+
+## 🧪 Testing
 
 ```bash
-# Run tests
 npm test
 ```
 
-## Educational Value
+Test logic includes:
+- ✅ Password validator  
+- 🧪 Rule engine  
+- 🔄 Win-check loop logic
 
-The Password Challenge Game serves as an interactive educational tool about password security principles:
+---
 
-- Demonstrates why length, complexity, and uniqueness matter in passwords
-- Illustrates various security constraints in an engaging way
-- Makes password security education fun rather than intimidating
+## 👨‍💻 Author
 
-## Credits
+Made with 💡 & ❤️ by  
+**[@Flamechargerr (Anamay)](https://github.com/Flamechargerr)**  
+Powered by **React**, styled by **Tailwind + Shadcn**, and designed for a better internet.
 
-Created with love by Flamechargerr (Anamay)
+---
 
-## License
+## 🔗 Live Demo
 
-MIT
+🌍 [**Play HackOps**](https://playful-password-playground.lovable.app) — Try it now and test your password mastery!
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+> **“The strongest walls begin with the smallest bricks — build your passwords the smart way.”**
