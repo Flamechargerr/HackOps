@@ -1,12 +1,19 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import PasswordGame from "@/components/PasswordGame";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { leaderboardManager } from "@/utils/leaderboard";
+import Button from "@/components/Button";
 
 const PasswordGamePage = () => {
+  const [playerName, setPlayerName] = useState("");
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [gameScore, setGameScore] = useState(0);
+  const [gameLevel, setGameLevel] = useState(1);
+
   useEffect(() => {
     // Show a welcome toast when the page loads
     toast.info("Welcome to the Password Challenge!", {
@@ -14,6 +21,32 @@ const PasswordGamePage = () => {
       icon: "🔐",
     });
   }, []);
+
+  const handleGameComplete = (finalScore: number, finalLevel: number) => {
+    setGameScore(finalScore);
+    setGameLevel(finalLevel);
+    setShowNameInput(true);
+  };
+
+  const submitScore = () => {
+    if (playerName.trim()) {
+      leaderboardManager.addScore({
+        name: playerName.trim(),
+        game: "password",
+        score: gameScore,
+        level: gameLevel,
+        difficulty: gameLevel >= 8 ? 'Expert' : gameLevel >= 6 ? 'Hard' : gameLevel >= 4 ? 'Medium' : 'Easy',
+      });
+      
+      toast.success("Score submitted to leaderboard!", {
+        description: `${playerName} scored ${gameScore} points!`,
+      });
+      
+      setShowNameInput(false);
+    } else {
+      toast.error("Please enter your name to submit score.");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -38,8 +71,63 @@ const PasswordGamePage = () => {
           
           {/* Game container */}
           <div className="max-w-2xl mx-auto">
-            <PasswordGame />
+            <PasswordGame onGameComplete={handleGameComplete} />
           </div>
+
+          {/* Score Submission Modal */}
+          {showNameInput && (
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+              <div className="glass-card p-8 rounded-xl max-w-md w-full border border-primary/30">
+                <div className="text-center mb-6">
+                  <Trophy className="mx-auto mb-4 text-primary" size={48} />
+                  <h2 className="text-2xl font-bold mb-2">Congratulations!</h2>
+                  <p className="text-muted-foreground">
+                    You scored <span className="text-primary font-bold">{gameScore}</span> points 
+                    and reached level <span className="text-accent font-bold">{gameLevel}</span>!
+                  </p>
+                </div>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Enter your name for the leaderboard:</label>
+                    <input
+                      type="text"
+                      value={playerName}
+                      onChange={(e) => setPlayerName(e.target.value)}
+                      placeholder="Your name"
+                      className="game-input w-full"
+                      maxLength={20}
+                      onKeyDown={(e) => e.key === 'Enter' && submitScore()}
+                    />
+                  </div>
+                  
+                  <div className="flex space-x-3">
+                    <Button
+                      onClick={submitScore}
+                      variant="glow"
+                      className="flex-1"
+                      disabled={!playerName.trim()}
+                    >
+                      Submit Score
+                    </Button>
+                    <Button
+                      onClick={() => setShowNameInput(false)}
+                      variant="outline"
+                      className="flex-1"
+                    >
+                      Skip
+                    </Button>
+                  </div>
+                  
+                  <div className="text-center">
+                    <Link to="/leaderboard" className="text-primary hover:text-primary/80 text-sm">
+                      View Leaderboard →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           
           {/* Game instructions */}
           <div className="max-w-2xl mx-auto mt-8 glass-card p-6 rounded-xl">

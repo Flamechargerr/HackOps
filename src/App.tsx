@@ -10,6 +10,7 @@ import TerminalGamePage from "./pages/TerminalGame";
 import EncryptionGame from "./pages/EncryptionGame";
 import XSSGame from "./pages/XSSGame";
 import SQLInjectionGame from "./pages/SQLInjectionGame";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/encryption" element={<EncryptionGame />} />
           <Route path="/xss-game" element={<XSSGame />} />
           <Route path="/sql-injection" element={<SQLInjectionGame />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

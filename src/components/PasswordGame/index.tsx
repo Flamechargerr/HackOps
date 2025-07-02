@@ -9,7 +9,11 @@ import FeedbackMessage from "./FeedbackMessage";
 import { getRequirementsForLevel } from "./gameUtils";
 import { initialRequirements } from "./requirements";
 
-const PasswordGame = () => {
+interface PasswordGameProps {
+  onGameComplete?: (score: number, level: number) => void;
+}
+
+const PasswordGame = ({ onGameComplete }: PasswordGameProps = {}) => {
   const [password, setPassword] = useState("");
   const [level, setLevel] = useState(1);
   const [score, setScore] = useState(0);
@@ -76,6 +80,13 @@ const PasswordGame = () => {
         setIsGameComplete(true);
         setFeedbackMessage("Congratulations! You've beaten the password game!");
         setFeedbackType("success");
+        
+        // Call completion callback if provided
+        if (onGameComplete) {
+          setTimeout(() => {
+            onGameComplete(completedCount * 100, level);
+          }, 1000);
+        }
       }
     }
   };

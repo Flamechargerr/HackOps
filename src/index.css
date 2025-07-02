@@ -105,7 +105,7 @@
   }
   
   .typing-effect {
-    @apply whitespace-nowrap overflow-hidden border-r-2 border-primary animate-cursor-blink;
+    @apply whitespace-nowrap overflow-hidden border-r-2 border-primary;
     animation: typing 3.5s steps(40, end);
   }
   
@@ -119,23 +119,79 @@
   
   .cyber-grid {
     background-image: 
-      linear-gradient(to right, theme(colors.primary.DEFAULT / 5%) 1px, transparent 1px),
-      linear-gradient(to bottom, theme(colors.primary.DEFAULT / 5%) 1px, transparent 1px);
+      linear-gradient(to right, hsl(var(--primary) / 5%) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary) / 5%) 1px, transparent 1px);
     background-size: 20px 20px;
   }
   
   .cyber-gradient {
     @apply relative overflow-hidden;
     background: linear-gradient(45deg, 
-      theme(colors.primary.DEFAULT / 10%),
-      theme(colors.accent.DEFAULT / 10%)
+      hsl(var(--primary) / 10%),
+      hsl(var(--accent) / 10%)
     );
+  }
+
+  .matrix-animation {
+    @apply absolute inset-0 overflow-hidden pointer-events-none;
+  }
+
+  .matrix-column {
+    @apply absolute top-0 h-full flex flex-col items-center justify-start;
+    animation: matrixFall linear infinite;
+  }
+
+  .matrix-character {
+    @apply text-primary/60 font-mono text-xs leading-none;
+    animation: matrixGlow 2s ease-in-out infinite alternate;
+  }
+
+  .leaderboard-card {
+    @apply glass-card p-6 rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300;
+    @apply bg-gradient-to-br from-primary/5 to-accent/5;
+  }
+
+  .leaderboard-rank {
+    @apply w-12 h-12 rounded-full bg-primary/20 border border-primary/40;
+    @apply flex items-center justify-center font-mono font-bold text-primary;
+  }
+
+  .game-button {
+    @apply bg-primary/90 hover:bg-primary text-primary-foreground;
+    @apply border border-accent/50 shadow-glow-sm hover:shadow-glow-md;
+    @apply transition-all duration-300 hover:scale-105;
+  }
+
+  .game-input {
+    @apply bg-muted/30 border border-primary/30 focus:border-primary/60;
+    @apply focus:ring-2 focus:ring-primary/20 focus:outline-none;
+    @apply rounded-md p-3 font-mono transition-all duration-200;
+  }
+
+  .level-indicator {
+    @apply inline-flex items-center px-3 py-1 rounded-full;
+    @apply bg-primary/20 border border-primary/40 text-primary font-mono text-sm;
+  }
+
+  .score-display {
+    @apply font-mono text-xl font-bold text-accent;
+    @apply drop-shadow-sm;
   }
 }
 
 @keyframes typing {
   from { width: 0 }
   to { width: 100% }
+}
+
+@keyframes matrixFall {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes matrixGlow {
+  0% { opacity: 0.3; text-shadow: 0 0 2px hsl(var(--primary)); }
+  100% { opacity: 0.8; text-shadow: 0 0 8px hsl(var(--primary)); }
 }
 
 /* Progressive loading effect for images */

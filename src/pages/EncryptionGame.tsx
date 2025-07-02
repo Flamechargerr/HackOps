@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import { toast } from "sonner";
 import Button from "@/components/Button";
+import { leaderboardManager } from "@/utils/leaderboard";
 
 const EncryptionGame = () => {
   const [level, setLevel] = useState(1);
@@ -62,6 +63,16 @@ const EncryptionGame = () => {
       } else {
         toast.success("🏆 Congratulations! You've completed all levels!", {
           description: "You're now a master of encryption!",
+        });
+        
+        // Submit to leaderboard
+        const playerName = leaderboardManager.generatePlayerName();
+        leaderboardManager.addScore({
+          name: playerName,
+          game: "encryption",
+          score: score,
+          level: level,
+          difficulty: 'Expert',
         });
       }
     } else {
