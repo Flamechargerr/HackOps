@@ -1,10 +1,12 @@
-<h1 align="center">🔐 HACKOPS – PASSWORD CHALLENGE GAME 🔐</h1>
-<p align="center"><em>A gamified learning experience that tests and strengthens your understanding of password security – one level at a time.</em></p>
+# 🔐 HACKOPS – PASSWORD CHALLENGE GAME 🔐
+
+_A gamified learning experience that tests and strengthens your understanding of password security – one level at a time._
 
 <p align="center">
   <img src="https://img.shields.io/github/last-commit/Flamechargerr/HackOps?style=flat-square" alt="Last Commit">
   <img src="https://img.shields.io/github/languages/top/Flamechargerr/HackOps?style=flat-square" alt="Top Language">
   <img src="https://img.shields.io/github/languages/count/Flamechargerr/HackOps?style=flat-square" alt="Languages Used">
+  <img src="https://img.shields.io/badge/PWA-Ready-brightgreen?style=flat-square" alt="PWA Ready">
 </p>
 
 ---
@@ -18,13 +20,23 @@ Perfect for beginners, learners, and developers who want to **level up their pas
 
 ---
 
-### 🎮 Gameplay Snapshot
+### 🎮 Gameplay & Features
 
 - 🧠 8 progressive levels with escalating password constraints  
 - 🔐 Real-time feedback for each condition met  
 - 🧩 Fun mix of logic + regex + game mechanics  
-- 🎉 Celebrate final victory with animations and win screen  
+- 🎉 Celebrate final victory with confetti and win screen  
 - 📊 Dynamic scoring and condition-based UI updates
+- 🌟 **Hints & Energy System**: Use hints with limited energy for help
+- 🏆 **Achievements & Badges**: Earn badges for milestones
+- 🌐 **Global Leaderboard**: Filter, sort, and view stats for all games
+- 📱 **Mobile-first & Responsive**: Beautiful on all devices
+- ♿ **Accessibility**: ARIA, keyboard navigation, color contrast
+- 💬 **Social Sharing**: Share your results on X (Twitter) or copy a link
+- 🧑‍🏫 **In-game Tutorials**: Step-by-step onboarding for new users
+- 🌙 **Dark/Light Mode**: Toggle for your preferred theme
+- ⚡ **PWA/Offline Support**: Installable, works offline, fast loading
+- ✨ **UI/UX Polish**: Smooth animations, tactile buttons, interactive cards
 
 ---
 
@@ -37,6 +49,7 @@ Perfect for beginners, learners, and developers who want to **level up their pas
   <img src="https://img.shields.io/badge/Shadcn/UI-000000?style=for-the-badge&logo=react&logoColor=white">
   <img src="https://img.shields.io/badge/React_Router-EA4335?style=for-the-badge&logo=react-router&logoColor=white">
   <img src="https://img.shields.io/badge/Lucide_Icons-yellow?style=for-the-badge">
+  <img src="https://img.shields.io/badge/PWA-Ready-brightgreen?style=for-the-badge">
 </p>
 
 ---
@@ -73,6 +86,20 @@ Great for:
 
 ---
 
+## 🚀 Live Demo
+
+🌍 [**Play HackOps on GitHub Pages**](https://flamechargerr.github.io/HackOps/) — Try it now and test your password mastery!
+
+---
+
+## 📲 PWA & Offline Support
+
+- **Installable**: Add to your home screen on desktop or mobile
+- **Works offline**: Play even without an internet connection
+- **Fast loading**: Optimized for performance
+
+---
+
 ## 📂 How to Run Locally
 
 ```bash
@@ -87,13 +114,21 @@ npm run dev
 
 ---
 
-## 🔮 Future Additions
+## 🌐 How to Deploy (GitHub Pages)
 
-- 🌐 Online global leaderboard  
-- 🧠 Add hints/tooltips explaining password rules  
-- 📱 Responsive UI improvements  
-- 🔊 Sound & feedback on correct/incorrect guesses  
-- 🧪 Timed mode with challenges & badges
+1. Make sure your `vite.config.ts` has:
+   ```js
+   base: '/HackOps/',
+   ```
+2. Build and deploy:
+   ```bash
+   npm run build
+   npm run deploy
+   ```
+3. Your app will be live at:  
+   [https://flamechargerr.github.io/HackOps/](https://flamechargerr.github.io/HackOps/)
+
+> For SPA routing, a `404.html` fallback is automatically created for GitHub Pages.
 
 ---
 
@@ -115,12 +150,6 @@ Test logic includes:
 Made with 💡 & ❤️ by  
 **[@Flamechargerr (Anamay)](https://github.com/Flamechargerr)**  
 Powered by **React**, styled by **Tailwind + Shadcn**, and designed for a better internet.
-
----
-
-## 🔗 Live Demo
-
-🌍 [**Play HackOps**](https://playful-password-playground.lovable.app) — Try it now and test your password mastery!
 
 ---
 
