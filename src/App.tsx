@@ -12,6 +12,9 @@ import XSSGame from "./pages/XSSGame";
 import SQLInjectionGame from "./pages/SQLInjectionGame";
 import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
+import About from "./pages/About";
+import Challenges from "./pages/Challenges";
+import BlockchainPuzzles from "./pages/BlockchainPuzzles";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +32,9 @@ const App = () => (
           <Route path="/xss-game" element={<XSSGame />} />
           <Route path="/sql-injection" element={<SQLInjectionGame />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/challenges" element={<Challenges />} />
+          <Route path="/blockchain-puzzles" element={<BlockchainPuzzles />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

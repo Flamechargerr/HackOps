@@ -14,8 +14,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={cn(
           // Base styles
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
-          
+          "inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+          // Animation styles
+          "transform-gpu will-change-transform hover:scale-[1.04] active:scale-[0.97] focus:scale-[1.03] hover:shadow-lg active:shadow-sm focus:shadow-lg",
           // Variant styles
           {
             "bg-primary text-primary-foreground hover:bg-primary/90": variant === "default",
@@ -25,7 +26,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             "font-mono bg-terminal text-terminal-foreground border border-primary/30 hover:border-primary/80": variant === "terminal",
             "bg-primary/90 text-primary-foreground shadow-glow-sm hover:shadow-glow-md border border-accent/50": variant === "glow",
           },
-          
           // Size styles
           {
             "h-9 px-3 text-sm": size === "sm",
@@ -33,7 +33,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             "h-11 px-8 text-lg": size === "lg",
             "h-10 w-10 p-0": size === "icon",
           },
-          
           className
         )}
         {...props}

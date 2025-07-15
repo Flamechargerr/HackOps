@@ -8,6 +8,7 @@ export const initialRequirements: PasswordRequirementType[] = [
     validator: (pwd) => pwd.length >= 5,
     difficulty: "easy",
     completed: false,
+    hint: "Try a password longer than 4 characters. Example: hacker1",
   },
   {
     id: "uppercase",
@@ -15,6 +16,7 @@ export const initialRequirements: PasswordRequirementType[] = [
     validator: (pwd) => /[A-Z]/.test(pwd),
     difficulty: "easy",
     completed: false,
+    hint: "Add a capital letter, e.g., 'A' in 'Apple'.",
   },
   {
     id: "number",
@@ -22,6 +24,7 @@ export const initialRequirements: PasswordRequirementType[] = [
     validator: (pwd) => /[0-9]/.test(pwd),
     difficulty: "easy",
     completed: false,
+    hint: "Include a digit, e.g., '1', '2', or '3'.",
   },
   {
     id: "special",
@@ -29,6 +32,7 @@ export const initialRequirements: PasswordRequirementType[] = [
     validator: (pwd) => /[!@#$%^&*]/.test(pwd),
     difficulty: "medium",
     completed: false,
+    hint: "Try adding !, @, #, $, %, ^, &, or * to your password.",
   },
   {
     id: "no-consecutive",
@@ -36,6 +40,7 @@ export const initialRequirements: PasswordRequirementType[] = [
     validator: (pwd) => !/(.)\1\1/.test(pwd),
     difficulty: "medium",
     completed: false,
+    hint: "Avoid repeating any character three times in a row, e.g., 'aaa'.",
   },
   {
     id: "prime-length",
@@ -56,6 +61,7 @@ export const initialRequirements: PasswordRequirementType[] = [
     },
     difficulty: "hard",
     completed: false,
+    hint: "Prime numbers are 2, 3, 5, 7, 11, etc. Try a password with a prime number of characters.",
   },
   {
     id: "month-name",
@@ -71,6 +77,7 @@ export const initialRequirements: PasswordRequirementType[] = [
     },
     difficulty: "hard",
     completed: false,
+    hint: "Try including a month, e.g., 'March2024!'.",
   },
   {
     id: "balanced-chars",
@@ -82,5 +89,32 @@ export const initialRequirements: PasswordRequirementType[] = [
     },
     difficulty: "hard",
     completed: false,
+    hint: "Make sure the number of uppercase and lowercase letters is the same.",
+  },
+  {
+    id: "no-common-words",
+    description: "Password must not contain common words (e.g., 'password', 'admin', '1234')",
+    validator: (pwd) => {
+      const common = ["password", "admin", "1234", "qwerty", "letmein", "welcome"];
+      return !common.some(word => pwd.toLowerCase().includes(word));
+    },
+    difficulty: "hard",
+    completed: false,
+    hint: "Avoid using obvious words like 'password', 'admin', or '1234'.",
+  },
+  {
+    id: "three-types",
+    description: "Password must include at least three types: uppercase, lowercase, number, special character",
+    validator: (pwd) => {
+      let types = 0;
+      if (/[A-Z]/.test(pwd)) types++;
+      if (/[a-z]/.test(pwd)) types++;
+      if (/[0-9]/.test(pwd)) types++;
+      if (/[!@#$%^&*]/.test(pwd)) types++;
+      return types >= 3;
+    },
+    difficulty: "hard",
+    completed: false,
+    hint: "Use a mix of uppercase, lowercase, numbers, and special characters. At least three types!",
   },
 ];

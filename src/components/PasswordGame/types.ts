@@ -5,6 +5,7 @@ export type PasswordRequirementType = {
   validator: (password: string) => boolean;
   difficulty: "easy" | "medium" | "hard";
   completed: boolean;
+  hint?: string;
 };
 
 export type FeedbackType = "success" | "error" | "info";

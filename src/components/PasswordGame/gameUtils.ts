@@ -18,6 +18,10 @@ export const getRequirementsForLevel = (currentLevel: number): string[] => {
       return ["length", "uppercase", "number", "special", "no-consecutive", "prime-length", "month-name"];
     case 8:
       return ["length", "uppercase", "number", "special", "no-consecutive", "prime-length", "month-name", "balanced-chars"];
+    case 9:
+      return ["length", "uppercase", "number", "special", "no-consecutive", "prime-length", "month-name", "balanced-chars", "no-common-words"];
+    case 10:
+      return ["length", "uppercase", "number", "special", "no-consecutive", "prime-length", "month-name", "balanced-chars", "no-common-words", "three-types"];
     default:
       return ["length"];
   }

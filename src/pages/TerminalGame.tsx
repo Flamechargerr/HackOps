@@ -6,6 +6,9 @@ import { ArrowLeft, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import Button from "@/components/Button";
+import { Progress } from "@/components/ui/progress";
+
+const maxLevel = 5;
 
 const TerminalGamePage = () => {
   const [level, setLevel] = useState(1);
@@ -283,28 +286,32 @@ const TerminalGamePage = () => {
             </p>
           </div>
           
-          {/* Level indicator */}
-          <div className="flex justify-between items-center max-w-3xl mx-auto mb-6">
-            <div className="glass-card px-4 py-2 rounded-lg">
-              <span className="font-mono">Level: {level}/3</span>
+          {/* Progress bar and Show Hint button */}
+          <div className="flex items-center justify-between max-w-3xl mx-auto mb-6">
+            <div className="flex-1 mr-4">
+              <Progress value={(level / maxLevel) * 100} />
+              <span className="text-xs text-muted-foreground">Level {level} / {maxLevel}</span>
             </div>
-            
-            <Button 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               size="sm"
-              onClick={() => setShowHint(!showHint)}
-              className="flex items-center"
+              className="ml-4"
+              onClick={() => setShowHint(v => !v)}
             >
-              <Info size={16} className="mr-2" />
               {showHint ? "Hide Hint" : "Show Hint"}
             </Button>
           </div>
           
-          {/* Hint section */}
+          {/* Hint area */}
           {showHint && (
             <div className="max-w-3xl mx-auto mb-6 glass-card p-4 rounded-lg border border-yellow-500/30 bg-yellow-500/5 animate-fade-in">
               <h3 className="font-medium mb-2 text-yellow-400">Hint:</h3>
-              <p className="text-muted-foreground">{hints[0]}</p>
+              <ul className="list-disc pl-5 text-muted-foreground">
+                {hints.map((hint, i) => (
+                  <li key={i}>{hint}</li>
+                ))}
+              </ul>
             </div>
           )}
           
@@ -324,8 +331,8 @@ const TerminalGamePage = () => {
               <li>Use terminal commands to interact with the system.</li>
               <li>Type 'help' to see available commands.</li>
               <li>Explore files, find passwords, and decrypt secrets.</li>
-              <li>Use 'hint' if you get stuck.</li>
-              <li>Complete all 3 levels to master the challenge!</li>
+              <li>Use 'Show Hint' if you get stuck.</li>
+              <li>Complete all {maxLevel} levels to master the challenge!</li>
             </ul>
           </div>
         </div>

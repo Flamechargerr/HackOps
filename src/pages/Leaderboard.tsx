@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Trophy, Medal, Award, Crown, Star, Target, Zap } from "lucide-react";
+import { ArrowLeft, Trophy, Medal, Award, Crown, Star, Target, Zap, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Button from "@/components/Button";
 import { leaderboardManager, LeaderboardEntry } from "@/utils/leaderboard";
+import { format } from 'date-fns';
+import { cn } from "@/lib/utils";
 
 const Leaderboard = () => {
   const [selectedGame, setSelectedGame] = useState<string>("all");
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [stats, setStats] = useState<Record<string, any>>({});
+  const [sortBy, setSortBy] = useState<'score'|'level'|'time'>('score');
+  const [sortDir, setSortDir] = useState<'asc'|'desc'>('desc');
+  const [dateRange, setDateRange] = useState<'all'|'week'|'today'>('all');
+  const currentUser = localStorage.getItem('hackops-profile') ? JSON.parse(localStorage.getItem('hackops-profile')!) : null;
 
   const games = [
     { id: "all", name: "All Games", icon: <Trophy size={16} /> },
@@ -22,14 +28,31 @@ const Leaderboard = () => {
   useEffect(() => {
     updateLeaderboard();
     setStats(leaderboardManager.getGameStats());
-  }, [selectedGame]);
+  }, [selectedGame, sortBy, sortDir, dateRange]);
 
   const updateLeaderboard = () => {
-    const entries = leaderboardManager.getTopScores(
+    let entries = leaderboardManager.getTopScores(
       selectedGame === "all" ? undefined : selectedGame,
-      20
+      100 // get more for filtering
     );
-    setLeaderboard(entries);
+    // Date filter
+    const now = Date.now();
+    if (dateRange === 'today') {
+      const start = new Date(); start.setHours(0,0,0,0);
+      entries = entries.filter(e => e.timeCompleted >= start.getTime());
+    } else if (dateRange === 'week') {
+      const start = new Date(); start.setDate(start.getDate() - 7);
+      entries = entries.filter(e => e.timeCompleted >= start.getTime());
+    }
+    // Sorting
+    entries = [...entries].sort((a, b) => {
+      let cmp = 0;
+      if (sortBy === 'score') cmp = a.score - b.score;
+      else if (sortBy === 'level') cmp = a.level - b.level;
+      else if (sortBy === 'time') cmp = a.timeCompleted - b.timeCompleted;
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+    setLeaderboard(entries.slice(0, 20));
   };
 
   const getRankIcon = (rank: number) => {
@@ -43,6 +66,12 @@ const Leaderboard = () => {
       default:
         return <span className="text-muted-foreground font-mono">#{rank}</span>;
     }
+  };
+
+  const getGameName = (id: string) => {
+    if (id === "all") return "All Games";
+    const found = games.find(g => g.id === id);
+    return found ? found.name : id.charAt(0).toUpperCase() + id.slice(1);
   };
 
   const formatTimeAgo = (timestamp: number) => {
@@ -67,6 +96,17 @@ const Leaderboard = () => {
             <ArrowLeft size={16} className="mr-2" />
             <span>Back to Home</span>
           </Link>
+          <div className="flex justify-between items-center max-w-4xl mx-auto mb-4">
+            <div />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => { leaderboardManager.clearLeaderboard(); setLeaderboard([]); }}
+              className="text-xs"
+            >
+              Clear Leaderboard
+            </Button>
+          </div>
 
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
@@ -77,23 +117,52 @@ const Leaderboard = () => {
             </p>
           </div>
 
-          {/* Game Filter */}
-          <div className="max-w-4xl mx-auto mb-8">
-            <div className="glass-card p-4 rounded-xl">
-              <div className="flex flex-wrap gap-2 justify-center">
-                {games.map((game) => (
-                  <Button
-                    key={game.id}
-                    variant={selectedGame === game.id ? "glow" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedGame(game.id)}
-                    className="flex items-center space-x-2"
-                  >
-                    {game.icon}
-                    <span>{game.name}</span>
-                  </Button>
-                ))}
-              </div>
+          {/* Game Filter, Date Filter, Sorting */}
+          <div className="glass-card p-4 rounded-xl mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex flex-wrap gap-2 justify-center">
+              {games.map((game) => (
+                <Button
+                  key={game.id}
+                  variant={selectedGame === game.id ? "glow" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedGame(game.id)}
+                  className="flex items-center space-x-2"
+                >
+                  {game.icon}
+                  <span>{game.name}</span>
+                </Button>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              <select
+                className="border rounded px-2 py-1 text-sm bg-background"
+                value={dateRange}
+                onChange={e => setDateRange(e.target.value as any)}
+                aria-label="Filter by date range"
+              >
+                <option value="all">All Time</option>
+                <option value="week">This Week</option>
+                <option value="today">Today</option>
+              </select>
+              <select
+                className="border rounded px-2 py-1 text-sm bg-background"
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value as any)}
+                aria-label="Sort by"
+              >
+                <option value="score">Score</option>
+                <option value="level">Level</option>
+                <option value="time">Time</option>
+              </select>
+              <select
+                className="border rounded px-2 py-1 text-sm bg-background"
+                value={sortDir}
+                onChange={e => setSortDir(e.target.value as any)}
+                aria-label="Sort direction"
+              >
+                <option value="desc">Desc</option>
+                <option value="asc">Asc</option>
+              </select>
             </div>
           </div>
 
@@ -123,8 +192,8 @@ const Leaderboard = () => {
           </div>
 
           {/* Leaderboard Table */}
-          <div className="max-w-4xl mx-auto">
-            <div className="glass-card rounded-xl overflow-hidden">
+          <div className="max-w-4xl mx-auto overflow-x-auto">
+            <div className="glass-card rounded-xl overflow-hidden min-w-[600px]">
               <div className="p-6 border-b border-primary/20">
                 <h2 className="text-2xl font-bold flex items-center">
                   <Trophy className="mr-3 text-primary" size={24} />
@@ -132,50 +201,63 @@ const Leaderboard = () => {
                 </h2>
               </div>
               
-              <div className="overflow-x-auto">
-                {leaderboard.length === 0 ? (
-                  <div className="p-12 text-center">
-                    <Trophy className="mx-auto mb-4 text-muted-foreground" size={48} />
-                    <h3 className="text-xl font-bold mb-2">No Scores Yet!</h3>
-                    <p className="text-muted-foreground mb-6">
-                      Be the first to set a record in this challenge.
-                    </p>
-                    <Link to="/">
-                      <Button variant="glow">
-                        Start Playing
-                      </Button>
-                    </Link>
-                  </div>
-                ) : (
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-primary/20">
-                        <th className="p-4 text-left">Rank</th>
-                        <th className="p-4 text-left">Player</th>
-                        <th className="p-4 text-left">Game</th>
-                        <th className="p-4 text-left">Score</th>
-                        <th className="p-4 text-left">Level</th>
-                        <th className="p-4 text-left">Time</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {leaderboard.map((entry, index) => (
+              {leaderboard.length === 0 ? (
+                <div className="p-12 text-center">
+                  <Trophy className="mx-auto mb-4 text-muted-foreground" size={48} />
+                  <h3 className="text-xl font-bold mb-2">No Scores Yet!</h3>
+                  <p className="text-muted-foreground mb-6">
+                    Be the first to set a record in this challenge.
+                  </p>
+                  <Link to="/">
+                    <Button variant="glow">
+                      Start Playing
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-primary/20">
+                      <th className="p-4 text-left">Rank</th>
+                      <th className="p-4 text-left">Player</th>
+                      <th className="p-4 text-left">Game</th>
+                      <th className="p-4 text-left">Score</th>
+                      <th className="p-4 text-left">Level</th>
+                      <th className="p-4 text-left">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {leaderboard.map((entry, index) => {
+                      const isCurrentUser = currentUser && entry.name === currentUser.nickname;
+                      return (
                         <tr
                           key={entry.id}
-                          className="border-b border-primary/10 hover:bg-primary/5 transition-colors"
+                          className={cn(
+                            "border-b border-primary/10 hover:bg-primary/5 transition-colors",
+                            isCurrentUser && "bg-accent/10 border-accent/30"
+                          )}
                         >
                           <td className="p-4">
                             <div className="flex items-center">
                               {getRankIcon(index + 1)}
+                              {index < 3 && (
+                                <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-400/20 text-yellow-700">Top {index+1}</span>
+                              )}
                             </div>
                           </td>
                           <td className="p-4">
-                            <div className="font-mono font-medium">{entry.name}</div>
+                            <div className="flex items-center space-x-2">
+                              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-lg">
+                                {entry.name.slice(0,2).toUpperCase()}
+                              </span>
+                              <div className="font-mono font-medium">{entry.name}</div>
+                              {isCurrentUser && <span className="ml-1 px-2 py-0.5 rounded-full text-xs bg-accent/20 text-accent">You</span>}
+                            </div>
                           </td>
                           <td className="p-4">
                             <div className="flex items-center space-x-2">
                               {games.find(g => g.id === entry.game)?.icon}
-                              <span className="text-sm">{entry.game}</span>
+                              <span className="text-sm">{getGameName(entry.game)}</span>
                             </div>
                           </td>
                           <td className="p-4">
@@ -185,16 +267,16 @@ const Leaderboard = () => {
                             <div className="text-accent font-mono">Level {entry.level}</div>
                           </td>
                           <td className="p-4">
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-sm text-muted-foreground" title={format(new Date(entry.timeCompleted), 'PPpp')}>
                               {formatTimeAgo(entry.timeCompleted)}
                             </div>
                           </td>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
 

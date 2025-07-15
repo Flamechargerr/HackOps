@@ -1,13 +1,24 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Terminal, Lock, KeyRound, Trophy, Menu, X } from "lucide-react";
+import { Terminal, Lock, KeyRound, Trophy, Menu, X, User } from "lucide-react";
 import Button from "./Button";
+import ProfileModal from "./ProfileModal";
+import { Switch } from "./ui/switch";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [profile, setProfile] = useState<{nickname: string, avatar: string} | null>(null);
+  const navigate = useNavigate();
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    }
+    return 'dark';
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +29,20 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("hackops-profile");
+    if (saved) setProfile(JSON.parse(saved));
+  }, [showProfile]);
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
     <header
@@ -52,7 +77,7 @@ const Header = () => {
           <NavLink to="/leaderboard" icon={<Trophy size={16} />}>
             Leaderboard
           </NavLink>
-          <Button variant="glow" size="sm">
+          <Button variant="glow" size="sm" onClick={() => navigate("/password-game")}>
             Start Hacking
           </Button>
         </nav>
@@ -64,6 +89,34 @@ const Header = () => {
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
+
+        {/* Dark/Light Mode Toggle */}
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <span className="text-xs font-mono text-muted-foreground">🌙</span>
+            <Switch
+              checked={theme === 'light'}
+              onCheckedChange={(checked) => setTheme(checked ? 'light' : 'dark')}
+              aria-label="Toggle light mode"
+            />
+            <span className="text-xs font-mono text-muted-foreground">☀️</span>
+          </div>
+          <button
+            type="button"
+            className="rounded-full bg-primary/10 p-2 hover:bg-primary/20 transition-colors flex items-center space-x-2"
+            onClick={() => setShowProfile(true)}
+            aria-label="Open Profile"
+          >
+            {profile?.avatar ? (
+              <span className="text-2xl leading-none">{profile.avatar}</span>
+            ) : (
+              <User size={20} className="text-primary" />
+            )}
+            {profile?.nickname && (
+              <span className="ml-2 text-primary font-bold text-sm max-w-[100px] truncate">{profile.nickname}</span>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
@@ -82,10 +135,17 @@ const Header = () => {
             <MobileNavLink to="/leaderboard" icon={<Trophy size={18} />}>
               Leaderboard
             </MobileNavLink>
-            <Button variant="glow" size="sm" className="w-full mt-4">
+            <Button variant="glow" size="sm" className="w-full mt-4" onClick={() => { setIsMobileMenuOpen(false); navigate("/password-game"); }}>
               Start Hacking
             </Button>
           </nav>
+        </div>
+      )}
+
+      {/* Profile Modal */}
+      {showProfile && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <ProfileModal onClose={() => setShowProfile(false)} />
         </div>
       )}
     </header>

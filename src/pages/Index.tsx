@@ -1,15 +1,18 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Terminal, Lock, KeyRound, ChevronRight, Code, ShieldAlert } from "lucide-react";
 import Header from "@/components/Header";
 import Button from "@/components/Button";
 import { cn } from "@/lib/utils";
+import DailyChallengeBanner from "@/components/DailyChallengeBanner";
 
 const Index = () => {
   const [typedText, setTypedText] = useState("");
   const fullText = "Hack the system.";
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  const [showLearnMore, setShowLearnMore] = useState(false);
+  const navigate = useNavigate();
   
   // Typing effect
   useEffect(() => {
@@ -61,7 +64,7 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+      <DailyChallengeBanner />
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="container mx-auto">
@@ -83,17 +86,55 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-fade-in">
-              <Button variant="glow" size="lg" className="px-8">
+              <Button
+                variant="glow"
+                size="lg"
+                className="transition-transform duration-150 hover:scale-105 active:scale-95"
+                onClick={() => navigate("/password-game")}
+              >
                 Start Challenge
               </Button>
-              <Button variant="outline" size="lg" className="px-8">
+              <Button
+                variant="outline"
+                size="lg"
+                className="transition-transform duration-150 hover:scale-105 active:scale-95"
+                onClick={() => setShowLearnMore(true)}
+              >
                 Learn More
               </Button>
             </div>
+            {showLearnMore && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                <div
+                  className="bg-background p-8 rounded-xl max-w-lg w-full shadow-lg relative"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="learnmore-title"
+                  aria-describedby="learnmore-desc"
+                  tabIndex={-1}
+                  onKeyDown={e => { if (e.key === 'Escape') setShowLearnMore(false); }}
+                >
+                  <button
+                    className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowLearnMore(false)}
+                    aria-label="Close learn more modal"
+                  >
+                    ×
+                  </button>
+                  <h2 id="learnmore-title" className="text-2xl font-bold mb-4">About HackerPro</h2>
+                  <p id="learnmore-desc" className="text-muted-foreground mb-4">
+                    HackerPro is an interactive platform for learning ethical hacking and cybersecurity through hands-on challenges. Try password cracking, terminal hacking, encryption, XSS, SQL injection, and more!
+                  </p>
+                  <Link to="/about" className="text-primary hover:underline" onClick={() => setShowLearnMore(false)}>
+                    Learn more on the About page
+                  </Link>
+                </div>
+              </div>
+            )}
             
             {/* Matrix-inspired animated characters - subtle background effect */}
             <div className="absolute inset-0 overflow-hidden -z-10 opacity-30 pointer-events-none">
-              <div className="matrix-animation">
+              <div className="matrix-animation pointer-events-none">
                 {Array.from({ length: 20 }).map((_, i) => (
                   <div 
                     key={i}

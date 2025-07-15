@@ -42,6 +42,34 @@
     --terminal-error: 0 100% 60%;
     --terminal-warning: 38 92% 50%;
   }
+
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 210 10% 10%;
+    --card: 0 0% 98%;
+    --card-foreground: 210 10% 10%;
+    --popover: 0 0% 98%;
+    --popover-foreground: 210 10% 10%;
+    --primary: 204 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 195 70% 90%;
+    --secondary-foreground: 210 10% 10%;
+    --muted: 210 25% 92%;
+    --muted-foreground: 210 10% 40%;
+    --accent: 190 90% 60%;
+    --accent-foreground: 210 10% 10%;
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 25% 85%;
+    --input: 210 25% 92%;
+    --ring: 190 90% 50%;
+    --radius: 0.5rem;
+    --terminal-background: 0 0% 98%;
+    --terminal-foreground: 210 10% 10%;
+    --terminal-success: 142 70% 45%;
+    --terminal-error: 0 100% 60%;
+    --terminal-warning: 38 92% 50%;
+  }
 }
 
 @layer base {
@@ -76,14 +104,22 @@
 
 @layer components {
   .glass-card {
-    @apply bg-card/50 backdrop-blur-lg border border-white/10 shadow-glass relative overflow-hidden;
+    @apply bg-card/50 backdrop-blur-lg border border-white/10 shadow-glass relative overflow-hidden transition-all duration-300;
+    transition-property: box-shadow, transform, border-color, background;
   }
-  
+  .glass-card:hover {
+    @apply shadow-glow-md border-primary/30 scale-[1.02];
+  }
+  .glass-card:active {
+    @apply scale-[0.98] shadow-glass;
+  }
+  .glass-card:focus-within {
+    @apply border-accent/50 shadow-glow-md;
+  }
   .glass-card::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 opacity-0 transition-opacity duration-300;
+    @apply absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 opacity-0 transition-opacity duration-300 pointer-events-none;
   }
-  
   .glass-card:hover::before {
     @apply opacity-100;
   }
@@ -149,6 +185,13 @@
   .leaderboard-card {
     @apply glass-card p-6 rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300;
     @apply bg-gradient-to-br from-primary/5 to-accent/5;
+    transition-property: box-shadow, transform, border-color, background;
+  }
+  .leaderboard-card:hover {
+    @apply shadow-glow-md border-accent/40 scale-[1.01];
+  }
+  .leaderboard-card:active {
+    @apply scale-[0.98] shadow-glass;
   }
 
   .leaderboard-rank {

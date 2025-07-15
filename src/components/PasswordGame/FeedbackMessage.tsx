@@ -16,6 +16,7 @@ const FeedbackMessage = ({ message, type }: FeedbackMessageProps) => {
         type === "error" && "bg-red-500/20 text-red-400 border border-red-500/30",
         type === "info" && "bg-blue-500/20 text-blue-400 border border-blue-500/30",
       )}
+      aria-live="polite"
     >
       {message}
     </div>

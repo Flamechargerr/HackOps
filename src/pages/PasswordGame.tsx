@@ -77,11 +77,19 @@ const PasswordGamePage = () => {
           {/* Score Submission Modal */}
           {showNameInput && (
             <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-              <div className="glass-card p-8 rounded-xl max-w-md w-full border border-primary/30">
+              <div
+                className="glass-card p-8 rounded-xl max-w-md w-full border border-primary/30"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="score-title"
+                aria-describedby="score-desc"
+                tabIndex={-1}
+                onKeyDown={e => { if (e.key === 'Escape') setShowNameInput(false); }}
+              >
                 <div className="text-center mb-6">
                   <Trophy className="mx-auto mb-4 text-primary" size={48} />
-                  <h2 className="text-2xl font-bold mb-2">Congratulations!</h2>
-                  <p className="text-muted-foreground">
+                  <h2 id="score-title" className="text-2xl font-bold mb-2">Congratulations!</h2>
+                  <p id="score-desc" className="text-muted-foreground">
                     You scored <span className="text-primary font-bold">{gameScore}</span> points 
                     and reached level <span className="text-accent font-bold">{gameLevel}</span>!
                   </p>
