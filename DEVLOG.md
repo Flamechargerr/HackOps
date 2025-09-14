@@ -26,3 +26,4 @@
 - [2025-09-15 02:39] feat(challenge): create SQL injection challenge
 - [2025-09-14 21:17] feat(challenge): add XSS detection sandbox
 - [2025-09-14 19:55] feat(ui): add terminal glow effect animation
+- [2025-09-14 21:55] fix(auth): prevent session fixation attack
