@@ -15,3 +15,4 @@
 - [2025-09-11 21:55] fix(scoring): correct point deduction logic
 - [2025-09-12 03:13] feat(ui): add matrix rain background
 - [2025-09-14 20:27] feat(challenge): brute force protection demo
+- [2025-09-14 19:58] test(auth): add penetration test scenarios
