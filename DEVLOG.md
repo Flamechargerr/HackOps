@@ -33,3 +33,4 @@
 - [2025-09-15 23:31] refactor(core): extract vulnerability scanner
 - [2025-09-15 21:37] feat(hints): progressive hint reveal system
 - [2025-09-15 21:49] fix(scoring): correct point deduction logic
+- [2025-09-16 03:36] feat(ui): add matrix rain background
