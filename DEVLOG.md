@@ -745,3 +745,4 @@
 - [2025-10-01 04:17] docs: update API documentation
 - [2025-09-19 02:10] perf: optimize database query plan
 - [2025-09-19 00:59] fix: correct async state race condition
+- [2025-09-18 22:27] perf: lazy load heavy components
