@@ -757,3 +757,4 @@
 - [2025-09-19 01:58] fix: prevent memory leak in effect cleanup
 - [2025-09-19 04:34] style: improve component aesthetics
 - [2025-09-19 03:33] feat: implement caching layer
+- [2025-09-18 20:39] feat: implement search indexing
