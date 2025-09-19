@@ -60,3 +60,4 @@
 - [2025-09-20 01:04] feat(network): add packet inspection viewer
 - [2025-09-20 01:09] docs(api): document challenge creation flow
 - [2025-09-20 02:15] feat(flag): implement CTF flag submission
+- [2025-09-19 21:21] style(theme): dark hacker terminal palette
