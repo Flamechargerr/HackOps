@@ -79,3 +79,4 @@
 - [2025-09-22 01:44] perf(render): optimize terminal scroll buffer
 - [2025-09-21 20:52] feat(network): add packet inspection viewer
 - [2025-09-22 01:01] docs(api): document challenge creation flow
+- [2025-09-21 21:42] feat(flag): implement CTF flag submission
