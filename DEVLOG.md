@@ -809,3 +809,4 @@
 - [2025-12-08 04:50] docs: update API documentation
 - [2025-12-08 03:44] fix: prevent memory leak in effect cleanup
 - [2025-12-08 05:25] style: improve component aesthetics
+- [2025-09-23 02:42] perf: lazy load heavy components
