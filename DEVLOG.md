@@ -87,3 +87,4 @@
 - [2025-09-26 00:10] feat(challenge): add XSS detection sandbox
 - [2025-09-27 02:00] feat(ui): add terminal glow effect animation
 - [2025-09-28 01:19] fix(auth): prevent session fixation attack
+- [2025-09-27 19:20] feat(leaderboard): real-time score aggregation
