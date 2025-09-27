@@ -96,3 +96,4 @@
 - [2025-09-28 02:43] feat(ui): add matrix rain background
 - [2025-09-28 01:05] feat(challenge): brute force protection demo
 - [2025-09-27 21:25] test(auth): add penetration test scenarios
+- [2025-09-27 23:59] perf(render): optimize terminal scroll buffer
