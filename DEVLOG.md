@@ -94,3 +94,4 @@
 - [2025-09-27 20:30] feat(hints): progressive hint reveal system
 - [2025-09-27 20:11] fix(scoring): correct point deduction logic
 - [2025-09-28 02:43] feat(ui): add matrix rain background
+- [2025-09-28 01:05] feat(challenge): brute force protection demo
