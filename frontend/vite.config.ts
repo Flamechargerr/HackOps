@@ -7,9 +7,14 @@ import { VitePWA } from 'vite-plugin-pwa';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   base: '/HackOps/',
+  build: {
+    outDir: 'build'
+  },
+  // Server configuration
   server: {
-    host: "::",
-    port: 8080,
+    port: 3000,
+    host: '0.0.0.0', // Explicitly bind to all interfaces
+    allowedHosts: true
   },
   plugins: [
     react(),
