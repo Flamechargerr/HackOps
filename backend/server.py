@@ -1,15 +1,25 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, status
+from fastapi.security import HTTPBearer
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
 from pathlib import Path
-from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Dict, Any, Optional
+from datetime import datetime, timedelta
 import uuid
-from datetime import datetime
 
+# Import our custom modules
+from models import *
+from auth import (
+    get_password_hash, 
+    verify_password, 
+    create_access_token, 
+    create_user_dependency,
+    ACCESS_TOKEN_EXPIRE_MINUTES
+)
+from achievements import AchievementEngine, AVAILABLE_BADGES
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -19,21 +29,21 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
+# Initialize achievement engine
+achievement_engine = AchievementEngine(db)
+
 # Create the main app without a prefix
-app = FastAPI()
+app = FastAPI(
+    title="HackOps Cybersecurity Platform API",
+    description="Advanced cybersecurity learning platform with challenges, achievements, and social features",
+    version="2.0.0"
+)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-
-# Define Models
-class StatusCheck(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
+# Create user dependency
+get_current_user = create_user_dependency(db)
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
