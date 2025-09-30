@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import Challenges from "./pages/Challenges";
 import BlockchainPuzzles from "./pages/BlockchainPuzzles";
+import Suggestions from "./pages/Suggestions";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/blockchain-puzzles" element={<BlockchainPuzzles />} />
+          <Route path="/suggestions" element={<Suggestions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

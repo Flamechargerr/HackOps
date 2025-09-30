@@ -73,181 +73,60 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; font-feature-settings: "rlig" 1, "calt" 1; }
 
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+  body.intense .glass-card { box-shadow: 0 0 16px hsl(var(--accent) / 0.35), 0 0 30px hsl(var(--primary) / 0.2); border-color: hsl(var(--accent) / 0.45) !important; }
+  body.intense .game-button { transform: translateZ(0); animation: float 3s ease-in-out infinite; }
 
-  /* Fun/intense toggle effects */
-  body.intense .glass-card {
-    box-shadow: 0 0 16px hsl(var(--accent) / 0.35), 0 0 30px hsl(var(--primary) / 0.2);
-    border-color: hsl(var(--accent) / 0.45) !important;
-  }
-  body.intense .game-button {
-    transform: translateZ(0);
-    animation: float 3s ease-in-out infinite;
-  }
-
-  /* Custom scrollbar styles */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-muted/30 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted rounded-full transition-colors hover:bg-muted/80;
-  }
-
-  /* Global transitions */
-  a, button, input {
-    @apply transition-all duration-200;
-  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-muted/30 rounded-full; }
+  ::-webkit-scrollbar-thumb { @apply bg-muted rounded-full transition-colors hover:bg-muted/80; }
+  a, button, input { @apply transition-all duration-200; }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-card/50 backdrop-blur-lg border border-white/10 shadow-glass relative overflow-hidden transition-all duration-300;
-    transition-property: box-shadow, transform, border-color, background;
-  }
-  .glass-card:hover {
-    @apply shadow-glow-md border-primary/30 scale-[1.02];
-  }
-  .glass-card:active {
-    @apply scale-[0.98] shadow-glass;
-  }
-  .glass-card:focus-within {
-    @apply border-accent/50 shadow-glow-md;
-  }
-  .glass-card::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 opacity-0 transition-opacity duration-300 pointer-events-none;
-  }
-  .glass-card:hover::before {
-    @apply opacity-100;
-  }
-  
-  .terminal-text {
-    @apply font-mono text-terminal-foreground;
-  }
-  
-  .terminal-success {
-    @apply font-mono text-terminal-success;
-  }
-  
-  .terminal-error {
-    @apply font-mono text-terminal-error;
-  }
-  
-  .terminal-warning {
-    @apply font-mono text-terminal-warning;
-  }
-  
-  .typing-effect {
-    @apply whitespace-nowrap overflow-hidden border-r-2 border-primary;
-    animation: typing 3.5s steps(40, end);
-  }
-  
-  .neon-border {
-    @apply border border-accent/50 shadow-glow-sm hover:shadow-glow-md transition-all duration-300;
-  }
-  
-  .hover-scale {
-    @apply transition-transform duration-300 hover:scale-105;
-  }
-  
-  .cyber-grid {
-    background-image: 
-      linear-gradient(to right, hsl(var(--primary) / 5%) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--primary) / 5%) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  
-  .cyber-gradient {
-    @apply relative overflow-hidden;
-    background: linear-gradient(45deg, 
-      hsl(var(--primary) / 10%),
-      hsl(var(--accent) / 10%)
-    );
-  }
+  .glass-card { @apply bg-card/50 backdrop-blur-lg border border-white/10 shadow-glass relative overflow-hidden transition-all duration-300; transition-property: box-shadow, transform, border-color, background; }
+  .glass-card:hover { @apply shadow-glow-md border-primary/30 scale-[1.02]; }
+  .glass-card:active { @apply scale-[0.98] shadow-glass; }
+  .glass-card:focus-within { @apply border-accent/50 shadow-glow-md; }
+  .glass-card::before { content: ''; @apply absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 opacity-0 transition-opacity duration-300 pointer-events-none; }
+  .glass-card:hover::before { @apply opacity-100; }
 
-  .matrix-animation {
-    @apply absolute inset-0 overflow-hidden pointer-events-none;
-  }
+  .terminal-text { @apply font-mono text-terminal-foreground; }
+  .terminal-success { @apply font-mono text-terminal-success; }
+  .terminal-error { @apply font-mono text-terminal-error; }
+  .terminal-warning { @apply font-mono text-terminal-warning; }
 
-  .matrix-column {
-    @apply absolute top-0 h-full flex flex-col items-center justify-start;
-    animation: matrixFall linear infinite;
-  }
+  .typing-effect { @apply whitespace-nowrap overflow-hidden border-r-2 border-primary; animation: typing 3.5s steps(40, end); }
+  .neon-border { @apply border border-accent/50 shadow-glow-sm hover:shadow-glow-md transition-all duration-300; }
+  .hover-scale { @apply transition-transform duration-300 hover:scale-105; }
 
-  .matrix-character {
-    @apply text-primary/60 font-mono text-xs leading-none;
-    animation: matrixGlow 2s ease-in-out infinite alternate;
-  }
+  .cyber-grid { background-image: linear-gradient(to right, hsl(var(--primary) / 5%) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--primary) / 5%) 1px, transparent 1px); background-size: 20px 20px; }
+  .cyber-gradient { @apply relative overflow-hidden; background: linear-gradient(45deg, hsl(var(--primary) / 10%), hsl(var(--accent) / 10%)); }
 
-  .leaderboard-card {
-    @apply glass-card p-6 rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300;
-    @apply bg-gradient-to-br from-primary/5 to-accent/5;
-    transition-property: box-shadow, transform, border-color, background;
-  }
-  .leaderboard-card:hover {
-    @apply shadow-glow-md border-accent/40 scale-[1.01];
-  }
-  .leaderboard-card:active {
-    @apply scale-[0.98] shadow-glass;
-  }
+  .matrix-animation { @apply absolute inset-0 overflow-hidden pointer-events-none; }
+  .matrix-column { @apply absolute top-0 h-full flex flex-col items-center justify-start; animation: matrixFall linear infinite; }
+  .matrix-character { @apply text-primary/60 font-mono text-xs leading-none; animation: matrixGlow 2s ease-in-out infinite alternate; }
 
-  .leaderboard-rank {
-    @apply w-12 h-12 rounded-full bg-primary/20 border border-primary/40;
-    @apply flex items-center justify-center font-mono font-bold text-primary;
-  }
+  .leaderboard-card { @apply glass-card p-6 rounded-xl border border-primary/20 hover:border-primary/40 transition-all duration-300; @apply bg-gradient-to-br from-primary/5 to-accent/5; transition-property: box-shadow, transform, border-color, background; }
+  .leaderboard-card:hover { @apply shadow-glow-md border-accent/40 scale-[1.01]; }
+  .leaderboard-card:active { @apply scale-[0.98] shadow-glass; }
 
-  .game-button {
-    @apply bg-primary/90 hover:bg-primary text-primary-foreground;
-    @apply border border-accent/50 shadow-glow-sm hover:shadow-glow-md;
-    @apply transition-all duration-300 hover:scale-105;
-  }
-
-  .game-input {
-    @apply bg-muted/30 border border-primary/30 focus:border-primary/60;
-    @apply focus:ring-2 focus:ring-primary/20 focus:outline-none;
-    @apply rounded-md p-3 font-mono transition-all duration-200;
-  }
-
-  .level-indicator {
-    @apply inline-flex items-center px-3 py-1 rounded-full;
-    @apply bg-primary/20 border border-primary/40 text-primary font-mono text-sm;
-  }
-
-  .score-display {
-    @apply font-mono text-xl font-bold text-accent;
-    @apply drop-shadow-sm;
-  }
+  .leaderboard-rank { @apply w-12 h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center font-mono font-bold text-primary; }
+  .game-button { @apply bg-primary/90 hover:bg-primary text-primary-foreground border border-accent/50 shadow-glow-sm hover:shadow-glow-md transition-all duration-300 hover:scale-105; }
+  .game-input { @apply bg-muted/30 border border-primary/30 focus:border-primary/60 focus:ring-2 focus:ring-primary/20 focus:outline-none rounded-md p-3 font-mono transition-all duration-200; }
+  .level-indicator { @apply inline-flex items-center px-3 py-1 rounded-full bg-primary/20 border border-primary/40 text-primary font-mono text-sm; }
+  .score-display { @apply font-mono text-xl font-bold text-accent drop-shadow-sm; }
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes matrixFall { 0% { transform: translateY(-100vh); } 100% { transform: translateY(100vh); } }
+@keyframes matrixGlow { 0% { opacity: 0.3; text-shadow: 0 0 2px hsl(var(--primary)); } 100% { opacity: 0.8; text-shadow: 0 0 8px hsl(var(--primary)); } }
+@keyframes float { 0% { transform: translateY(0) } 50% { transform: translateY(-4px) } 100% { transform: translateY(0) } }
+@keyframes twinkle { 0% { opacity: 0.2; } 100% { opacity: 0.8; } }
 
-@keyframes matrixFall {
-  0% { transform: translateY(-100vh); }
-  100% { transform: translateY(100vh); }
-}
-
-@keyframes matrixGlow {
-  0% { opacity: 0.3; text-shadow: 0 0 2px hsl(var(--primary)); }
-  100% { opacity: 0.8; text-shadow: 0 0 8px hsl(var(--primary)); }
-}
-
-/* Progressive loading effect for images */
+/* Progressive image effect */
 .progressive-image-container { position: relative; overflow: hidden; background-color: #1a2230; }
 .progressive-image-placeholder { filter: blur(10px); transform: scale(1.1); transition: all 0.5s ease-out; }
 .progressive-image-full { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease-out; }
