@@ -179,7 +179,7 @@ def test_protected_endpoint():
                 results.add_result("protected_endpoint", False, f"Missing fields: {missing_fields}")
                 return False
             
-            if data["username"] != "cybersec_expert":
+            if data["username"] != test_username:
                 results.add_result("protected_endpoint", False, "Username mismatch")
                 return False
             
