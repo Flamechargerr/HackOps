@@ -428,9 +428,11 @@ async def _validate_solution(challenge: Dict[str, Any], user_answer: Dict[str, A
     return False
 
 # ==================== EXISTING ROUTES ====================
+# ==================== EXISTING ROUTES ====================
+
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "HackOps API v2.0 - Advanced Cybersecurity Platform"}
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
@@ -443,6 +445,35 @@ async def create_status_check(input: StatusCheckCreate):
 async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
+
+# ==================== BLOCKCHAIN CHALLENGE ROUTES ====================
+
+@api_router.get("/blockchain/challenges", response_model=List[Challenge])
+async def get_blockchain_challenges():
+    """Get blockchain-specific challenges."""
+    challenges = await db.challenges.find({"type": "blockchain", "is_active": True}).to_list(100)
+    return [Challenge(**challenge) for challenge in challenges]
+
+@api_router.post("/blockchain/validate-transaction")
+async def validate_blockchain_transaction(
+    transaction_data: Dict[str, Any],
+    current_user: User = Depends(get_current_user)
+):
+    """Validate a blockchain transaction for advanced challenges."""
+    # Simplified blockchain validation logic
+    required_fields = ["from", "to", "amount", "signature"]
+    
+    if not all(field in transaction_data for field in required_fields):
+        return {"valid": False, "error": "Missing required fields"}
+    
+    # Mock validation - replace with actual blockchain logic
+    is_valid = transaction_data.get("signature") == "valid_signature"
+    
+    return {
+        "valid": is_valid,
+        "transaction_hash": str(uuid.uuid4()) if is_valid else None,
+        "message": "Transaction valid" if is_valid else "Invalid signature"
+    }
 
 # Include the router in the main app
 app.include_router(api_router)
@@ -461,6 +492,93 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+@app.on_event("startup")
+async def startup_db():
+    """Initialize database collections and default data."""
+    try:
+        # Initialize achievement badges
+        await achievement_engine.initialize_badges()
+        
+        # Create default challenges if they don't exist
+        await _create_default_challenges()
+        
+        logger.info("Database initialized successfully")
+    except Exception as e:
+        logger.error(f"Database initialization failed: {e}")
+
+async def _create_default_challenges():
+    """Create default challenges for each type."""
+    default_challenges = [
+        {
+            "type": "password",
+            "title": "Password Security Basics",
+            "description": "Create a password that meets basic security requirements",
+            "difficulty": "beginner",
+            "points": 50,
+            "time_limit": 300,
+            "hints": ["Include uppercase and lowercase letters", "Add numbers and special characters"],
+            "solution": {"expected_password": "SecurePass123!"},
+            "tags": ["password", "security", "basics"]
+        },
+        {
+            "type": "terminal",
+            "title": "Basic Directory Navigation",
+            "description": "Navigate to the hidden directory and find the secret file",
+            "difficulty": "beginner", 
+            "points": 75,
+            "hints": ["Use 'ls -la' to see hidden files", "Look for directories starting with '.'"],
+            "solution": {"expected_command": "cd .hidden && cat secret.txt"},
+            "tags": ["terminal", "linux", "navigation"]
+        },
+        {
+            "type": "xss",
+            "title": "Cross-Site Scripting Detection",
+            "description": "Identify and exploit a simple XSS vulnerability",
+            "difficulty": "intermediate",
+            "points": 100,
+            "hints": ["Look for user input fields", "Try basic script tags"],
+            "solution": {"expected_payload": "<script>alert('XSS')</script>"},
+            "tags": ["xss", "web", "security"]
+        },
+        {
+            "type": "sql_injection",
+            "title": "SQL Injection Basics",
+            "description": "Extract data using SQL injection techniques",
+            "difficulty": "intermediate",
+            "points": 125,
+            "hints": ["Try single quotes", "Use UNION SELECT"],
+            "solution": {"expected_query": "' UNION SELECT username, password FROM users--"},
+            "tags": ["sql", "injection", "database"]
+        },
+        {
+            "type": "encryption",
+            "title": "Caesar Cipher Decryption", 
+            "description": "Decrypt a message encoded with Caesar cipher",
+            "difficulty": "beginner",
+            "points": 60,
+            "hints": ["Try different shift values", "Common shift is 13 (ROT13)"],
+            "solution": {"expected_text": "HELLO WORLD", "shift": 13},
+            "tags": ["encryption", "cipher", "crypto"]
+        },
+        {
+            "type": "blockchain",
+            "title": "Smart Contract Security",
+            "description": "Identify vulnerabilities in a smart contract",
+            "difficulty": "advanced",
+            "points": 200,
+            "hints": ["Check for reentrancy attacks", "Look for integer overflow"],
+            "solution": {"vulnerability_type": "reentrancy", "line_number": 42},
+            "tags": ["blockchain", "smart-contract", "security"]
+        }
+    ]
+    
+    for challenge_data in default_challenges:
+        # Check if challenge already exists
+        existing = await db.challenges.find_one({"title": challenge_data["title"]})
+        if not existing:
+            challenge = Challenge(**challenge_data)
+            await db.challenges.insert_one(challenge.dict())
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
