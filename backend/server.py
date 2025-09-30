@@ -178,7 +178,7 @@ async def start_challenge_attempt(challenge_id: str, current_user: User = Depend
     attempt_dict = attempt.dict()
     attempt_dict["challenge_type"] = challenge["type"]
     
-    await db.challenge_attempts.insert_one(attempt.dict())
+    await db.challenge_attempts.insert_one(attempt_dict)
     return attempt
 
 @api_router.post("/challenges/{challenge_id}/submit", response_model=ChallengeResult)
