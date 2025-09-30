@@ -8,7 +8,7 @@
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/Flamechargerr/HackOps/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/Flamechargerr/HackOps?style=social)](https://github.com/Flamechargerr/HackOps/stargazers)
-[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Flamechargerr/HackOps/blob/main/CONTRIBUTING.md)
+[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Flamechargerr/HackOps/blob/main/docs/CONTRIBUTING.md)
 [![Live Demo](https://img.shields.io/badge/demo-live-success)](https://flamechargerr.github.io/HackOps)
 
 *A modern, interactive cybersecurity learning platform that transforms complex security concepts into engaging, hands-on challenges.*
