@@ -199,7 +199,6 @@ const Header = () => {
     </header>
   );
 };
-};
 
 // Desktop Navigation Link
 const NavLink = ({ to, icon, children }: { to: string; icon: React.ReactNode; children: React.ReactNode }) => (
