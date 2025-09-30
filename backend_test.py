@@ -113,8 +113,10 @@ def test_user_login():
     """Test POST /api/auth/login"""
     print("\n🔑 Testing User Login...")
     
+    import time
+    timestamp = int(time.time())
     login_data = {
-        "username": "cybersec_expert",
+        "username": f"cybersec_expert_{timestamp}",
         "password": "SecureHackOps2024!"
     }
     
