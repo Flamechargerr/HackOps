@@ -15,7 +15,8 @@ const Header = () => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      // Default to dark for the first visit, then persist user choice
+      return localStorage.getItem('theme') || 'dark';
     }
     return 'dark';
   });
