@@ -69,9 +69,11 @@ def test_user_registration():
     """Test POST /api/auth/register"""
     print("\n🔐 Testing User Registration...")
     
+    import time
+    timestamp = int(time.time())
     user_data = {
-        "username": "cybersec_expert",
-        "email": "expert@hackops.com", 
+        "username": f"cybersec_expert_{timestamp}",
+        "email": f"expert_{timestamp}@hackops.com", 
         "password": "SecureHackOps2024!"
     }
     
