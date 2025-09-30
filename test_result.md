@@ -218,6 +218,9 @@
     message: "Please run UI smoke: visit /, click Start Challenge button, open Learn More modal and close; navigate to /password-game and type to satisfy level 1; go to /leaderboard; open header theme switch; verify no console errors."
 
   - agent: "main"
+  - agent: "main"
+    message: "Fixed Vite base path by removing base option; updated server config earlier. Requesting UI retest for routes /xss-game and /sql-injection and terminal command input."
+
     message: "Please run backend smoke tests for /api and basic POST/GET /api/status, then do a light UI smoke to ensure routes mount."
   - agent: "testing"
     message: "Backend testing completed successfully. All API endpoints are working correctly: GET /api returns Hello World message, POST /api/status creates records with proper UUID/timestamp format, GET /api/status returns list of records, and data persistence is verified through MongoDB. Ready for frontend testing if needed."
