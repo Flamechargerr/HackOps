@@ -18,6 +18,7 @@ BASE_URL = "https://complete-my-project.preview.emergentagent.com/api"
 test_user_token = None
 test_user_id = None
 test_challenge_id = None
+test_username = None
 
 class TestResults:
     def __init__(self):
