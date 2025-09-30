@@ -131,6 +131,40 @@ yarn deploy
 
 ---
 
+## 📁 Project Structure
+
+```
+HackOps/
+├── 📁 frontend/          # React + Vite + TypeScript frontend
+│   ├── src/
+│   ├── public/
+│   └── package.json
+├── 📁 backend/           # FastAPI + MongoDB backend  
+│   ├── server.py
+│   ├── auth.py
+│   ├── achievements.py
+│   ├── models.py
+│   └── requirements.txt
+├── 📁 docs/              # Documentation files
+│   ├── CONTRIBUTING.md
+│   ├── DEPLOYMENT.md
+│   ├── SSH_DEPLOYMENT.md
+│   └── test_result.md
+├── 📁 scripts/           # Deployment and utility scripts
+│   └── deploy.sh
+├── 📁 tests/             # Test files
+│   ├── backend_test.py
+│   └── __init__.py
+├── 📁 .github/           # GitHub Actions workflows
+│   └── workflows/
+│       └── deploy.yml
+├── 📄 README.md          # Project documentation
+├── 📄 LICENSE            # MIT License
+└── 📄 .gitignore         # Git ignore rules
+```
+
+---
+
 ## 🏗️ Architecture
 
 ```
