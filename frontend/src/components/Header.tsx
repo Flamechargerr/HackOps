@@ -2,24 +2,27 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Terminal, Lock, KeyRound, Trophy, Menu, X, User, Sparkles } from "lucide-react";
+import { Terminal, Lock, KeyRound, Trophy, Menu, X, User, Sparkles, LogOut, Settings } from "lucide-react";
 import Button from "./Button";
-import ProfileModal from "./ProfileModal";
+import { LoginDialog } from "./auth/LoginDialog";
 import { Switch } from "./ui/switch";
+import { useAuth } from "../contexts/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const [profile, setProfile] = useState<{nickname: string, avatar: string} | null>(null);
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
+  
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      // Default to dark for the first visit, then persist user choice
       return localStorage.getItem('theme') || 'dark';
     }
     return 'dark';
   });
+  
   const [intense, setIntense] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('intense') === 'true';
@@ -38,11 +41,6 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem("hackops-profile");
-    if (saved) setProfile(JSON.parse(saved));
-  }, [showProfile]);
-
-  useEffect(() => {
     if (theme === 'light') {
       document.documentElement.classList.add('light');
     } else {
@@ -55,6 +53,11 @@ const Header = () => {
     document.body.classList.toggle('intense', intense);
     localStorage.setItem('intense', intense ? 'true' : 'false');
   }, [intense]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <header
@@ -90,8 +93,9 @@ const Header = () => {
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Toggles */}
+        {/* User Profile & Toggles */}
         <div className="flex items-center space-x-4">
+          {/* Theme Toggle */}
           <div className="hidden sm:flex items-center space-x-2">
             <span className="text-xs font-mono text-muted-foreground">🌙</span>
             <Switch
@@ -101,6 +105,8 @@ const Header = () => {
             />
             <span className="text-xs font-mono text-muted-foreground">☀️</span>
           </div>
+          
+          {/* Intense Mode Toggle */}
           <div className="flex items-center space-x-2">
             <Sparkles size={16} className="text-accent" />
             <Switch
@@ -109,21 +115,58 @@ const Header = () => {
               aria-label="Toggle fun/intense mode"
             />
           </div>
-          <button
-            type="button"
-            className="rounded-full bg-primary/10 p-2 hover:bg-primary/20 transition-colors flex items-center space-x-2"
-            onClick={() => setShowProfile(true)}
-            aria-label="Open Profile"
-          >
-            {profile?.avatar ? (
-              <span className="text-2xl leading-none">{profile.avatar}</span>
-            ) : (
-              <User size={20} className="text-primary" />
-            )}
-            {profile?.nickname && (
-              <span className="ml-2 text-primary font-bold text-sm max-w-[100px] truncate">{profile.nickname}</span>
-            )}
-          </button>
+
+          {/* User Authentication */}
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center space-x-2 cursor-pointer hover:opacity-80">
+                  <Avatar className="w-8 h-8">
+                    <AvatarImage src={user?.profile?.avatar_url || undefined} />
+                    <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm">
+                      {user?.username?.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="hidden sm:block text-primary font-medium text-sm max-w-[100px] truncate">
+                    {user?.profile?.display_name || user?.username}
+                  </span>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-slate-800 border-slate-700" align="end">
+                <div className="px-2 py-1.5">
+                  <p className="text-sm font-medium text-white">{user?.username}</p>
+                  <p className="text-xs text-slate-400">{user?.email}</p>
+                </div>
+                <DropdownMenuSeparator className="bg-slate-700" />
+                <DropdownMenuItem 
+                  className="text-slate-200 hover:bg-slate-700 cursor-pointer"
+                  onClick={() => navigate('/profile')}
+                >
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-slate-200 hover:bg-slate-700 cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-slate-700" />
+                <DropdownMenuItem 
+                  className="text-red-400 hover:bg-red-900/20 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <LoginDialog>
+              <Button variant="glow" size="sm" className="text-sm">
+                <User size={16} className="mr-2" />
+                Login
+              </Button>
+            </LoginDialog>
+          )}
         </div>
       </div>
 
@@ -136,21 +179,26 @@ const Header = () => {
             <MobileNavLink to="/encryption" icon={<KeyRound size={18} />}>Encryption</MobileNavLink>
             <MobileNavLink to="/leaderboard" icon={<Trophy size={18} />}>Leaderboard</MobileNavLink>
             <MobileNavLink to="/suggestions" icon={<Sparkles size={18} />}>Suggestions</MobileNavLink>
-            <Button variant="glow" size="sm" className="w-full mt-4" onClick={() => { setIsMobileMenuOpen(false); navigate("/password-game"); }}>
+            {isAuthenticated && (
+              <MobileNavLink to="/profile" icon={<User size={18} />}>Profile</MobileNavLink>
+            )}
+            <Button 
+              variant="glow" 
+              size="sm" 
+              className="w-full mt-4" 
+              onClick={() => { 
+                setIsMobileMenuOpen(false); 
+                navigate("/password-game"); 
+              }}
+            >
               Start Hacking
             </Button>
           </nav>
         </div>
       )}
-
-      {/* Profile Modal */}
-      {showProfile && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <ProfileModal onClose={() => setShowProfile(false)} />
-        </div>
-      )}
     </header>
   );
+};
 };
 
 // Desktop Navigation Link
