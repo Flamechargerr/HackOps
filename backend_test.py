@@ -117,10 +117,12 @@ def test_user_login():
     """Test POST /api/auth/login"""
     print("\n🔑 Testing User Login...")
     
-    import time
-    timestamp = int(time.time())
+    if not test_username:
+        results.add_result("user_login", False, "No username from registration")
+        return False, None
+    
     login_data = {
-        "username": f"cybersec_expert_{timestamp}",
+        "username": test_username,
         "password": "SecureHackOps2024!"
     }
     
