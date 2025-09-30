@@ -181,6 +181,35 @@
   test_priority: "high_first"
 
 ## agent_communication:
+  - task: "UI routes & interactions smoke test"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/*.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Plan to run playwright-based smoke across Home, Password Game, Terminal Game, Encryption, XSS, SQLi, Leaderboard routing and basic interactions."
+
+## metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: true
+
+## test_plan:
+  current_focus:
+    - "Frontend routing and core gameplay interactions"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
+
+## agent_communication:
+  - agent: "main"
+    message: "Please run UI smoke: visit /, click Start Challenge button, open Learn More modal and close; navigate to /password-game and type to satisfy level 1; go to /leaderboard; open header theme switch; verify no console errors."
+
   - agent: "main"
     message: "Please run backend smoke tests for /api and basic POST/GET /api/status, then do a light UI smoke to ensure routes mount."
   - agent: "testing"
