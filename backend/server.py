@@ -201,7 +201,10 @@ async def submit_challenge_solution(
     is_correct = await _validate_solution(challenge, response_data.user_answer)
     
     # Calculate score and time
-    time_taken = int((datetime.utcnow() - datetime.fromisoformat(attempt["started_at"])).total_seconds())
+    started_at = attempt["started_at"]
+    if isinstance(started_at, str):
+        started_at = datetime.fromisoformat(started_at)
+    time_taken = int((datetime.utcnow() - started_at).total_seconds())
     base_score = challenge["points"]
     score = base_score if is_correct else 0
     
