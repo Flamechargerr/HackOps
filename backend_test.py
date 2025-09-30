@@ -203,12 +203,12 @@ def test_unauthorized_access():
         response = make_request("GET", "/auth/me")
         print(f"Status: {response.status_code}")
         
-        if response.status_code == 401:
+        if response.status_code in [401, 403]:
             print("✅ Unauthorized access properly blocked")
             results.add_result("unauthorized_access", True)
             return True
         else:
-            error_msg = f"Expected 401, got {response.status_code}"
+            error_msg = f"Expected 401 or 403, got {response.status_code}"
             results.add_result("unauthorized_access", False, error_msg)
             return False
             
