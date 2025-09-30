@@ -72,8 +72,11 @@ def test_user_registration():
     
     import time
     timestamp = int(time.time())
+    global test_username
+    test_username = f"cybersec_expert_{timestamp}"
+    
     user_data = {
-        "username": f"cybersec_expert_{timestamp}",
+        "username": test_username,
         "email": f"expert_{timestamp}@hackops.com", 
         "password": "SecureHackOps2024!"
     }
