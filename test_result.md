@@ -111,11 +111,14 @@
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Confirmed /api root and /api/status endpoints exist; using env-based Mongo with Motor and UUIDs."
+      - working: true
+        agent: "testing"
+        comment: "Backend smoke tests completed successfully. All endpoints working: GET /api returns correct message, POST /api/status creates records with UUID/timestamp, GET /api/status returns list, data persistence verified. MongoDB connectivity confirmed."
 
 ## frontend:
   - task: "Standardize Vite config (outDir, host, port)"
