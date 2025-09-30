@@ -204,9 +204,13 @@
 
 ## test_plan:
   current_focus:
-    - "Frontend routing and core gameplay interactions"
-  stuck_tasks: []
-  test_all: true
+    - "Fix routing configuration for base path '/HackOps/'"
+    - "Complete password game submit flow"
+    - "Fix XSS and SQL injection game 404 errors"
+    - "Fix terminal command submission"
+  stuck_tasks:
+    - "UI routes & interactions smoke test"
+  test_all: false
   test_priority: "high_first"
 
 ## agent_communication:
