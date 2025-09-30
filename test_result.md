@@ -288,12 +288,11 @@
 
 ## test_plan:
   current_focus:
-    - "Backend Phase 2 API endpoints testing"
     - "Frontend authentication flow testing"
     - "User profile and achievement system testing"
     - "GitHub Pages deployment verification"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 ## agent_communication:
