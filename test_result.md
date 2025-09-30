@@ -207,12 +207,9 @@
 
 ## test_plan:
   current_focus:
-    - "Fix routing configuration for base path '/HackOps/'"
-    - "Complete password game submit flow"
-    - "Fix XSS and SQL injection game 404 errors"
-    - "Fix terminal command submission"
-  stuck_tasks:
-    - "UI routes & interactions smoke test"
+    - "Minor home page 404 title issue (non-critical)"
+    - "React component key uniqueness in Terminal"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
