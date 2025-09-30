@@ -1,8 +1,9 @@
 {
-  "name": "vite_react_shadcn_ts",
-  "private": true,
-  "version": "0.0.0",
+  "name": "hackops-cybersecurity-platform",
+  "private": false,
+  "version": "1.0.0",
   "type": "module",
+  "homepage": "https://flamechargerr.github.io/HackOps",
   "scripts": {
     "dev": "vite",
     "start": "vite",
