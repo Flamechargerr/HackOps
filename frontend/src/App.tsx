@@ -25,7 +25,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Handle both base variants in case old base was cached */}
           <Route path="/" element={<Index />} />
+          <Route path="/HackOps" element={<Navigate to="/" replace />} />
+          <Route path="/HackOps/" element={<Navigate to="/" replace />} />
+
           <Route path="/password-game" element={<PasswordGamePage />} />
           <Route path="/terminal-game" element={<TerminalGamePage />} />
           <Route path="/encryption" element={<EncryptionGame />} />
