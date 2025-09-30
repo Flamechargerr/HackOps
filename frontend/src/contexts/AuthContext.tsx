@@ -47,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://c570e31d-5459-4af1-99dd-a14daf228a64.preview.emergentagent.com';
 
   useEffect(() => {
     // Check for stored token on app load
