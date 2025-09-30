@@ -161,10 +161,10 @@ echo "✅ HackOps deployed successfully!"
 echo "🔗 Live at: https://flamechargerr.github.io/HackOps"
 EOF
 
-chmod +x deploy.sh
+chmod +x scripts/deploy.sh
 
 # Use it
-./deploy.sh
+./scripts/deploy.sh
 ```
 
 ---
