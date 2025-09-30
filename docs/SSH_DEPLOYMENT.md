@@ -143,7 +143,8 @@ Create a one-command deployment:
 
 ```bash
 # Create deployment script
-cat > deploy.sh << 'EOF'
+# Create deployment script (if not exists)
+cat > scripts/deploy.sh << 'EOF'
 #!/bin/bash
 echo "🚀 Starting HackOps Deployment..."
 
