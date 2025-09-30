@@ -103,7 +103,7 @@ python backend/server.py  # Backend (FastAPI)
 # See docs/SSH_DEPLOYMENT.md for detailed instructions
 
 # 2. Quick deployment
-./deploy.sh
+./scripts/deploy.sh
 
 # Or manual steps:
 cd frontend
