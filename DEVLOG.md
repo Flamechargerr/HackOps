@@ -111,3 +111,4 @@
 - [2025-09-30 20:56] style(terminal): improve font rendering
 - [2025-09-30 21:05] feat(challenge): add network scanning exercise
 - [2025-10-01 03:43] refactor(core): extract vulnerability scanner
+- [2025-10-01 02:43] feat(hints): progressive hint reveal system
