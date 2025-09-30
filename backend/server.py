@@ -174,6 +174,10 @@ async def start_challenge_attempt(challenge_id: str, current_user: User = Depend
         challenge_id=challenge_id
     )
     
+    # Add challenge type for achievement tracking
+    attempt_dict = attempt.dict()
+    attempt_dict["challenge_type"] = challenge["type"]
+    
     await db.challenge_attempts.insert_one(attempt.dict())
     return attempt
 
