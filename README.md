@@ -127,7 +127,7 @@ yarn build
 yarn deploy
 ```
 
-📖 **Detailed Setup**: See [SSH_DEPLOYMENT.md](SSH_DEPLOYMENT.md) for complete SSH configuration and troubleshooting.
+📖 **Detailed Setup**: See [docs/SSH_DEPLOYMENT.md](docs/SSH_DEPLOYMENT.md) for complete SSH configuration and troubleshooting.
 
 ---
 
