@@ -42,8 +42,7 @@ const BackgroundFX: React.FC = () => {
         ))}
       </div>
 
-      {/* Film grain */}
-      <div className="absolute inset-0 mix-blend-overlay opacity-[0.07] bg-[url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 128 128\"><filter id=\"n\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.8\" numOctaves=\"2\" stitchTiles=\"stitch\"/></filter><rect width=\"100%\" height=\"100%\" filter=\"url(%23n)\" opacity=\"0.6\"/></svg>')]" />
+      {/* Film grain removed for parser compatibility; optional to re-add via CSS class */}
     </div>
   );
 };
