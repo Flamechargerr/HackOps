@@ -962,3 +962,4 @@
 - [2025-09-30 23:27] feat: implement caching layer
 - [2025-10-01 03:00] feat: implement search indexing
 - [2025-10-01 04:03] perf: reduce memory allocation overhead
+- [2025-09-30 23:14] fix: handle null reference gracefully
