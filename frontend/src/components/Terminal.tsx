@@ -68,10 +68,12 @@ const Terminal = ({
     if (onCommand) {
       try {
         const response = await onCommand(input.trim());
-        setMessages((prev) => [...prev, ...response.messages]);
+        // Ensure unique IDs for appended messages to avoid key collisions
+        const safeMessages = response.messages.map(m => ({ ...m, id: m.id || genId() }));
+        setMessages((prev) => [...prev, ...safeMessages]);
       } catch (error) {
         const errorMessage: TerminalMessage = {
-          id: Date.now().toString(),
+          id: genId(),
           content: "An error occurred processing your command.",
           type: "error",
         };
