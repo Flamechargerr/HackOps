@@ -100,7 +100,7 @@ python backend/server.py  # Backend (FastAPI)
 #### Option A: SSH Deployment (Recommended for Developers)
 ```bash
 # 1. Set up SSH key (one-time setup)
-# See SSH_DEPLOYMENT.md for detailed instructions
+# See docs/SSH_DEPLOYMENT.md for detailed instructions
 
 # 2. Quick deployment
 ./deploy.sh
