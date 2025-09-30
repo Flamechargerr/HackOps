@@ -81,21 +81,37 @@ python backend/server.py  # Backend (FastAPI)
 
 ### 🌐 Production Deployment
 
-#### Option A: GitHub Pages (Recommended)
+#### Option A: SSH Deployment (Recommended for Developers)
 ```bash
-# Build and deploy to GitHub Pages
+# 1. Set up SSH key (one-time setup)
+# See SSH_DEPLOYMENT.md for detailed instructions
+
+# 2. Quick deployment
+./deploy.sh
+
+# Or manual steps:
+cd frontend
 yarn build
 yarn deploy
 ```
 
-#### Option B: Manual Deployment
+#### Option B: GitHub Actions (Automated)
 ```bash
-# Build for production
-yarn build
-
-# Serve built files
-yarn preview
+# Simply push to main branch - automatic deployment!
+git add .
+git commit -m "feat: add new security challenge"
+git push origin main
 ```
+
+#### Option C: Manual HTTPS Deployment
+```bash
+# Build and deploy to GitHub Pages
+cd frontend
+yarn build
+yarn deploy
+```
+
+📖 **Detailed Setup**: See [SSH_DEPLOYMENT.md](SSH_DEPLOYMENT.md) for complete SSH configuration and troubleshooting.
 
 ---
 
