@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Use the production URL from frontend/.env
-BASE_URL = "https://readmehero.preview.emergentagent.com/api"
+BASE_URL = "https://complete-my-project.preview.emergentagent.com/api"
 
 def test_get_root():
     """Test GET /api endpoint"""
