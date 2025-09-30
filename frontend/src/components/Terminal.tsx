@@ -4,6 +4,9 @@ import { cn } from "@/lib/utils";
 import Button from "./Button";
 import { ArrowRight, X, Maximize2, Minimize2 } from "lucide-react";
 
+// Simple unique id generator to avoid duplicate React keys
+const genId = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+
 interface TerminalProps {
   className?: string;
   initialMessages?: TerminalMessage[];
