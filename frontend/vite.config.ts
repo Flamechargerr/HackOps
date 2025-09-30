@@ -6,8 +6,9 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: process.env.NODE_ENV === 'production' ? '/HackOps/' : '/',
   build: {
-    outDir: 'build',
+    outDir: 'dist',
     commonjsOptions: { transformMixedEsModules: true }
   },
   // Server configuration
