@@ -1,0 +1,90 @@
+name: 🚀 Deploy HackOps to GitHub Pages
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+          cache-dependency-path: 'frontend/yarn.lock'
+          
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: 📦 Install Frontend Dependencies
+        working-directory: ./frontend
+        run: yarn install --frozen-lockfile
+        
+      - name: 📦 Install Backend Dependencies
+        working-directory: ./backend
+        run: |
+          pip install -r requirements.txt
+          
+      - name: 🔍 Run Frontend Linting
+        working-directory: ./frontend
+        run: yarn lint
+        continue-on-error: true
+        
+      - name: 🧪 Run Frontend Tests
+        working-directory: ./frontend
+        run: yarn test --passWithNoTests
+        continue-on-error: true
+        
+      - name: 🏗️ Build Frontend for Production
+        working-directory: ./frontend
+        run: yarn build
+        env:
+          NODE_ENV: production
+          
+      - name: 📋 Copy 404 Page for SPA Routing
+        working-directory: ./frontend
+        run: cp dist/index.html dist/404.html
+        
+      - name: 📤 Upload Build Artifacts
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './frontend/dist'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    steps:
+      - name: 🌐 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+        
+      - name: ✅ Deployment Success
+        run: |
+          echo "🎉 HackOps successfully deployed to GitHub Pages!"
+          echo "🔗 Live URL: ${{ steps.deployment.outputs.page_url }}"
