@@ -101,3 +101,82 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+## user_problem_statement: "Refine the whole website to a professional, modern dark look, ensure everything works (no broken elements), deliver a catchy README, and run tests."
+
+## backend:
+  - task: "Verify FastAPI health endpoints and Mongo connectivity"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Confirmed /api root and /api/status endpoints exist; using env-based Mongo with Motor and UUIDs."
+
+## frontend:
+  - task: "Standardize Vite config (outDir, host, port)"
+    implemented: true
+    working: true
+    file: "/app/frontend/vite.config.ts"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Applied required build.outDir=build and server host/port changes."
+  - task: "Add start script to package.json"
+    implemented: true
+    working: true
+    file: "/app/frontend/package.json"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Added start script mirroring dev."
+  - task: "Dark sleek UI baseline and polish"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/index.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Verified glassmorphism/neon tokens and components present; homepage & games leverage design."
+  - task: "README overhaul"
+    implemented: true
+    working: true
+    file: "/app/README.md"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Rewrote README with clear usage and highlights."
+
+## metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+## test_plan:
+  current_focus:
+    - "Backend health and status routes"
+    - "Frontend routing loads without errors"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+## agent_communication:
+  - agent: "main"
+    message: "Please run backend smoke tests for /api and basic POST/GET /api/status, then do a light UI smoke to ensure routes mount."
