@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 
 # Use the production URL from frontend/.env
-BASE_URL = "https://complete-my-project.preview.emergentagent.com/api"
+BASE_URL = "https://user-profile-test-1.preview.emergentagent.com/api"
 
 # Global test state
 test_user_token = None
