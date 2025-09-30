@@ -183,15 +183,18 @@
 ## agent_communication:
   - task: "UI routes & interactions smoke test"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/pages/*.tsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Plan to run playwright-based smoke across Home, Password Game, Terminal Game, Encryption, XSS, SQLi, Leaderboard routing and basic interactions."
+      - working: false
+        agent: "testing"
+        comment: "CRITICAL ROUTING ISSUE: App shows 404 for '/HackOps/' route initially. Core pages work after clicking Home button: ✅ Home page with HackerPro title and Start Challenge button, ✅ Password game loads and accepts input (Abcd1234!), ✅ Theme switch toggles light/dark modes correctly, ✅ Leaderboard shows empty state with Clear button functional, ✅ Terminal game loads with hints toggle, ✅ Encryption game accepts input and shows feedback. FAILED: XSS and SQL injection games return 404 errors, Password game submit flow incomplete (no submit button found), Terminal command submission not working. Base path routing needs fixing."
 
 ## metadata:
   created_by: "main_agent"
