@@ -44,9 +44,25 @@
 
 ## 🎥 Demo
 
-> **Coming Soon**: Interactive demo GIF showcasing the platform in action
+<div align="center">
 
-*Experience HackOps live at: [flamechargerr.github.io/HackOps](https://flamechargerr.github.io/HackOps)*
+![HackOps Demo](https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?w=800&h=400&fit=crop&crop=center)
+
+**🚀 Interactive Cybersecurity Platform in Action**
+
+*Experience the full range of cybersecurity challenges, from password forensics to terminal hacking*
+
+</div>
+
+### ✨ **What You'll Experience:**
+
+🔐 **Progressive Password Challenges** - Start simple, master complexity with real-time validation  
+💻 **Terminal Hacking Simulations** - Command-line adventures with authentic system interactions  
+🎯 **XSS & SQL Injection Labs** - Hands-on vulnerability training in safe environments  
+🌟 **Modern Glassmorphism UI** - Sleek dark theme with neon accents and smooth animations  
+🏆 **Real-time Leaderboards** - Track progress and compete with the community  
+
+**🌐 Try it live:** [flamechargerr.github.io/HackOps](https://flamechargerr.github.io/HackOps)
 
 ---
 
