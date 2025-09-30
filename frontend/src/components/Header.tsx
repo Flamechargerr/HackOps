@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Terminal, Lock, KeyRound, Trophy, Menu, X, User } from "lucide-react";
+import { Terminal, Lock, KeyRound, Trophy, Menu, X, User, Sparkles } from "lucide-react";
 import Button from "./Button";
 import ProfileModal from "./ProfileModal";
 import { Switch } from "./ui/switch";
@@ -19,6 +19,12 @@ const Header = () => {
       return localStorage.getItem('theme') || 'dark';
     }
     return 'dark';
+  });
+  const [intense, setIntense] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('intense') === 'true';
+    }
+    return false;
   });
 
   useEffect(() => {
@@ -45,6 +51,11 @@ const Header = () => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    document.body.classList.toggle('intense', intense);
+    localStorage.setItem('intense', intense ? 'true' : 'false');
+  }, [intense]);
+
   return (
     <header
       className={cn(
@@ -66,34 +77,22 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <NavLink to="/terminal-game" icon={<Terminal size={16} />}>
-            Terminal
-          </NavLink>
-          <NavLink to="/password-game" icon={<Lock size={16} />}>
-            Password Crack
-          </NavLink>
-          <NavLink to="/encryption" icon={<KeyRound size={16} />}>
-            Encryption
-          </NavLink>
-          <NavLink to="/leaderboard" icon={<Trophy size={16} />}>
-            Leaderboard
-          </NavLink>
-          <Button variant="glow" size="sm" onClick={() => navigate("/password-game")}>
-            Start Hacking
-          </Button>
+          <NavLink to="/terminal-game" icon={<Terminal size={16} />}>Terminal</NavLink>
+          <NavLink to="/password-game" icon={<Lock size={16} />}>Password Crack</NavLink>
+          <NavLink to="/encryption" icon={<KeyRound size={16} />}>Encryption</NavLink>
+          <NavLink to="/leaderboard" icon={<Trophy size={16} />}>Leaderboard</NavLink>
+          <NavLink to="/suggestions" icon={<Sparkles size={16} />}>Suggestions</NavLink>
+          <Button variant="glow" size="sm" onClick={() => navigate("/password-game")}>Start Hacking</Button>
         </nav>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-foreground"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
+        <button className="md:hidden text-foreground" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Dark/Light Mode Toggle */}
+        {/* Toggles */}
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
+          <div className="hidden sm:flex items-center space-x-2">
             <span className="text-xs font-mono text-muted-foreground">🌙</span>
             <Switch
               checked={theme === 'light'}
@@ -101,6 +100,14 @@ const Header = () => {
               aria-label="Toggle light mode"
             />
             <span className="text-xs font-mono text-muted-foreground">☀️</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Sparkles size={16} className="text-accent" />
+            <Switch
+              checked={intense}
+              onCheckedChange={setIntense}
+              aria-label="Toggle fun/intense mode"
+            />
           </div>
           <button
             type="button"
@@ -124,18 +131,11 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-lg border-b border-border animate-fade-in">
           <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <MobileNavLink to="/terminal-game" icon={<Terminal size={18} />}>
-              Terminal
-            </MobileNavLink>
-            <MobileNavLink to="/password-game" icon={<Lock size={18} />}>
-              Password Crack
-            </MobileNavLink>
-            <MobileNavLink to="/encryption" icon={<KeyRound size={18} />}>
-              Encryption
-            </MobileNavLink>
-            <MobileNavLink to="/leaderboard" icon={<Trophy size={18} />}>
-              Leaderboard
-            </MobileNavLink>
+            <MobileNavLink to="/terminal-game" icon={<Terminal size={18} />}>Terminal</MobileNavLink>
+            <MobileNavLink to="/password-game" icon={<Lock size={18} />}>Password Crack</MobileNavLink>
+            <MobileNavLink to="/encryption" icon={<KeyRound size={18} />}>Encryption</MobileNavLink>
+            <MobileNavLink to="/leaderboard" icon={<Trophy size={18} />}>Leaderboard</MobileNavLink>
+            <MobileNavLink to="/suggestions" icon={<Sparkles size={18} />}>Suggestions</MobileNavLink>
             <Button variant="glow" size="sm" className="w-full mt-4" onClick={() => { setIsMobileMenuOpen(false); navigate("/password-game"); }}>
               Start Hacking
             </Button>
