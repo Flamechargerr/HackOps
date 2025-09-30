@@ -2,6 +2,9 @@
 
 # 🚀 HackOps Deployment Script
 # Automated deployment to GitHub Pages using SSH
+# 
+# Usage: ./scripts/deploy.sh
+# Location: /scripts/deploy.sh
 
 set -e  # Exit on any error
 
