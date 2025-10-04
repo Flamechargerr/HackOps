@@ -123,3 +123,4 @@
 - [2025-10-01 00:00] style(theme): dark hacker terminal palette
 - [2025-10-02 00:45] feat(auth): implement session token validation
 - [2025-10-04 20:17] feat(terminal): add command parser with piping
+- [2025-10-05 04:03] feat(challenge): create SQL injection challenge
