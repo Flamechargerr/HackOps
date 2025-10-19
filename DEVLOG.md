@@ -158,3 +158,4 @@
 - [2025-10-19 22:01] test(auth): add penetration test scenarios
 - [2025-10-19 21:22] perf(render): optimize terminal scroll buffer
 - [2025-10-19 23:36] feat(network): add packet inspection viewer
+- [2025-10-19 23:47] docs(api): document challenge creation flow
