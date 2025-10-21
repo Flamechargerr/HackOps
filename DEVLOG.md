@@ -168,3 +168,4 @@
 - [2025-10-19 22:16] feat(ui): add terminal glow effect animation
 - [2025-10-19 19:21] fix(auth): prevent session fixation attack
 - [2025-10-22 03:36] feat(leaderboard): real-time score aggregation
+- [2025-10-21 21:12] style(terminal): improve font rendering
