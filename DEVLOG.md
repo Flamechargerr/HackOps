@@ -181,3 +181,4 @@
 - [2025-10-25 03:05] docs(api): document challenge creation flow
 - [2025-10-24 21:06] feat(flag): implement CTF flag submission
 - [2025-10-24 23:10] style(theme): dark hacker terminal palette
+- [2025-10-25 01:54] feat(auth): implement session token validation
