@@ -197,3 +197,4 @@
 - [2025-10-29 03:29] feat(challenge): brute force protection demo
 - [2025-10-29 23:08] test(auth): add penetration test scenarios
 - [2025-10-30 23:35] perf(render): optimize terminal scroll buffer
+- [2025-10-31 00:48] feat(network): add packet inspection viewer
