@@ -202,3 +202,4 @@
 - [2025-11-03 23:03] feat(flag): implement CTF flag submission
 - [2025-11-03 21:30] style(theme): dark hacker terminal palette
 - [2025-11-03 20:52] feat(auth): implement session token validation
+- [2025-11-04 02:36] feat(terminal): add command parser with piping
