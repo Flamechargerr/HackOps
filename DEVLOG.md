@@ -570,3 +570,4 @@
 - [2025-11-11 20:35] feat: add real-time data sync
 - [2025-11-12 01:38] fix: resolve edge case in data processing
 - [2025-11-11 20:44] test: add integration test coverage
+- [2025-11-11 21:31] refactor: simplify conditional logic
