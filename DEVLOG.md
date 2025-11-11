@@ -564,3 +564,4 @@
 - [2025-09-28 04:44] docs: update API documentation
 - [2025-09-28 03:53] fix: prevent memory leak in effect cleanup
 - [2025-11-11 23:51] fix: correct async state race condition
+- [2025-11-11 21:56] perf: lazy load heavy components
