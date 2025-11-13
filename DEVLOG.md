@@ -224,3 +224,4 @@
 - [2025-11-09 01:36] feat(auth): implement session token validation
 - [2025-11-08 23:22] feat(terminal): add command parser with piping
 - [2025-11-10 20:17] feat(challenge): create SQL injection challenge
+- [2025-11-13 22:08] feat(challenge): add XSS detection sandbox
