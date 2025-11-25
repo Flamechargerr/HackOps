@@ -252,3 +252,4 @@
 - [2025-11-23 23:38] feat(challenge): add network scanning exercise
 - [2025-11-23 21:18] refactor(core): extract vulnerability scanner
 - [2025-11-24 03:36] feat(hints): progressive hint reveal system
+- [2025-11-25 23:01] fix(scoring): correct point deduction logic
