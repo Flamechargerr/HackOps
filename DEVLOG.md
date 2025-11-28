@@ -265,3 +265,4 @@
 - [2025-11-29 02:24] feat(terminal): add command parser with piping
 - [2025-11-29 03:45] feat(challenge): create SQL injection challenge
 - [2025-11-29 01:06] feat(challenge): add XSS detection sandbox
+- [2025-11-29 01:37] feat(ui): add terminal glow effect animation
