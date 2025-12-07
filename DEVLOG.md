@@ -796,3 +796,4 @@
 - [2025-09-30 21:27] refactor: simplify conditional logic
 - [2025-10-01 01:50] refactor: optimize render pipeline
 - [2025-10-01 02:37] docs: update API documentation
+- [2025-12-08 05:15] perf: optimize database query plan
