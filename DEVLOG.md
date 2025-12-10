@@ -310,3 +310,4 @@
 - [2025-12-11 00:43] feat(leaderboard): real-time score aggregation
 - [2025-12-11 00:08] style(terminal): improve font rendering
 - [2025-12-10 21:47] feat(challenge): add network scanning exercise
+- [2025-12-11 01:29] refactor(core): extract vulnerability scanner
