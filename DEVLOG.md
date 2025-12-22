@@ -349,3 +349,4 @@
 - [2025-12-21 02:31] fix(auth): prevent session fixation attack
 - [2025-12-21 20:12] feat(leaderboard): real-time score aggregation
 - [2025-12-23 02:43] style(terminal): improve font rendering
+- [2025-12-23 04:21] feat(challenge): add network scanning exercise
