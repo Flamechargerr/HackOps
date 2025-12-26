@@ -1,133 +1,92 @@
-<div align="center">
-
-![HackOps Banner](https://images.unsplash.com/photo-1550751827-4bd374c3f58b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5fGVufDB8fHx8MTc1OTIxNzcwNnww&ixlib=rb-4.1.0&q=85&w=1200&h=400&fit=crop)
-
 # 🛡️ HackOps
-### *Cybersecurity Challenges, Reimagined* ✨
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/Flamechargerr/HackOps/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/Flamechargerr/HackOps?style=social)](https://github.com/Flamechargerr/HackOps/stargazers)
-[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Flamechargerr/HackOps/blob/main/docs/CONTRIBUTING.md)
-[![Live Demo](https://img.shields.io/badge/demo-live-success)](https://flamechargerr.github.io/HackOps)
+<div align="center">
 
-*A modern, interactive cybersecurity learning platform that transforms complex security concepts into engaging, hands-on challenges.*
+![HackOps Banner](https://img.shields.io/badge/HackOps-Cybersecurity%20Training-00d4ff?style=for-the-badge&logo=shield&logoColor=white)
 
-[🚀 Live Demo](https://flamechargerr.github.io/HackOps) | [📖 Documentation](#documentation) | [🤝 Contributing](#contributing) | [🎯 Roadmap](#roadmap)
+**Interactive Cybersecurity Learning Platform**
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+
+[🚀 Live Demo](https://flamechargerr.github.io/HackOps) · [📖 Documentation](#documentation) · [🤝 Contributing](#contributing) · [🐛 Report Bug](https://github.com/Flamechargerr/HackOps/issues)
 
 </div>
 
 ---
 
-## 🌟 Features
+## ✨ Overview
 
-<div align="center">
+HackOps is a modern, interactive cybersecurity learning platform that transforms complex security concepts into engaging, hands-on challenges. Practice real-world security techniques in a completely safe sandbox environment.
 
-| 🎮 **Interactive Games** | 🎨 **Modern UI/UX** | 🔒 **Real Security** | ⚡ **Performance** |
-|:---:|:---:|:---:|:---:|
-| Password strength challenges | Glassmorphism + Dark theme | Actual vulnerability demos | Lightning-fast React + Vite |
-| Terminal hacking simulations | Neon accents & animations | XSS & SQL injection labs | PWA-enabled for mobile |
-| Encryption/decryption puzzles | Responsive design | Blockchain security | Hot-reload development |
-| Leaderboard & progress tracking | Smooth micro-interactions | Authentication scenarios | Optimized builds |
+### Why HackOps?
 
-</div>
-
-### 🎯 **Challenge Categories**
-- 🔑 **Password Game**: Master password creation with progressive difficulty
-- 💻 **Terminal Hacking**: Command-line security simulations  
-- 🔐 **Encryption Lab**: Hands-on cryptography challenges
-- 🌐 **XSS Playground**: Cross-site scripting vulnerability training
-- 💉 **SQL Injection**: Database security attack & defense
-- 🏆 **Leaderboard**: Track progress and compete with others
+- 🔒 **100% Safe Environment** - Practice exploits without any legal concerns
+- 🎯 **Real-World Scenarios** - Learn techniques used by security professionals
+- 📊 **Track Progress** - Earn badges and climb the global leaderboard
+- 📚 **Guided Learning** - Hints and explanations for every challenge
+- 🆓 **Free & Open Source** - No paywalls, forever free
 
 ---
 
-## 🎥 Demo
+## 🎮 Challenge Categories
 
-<div align="center">
-
-![HackOps Demo](https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?w=800&h=400&fit=crop&crop=center)
-
-**🚀 Interactive Cybersecurity Platform in Action**
-
-*Experience the full range of cybersecurity challenges, from password forensics to terminal hacking*
-
-</div>
-
-### ✨ **What You'll Experience:**
-
-🔐 **Progressive Password Challenges** - Start simple, master complexity with real-time validation  
-💻 **Terminal Hacking Simulations** - Command-line adventures with authentic system interactions  
-🎯 **XSS & SQL Injection Labs** - Hands-on vulnerability training in safe environments  
-🌟 **Modern Glassmorphism UI** - Sleek dark theme with neon accents and smooth animations  
-🏆 **Real-time Leaderboards** - Track progress and compete with the community  
-
-**🌐 Try it live:** [flamechargerr.github.io/HackOps](https://flamechargerr.github.io/HackOps)
+| Category | Description | Difficulty |
+|----------|-------------|------------|
+| 🖥️ **Terminal Hacking** | Unix-like system navigation and privilege escalation | Beginner → Advanced |
+| 🔐 **Password Security** | Create passwords that defeat layered defenses | Beginner |
+| 🔑 **Encryption Lab** | Classical and modern cryptography challenges | Beginner → Intermediate |
+| 💉 **XSS Playground** | Cross-site scripting vulnerability training | Intermediate |
+| 🗄️ **SQL Injection** | Database exploitation and defense techniques | Intermediate |
+| ⛓️ **Blockchain Puzzles** | Hash mining and smart contract security | Advanced |
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- **Node.js** 18+ 
-- **Python** 3.8+
-- **MongoDB** (local or Atlas)
-- **Yarn** package manager
 
-### 🛠️ Installation
+- [Node.js](https://nodejs.org/) 18+ 
+- npm or yarn package manager
+
+### Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/Flamechargerr/HackOps.git
 cd HackOps
 
-# Install dependencies
-yarn install
-cd backend && pip install -r requirements.txt
+# Install frontend dependencies
+cd frontend
+npm install
+
+# Start development server
+npm run dev
+```
+
+The app will be available at `http://localhost:3000`
+
+### Backend Setup (Optional)
+
+For full functionality including user authentication and leaderboards:
+
+```bash
+# Navigate to backend
+cd backend
+
+# Install Python dependencies
+pip install -r requirements.txt
 
 # Set up environment variables
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
-# Edit .env files with your MongoDB URL and other configs
+cp .env.example .env
+# Edit .env with your MongoDB URL
 
-# Start development servers
-yarn dev          # Frontend (React + Vite)
-python backend/server.py  # Backend (FastAPI)
+# Start backend server
+python server.py
 ```
-
-### 🌐 Production Deployment
-
-#### Option A: SSH Deployment (Recommended for Developers)
-```bash
-# 1. Set up SSH key (one-time setup)
-# See docs/SSH_DEPLOYMENT.md for detailed instructions
-
-# 2. Quick deployment
-./scripts/deploy.sh
-
-# Or manual steps:
-cd frontend
-yarn build
-yarn deploy
-```
-
-#### Option B: GitHub Actions (Automated)
-```bash
-# Simply push to main branch - automatic deployment!
-git add .
-git commit -m "feat: add new security challenge"
-git push origin main
-```
-
-#### Option C: Manual HTTPS Deployment
-```bash
-# Build and deploy to GitHub Pages
-cd frontend
-yarn build
-yarn deploy
-```
-
-📖 **Detailed Setup**: See [docs/SSH_DEPLOYMENT.md](docs/SSH_DEPLOYMENT.md) for complete SSH configuration and troubleshooting.
 
 ---
 
@@ -135,199 +94,126 @@ yarn deploy
 
 ```
 HackOps/
-├── 📁 frontend/          # React + Vite + TypeScript frontend
+├── frontend/                 # React + Vite + TypeScript frontend
 │   ├── src/
-│   ├── public/
-│   └── package.json
-├── 📁 backend/           # FastAPI + MongoDB backend  
-│   ├── server.py
-│   ├── auth.py
-│   ├── achievements.py
-│   ├── models.py
-│   └── requirements.txt
-├── 📁 docs/              # Documentation files
-│   ├── CONTRIBUTING.md
-│   ├── DEPLOYMENT.md
-│   ├── SSH_DEPLOYMENT.md
-│   └── test_result.md
-├── 📁 scripts/           # Deployment and utility scripts
-│   └── deploy.sh
-├── 📁 tests/             # Test files
-│   ├── backend_test.py
-│   └── __init__.py
-├── 📁 .github/           # GitHub Actions workflows
-│   └── workflows/
-│       └── deploy.yml
-├── 📄 README.md          # Project documentation
-├── 📄 LICENSE            # MIT License
-└── 📄 .gitignore         # Git ignore rules
+│   │   ├── components/      # Reusable UI components
+│   │   ├── pages/           # Page components
+│   │   ├── contexts/        # React contexts (Auth, etc.)
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── utils/           # Utility functions
+│   │   └── lib/             # Library configurations
+│   ├── public/              # Static assets
+│   └── index.html           # Entry HTML
+├── backend/                  # FastAPI + MongoDB backend
+│   ├── server.py            # Main API server
+│   ├── auth.py              # Authentication logic
+│   ├── achievements.py      # Badge/achievement system
+│   └── models.py            # Pydantic models
+├── docs/                     # Documentation
+└── README.md
 ```
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Tech Stack
 
-```
-┌─────────────────┬─────────────────┬─────────────────┐
-│   Frontend      │    Backend      │    Database     │
-│   (React)       │   (FastAPI)     │   (MongoDB)     │
-├─────────────────┼─────────────────┼─────────────────┤
-│ • Vite Builder  │ • Motor Driver  │ • Document DB   │
-│ • TypeScript    │ • Pydantic V2   │ • UUID-based    │
-│ • Tailwind CSS  │ • CORS Enabled  │ • Local/Atlas   │
-│ • Radix UI      │ • Auto Docs     │ • Async Ops     │
-│ • React Router  │ • Health Check  │ • Aggregation   │
-│ • TanStack      │ • REST API      │ • Indexing      │
-└─────────────────┴─────────────────┴─────────────────┘
-                           │
-                    ┌──────▼──────┐
-                    │   /api/*    │
-                    │  Endpoints  │
-                    └─────────────┘
-```
+### Frontend
+- **Framework:** React 18 with TypeScript
+- **Build Tool:** Vite 5
+- **Styling:** Tailwind CSS 3
+- **UI Components:** Radix UI + shadcn/ui
+- **State Management:** TanStack Query
+- **Routing:** React Router 6
 
-### 🔗 **API Endpoints**
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/` | Health check & welcome |
-| `POST` | `/api/status` | Create status record |
-| `GET` | `/api/status` | List all status records |
+### Backend
+- **Framework:** FastAPI (Python)
+- **Database:** MongoDB with Motor async driver
+- **Authentication:** JWT with bcrypt
+- **API Documentation:** OpenAPI/Swagger
 
 ---
 
-## 📜 Scripts & Commands
+## 📜 Available Scripts
 
-### 🎯 Development
 ```bash
-yarn dev          # Start frontend dev server
-yarn build        # Build for production  
-yarn lint         # Run ESLint checks
-yarn preview      # Preview production build
+# Development
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run preview      # Preview production build
+
+# Linting
+npm run lint         # Run ESLint
+
+# Deployment
+npm run deploy       # Build and deploy to GitHub Pages
 ```
-
-### 🧪 Testing
-```bash
-yarn test         # Run all tests
-yarn test:backend # Backend-specific tests
-yarn test:e2e     # End-to-end testing
-```
-
-### 🚀 Deployment
-```bash
-yarn deploy       # Deploy to GitHub Pages
-yarn build:dev    # Development build
-```
-
----
-
-## 🐛 Troubleshooting
-
-<details>
-<summary><strong>🔧 Common Issues & Solutions</strong></summary>
-
-### **Frontend Issues**
-- **Build fails**: Ensure Node.js 18+ and `yarn` are installed
-- **Routes show 404**: Check `homepage` field in `package.json`
-- **Hot reload not working**: Verify Vite config and port 3000 availability
-
-### **Backend Issues**  
-- **MongoDB connection**: Verify `MONGO_URL` in `.env` file
-- **CORS errors**: Check backend CORS configuration
-- **Port conflicts**: Ensure port 8001 is available
-
-### **Deployment Issues**
-- **GitHub Pages 404**: Add 404.html copy in build process
-- **Asset loading**: Verify `base` path in Vite config
-- **Environment variables**: Use `VITE_` prefix for frontend vars
-
-</details>
-
----
-
-## 🗺️ Roadmap
-
-### 🎯 **Phase 1: Core Enhancement** (Current)
-- [x] ✅ Interactive cybersecurity challenges
-- [x] ✅ Modern dark UI with glassmorphism
-- [x] ✅ Real-time leaderboard system
-- [x] ✅ Responsive design & PWA support
-
-### 🚀 **Phase 2: Advanced Features** (Next)
-- [ ] 🔄 User authentication & profiles  
-- [ ] 🔄 Achievement system & badges
-- [ ] 🔄 Social sharing & competition
-- [ ] 🔄 Advanced blockchain challenges
-
-### 🌟 **Phase 3: AI Integration** (Future)
-- [ ] 🤖 LLM-powered adaptive hints
-- [ ] 🤖 Personalized learning paths
-- [ ] 🤖 AI-generated challenges
-- [ ] 🤖 Smart vulnerability detection
 
 ---
 
 ## 🤝 Contributing
 
-We ❤️ contributions! HackOps thrives on community involvement.
-
-### **🚦 Getting Started**
+Contributions are welcome! Here's how you can help:
 
 1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **Commit** your changes: `git commit -m 'feat: add amazing feature'`
-4. **Push** to branch: `git push origin feature/amazing-feature`  
-5. **Submit** a Pull Request
+2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
 
-### **📋 Contribution Guidelines**
+### Contribution Ideas
+- 🆕 New challenge types
+- 🎨 UI/UX improvements
+- 🐛 Bug fixes
+- 📖 Documentation updates
+- 🌐 Translations
 
-- Follow **conventional commits** (`feat:`, `fix:`, `docs:`, etc.)
-- Add **tests** for new features
-- Update **documentation** as needed
-- Ensure **code quality** with ESLint
-- Write **clear commit messages**
+---
 
-### **🎯 Areas We Need Help**
+## 📋 Roadmap
 
-| Area | Skills | Difficulty |
-|------|--------|------------|
-| 🎮 New Challenges | Security knowledge | ⭐⭐⭐ |
-| 🎨 UI/UX Design | CSS, Design | ⭐⭐ |
-| 📱 Mobile Support | Responsive design | ⭐⭐ |
-| 🔧 Backend APIs | FastAPI, Python | ⭐⭐⭐ |
-| 📖 Documentation | Technical writing | ⭐ |
+### Phase 1: Core Enhancement ✅
+- [x] Modern UI/UX redesign
+- [x] All challenge categories functional
+- [x] Leaderboard with mock data
+- [x] About page
+- [x] Consistent branding
+
+### Phase 2: Advanced Features 🚧
+- [ ] User authentication system
+- [ ] Persistent progress tracking
+- [ ] Real-time leaderboard updates
+- [ ] Achievement badge system
+- [ ] Challenge difficulty progression
+
+### Phase 3: Community & AI 📋
+- [ ] Community challenge submissions
+- [ ] AI-powered hint system
+- [ ] Multiplayer CTF mode
+- [ ] Learning paths/tracks
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License - feel free to use this project for learning, teaching, or commercial purposes!
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Radix UI** - For excellent accessible components
-- **Tailwind CSS** - For utility-first styling
-- **FastAPI** - For high-performance backend
-- **Unsplash** - For stunning cybersecurity imagery
-- **The cybersecurity community** - For inspiration and knowledge
+- [Radix UI](https://www.radix-ui.com/) for accessible UI primitives
+- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
+- [Lucide Icons](https://lucide.dev/) for beautiful icons
+- All contributors who help make HackOps better!
 
 ---
 
 <div align="center">
 
-### 🚀 **Ready to Start Your Cybersecurity Journey?**
+### 🚀 Ready to Start Your Cybersecurity Journey?
 
-[![Deploy with GitHub Pages](https://img.shields.io/badge/Deploy%20with-GitHub%20Pages-181717?style=for-the-badge&logo=github)](https://flamechargerr.github.io/HackOps)
-[![View Demo](https://img.shields.io/badge/View-Live%20Demo-success?style=for-the-badge&logo=vercel)](https://flamechargerr.github.io/HackOps)
+[**Try HackOps Now →**](https://flamechargerr.github.io/HackOps)
 
-**⭐ Star this repo** if you find it helpful • **🍴 Fork it** to contribute • **🐛 Report issues** for bugs
-
-*Built with ❤️ by the cybersecurity community*
+Made with ❤️ by the HackOps Team
 
 </div>

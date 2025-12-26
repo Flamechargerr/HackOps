@@ -1,302 +1,339 @@
-import { useState, useEffect } from "react";
-import { ArrowLeft, Trophy, Medal, Award, Crown, Star, Target, Zap, User } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  Terminal,
+  Trophy,
+  Medal,
+  Award,
+  TrendingUp,
+  Star,
+  Crown,
+  Flame,
+  Target,
+  Users,
+  Clock,
+  Filter
+} from "lucide-react";
 import Header from "@/components/Header";
-import Button from "@/components/Button";
-import { leaderboardManager, LeaderboardEntry } from "@/utils/leaderboard";
-import { format } from 'date-fns';
+import BackgroundFX from "@/components/FX/BackgroundFX";
+import SpotlightCursor from "@/components/FX/SpotlightCursor";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
-const Leaderboard = () => {
-  const [selectedGame, setSelectedGame] = useState<string>("all");
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [stats, setStats] = useState<Record<string, any>>({});
-  const [sortBy, setSortBy] = useState<'score'|'level'|'time'>('score');
-  const [sortDir, setSortDir] = useState<'asc'|'desc'>('desc');
-  const [dateRange, setDateRange] = useState<'all'|'week'|'today'>('all');
-  const currentUser = localStorage.getItem('hackops-profile') ? JSON.parse(localStorage.getItem('hackops-profile')!) : null;
+type TimeFilter = "all" | "week" | "month";
+type CategoryFilter = "all" | "terminal" | "password" | "encryption" | "web";
 
-  const games = [
-    { id: "all", name: "All Games", icon: <Trophy size={16} /> },
-    { id: "password", name: "Password Challenge", icon: <Target size={16} /> },
-    { id: "terminal", name: "Terminal Hacking", icon: <Zap size={16} /> },
-    { id: "encryption", name: "Encryption", icon: <Medal size={16} /> },
-    { id: "xss", name: "XSS Challenge", icon: <Award size={16} /> },
-    { id: "sql", name: "SQL Injection", icon: <Star size={16} /> },
+interface LeaderboardEntry {
+  rank: number;
+  username: string;
+  displayName: string;
+  score: number;
+  challengesCompleted: number;
+  badges: number;
+  streak: number;
+  avatarColor: string;
+  isOnline?: boolean;
+  trend?: "up" | "down" | "same";
+}
+
+const Leaderboard = () => {
+  const [timeFilter, setTimeFilter] = useState<TimeFilter>("all");
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
+
+  // Mock leaderboard data - in production this would come from the API
+  const leaderboardData: LeaderboardEntry[] = [
+    { rank: 1, username: "cyberNinja", displayName: "CyberNinja", score: 12450, challengesCompleted: 48, badges: 15, streak: 21, avatarColor: "from-yellow-500 to-orange-500", isOnline: true, trend: "same" },
+    { rank: 2, username: "h4ck3rX", displayName: "H4ck3rX", score: 11200, challengesCompleted: 42, badges: 13, streak: 14, avatarColor: "from-purple-500 to-pink-500", isOnline: true, trend: "up" },
+    { rank: 3, username: "securityPro", displayName: "SecurityPro", score: 10850, challengesCompleted: 39, badges: 12, streak: 7, avatarColor: "from-blue-500 to-cyan-500", trend: "down" },
+    { rank: 4, username: "cryptoKing", displayName: "CryptoKing", score: 9700, challengesCompleted: 35, badges: 11, streak: 12, avatarColor: "from-green-500 to-emerald-500", isOnline: true, trend: "up" },
+    { rank: 5, username: "terminalMaster", displayName: "TerminalMaster", score: 8950, challengesCompleted: 33, badges: 10, streak: 5, avatarColor: "from-red-500 to-pink-500", trend: "same" },
+    { rank: 6, username: "xssHunter", displayName: "XSSHunter", score: 8200, challengesCompleted: 30, badges: 9, streak: 3, avatarColor: "from-indigo-500 to-purple-500", trend: "up" },
+    { rank: 7, username: "sqlNinja", displayName: "SQLNinja", score: 7650, challengesCompleted: 28, badges: 8, streak: 8, avatarColor: "from-orange-500 to-red-500", trend: "down" },
+    { rank: 8, username: "penTester", displayName: "PenTester", score: 7100, challengesCompleted: 26, badges: 8, streak: 4, avatarColor: "from-teal-500 to-green-500", trend: "same" },
+    { rank: 9, username: "bugBounty", displayName: "BugBounty", score: 6550, challengesCompleted: 24, badges: 7, streak: 2, avatarColor: "from-pink-500 to-rose-500", trend: "up" },
+    { rank: 10, username: "ethicalHax", displayName: "EthicalHax", score: 6000, challengesCompleted: 22, badges: 6, streak: 6, avatarColor: "from-cyan-500 to-blue-500", isOnline: true, trend: "same" },
   ];
 
-  useEffect(() => {
-    updateLeaderboard();
-    setStats(leaderboardManager.getGameStats());
-  }, [selectedGame, sortBy, sortDir, dateRange]);
-
-  const updateLeaderboard = () => {
-    let entries = leaderboardManager.getTopScores(
-      selectedGame === "all" ? undefined : selectedGame,
-      100 // get more for filtering
-    );
-    // Date filter
-    const now = Date.now();
-    if (dateRange === 'today') {
-      const start = new Date(); start.setHours(0,0,0,0);
-      entries = entries.filter(e => e.timeCompleted >= start.getTime());
-    } else if (dateRange === 'week') {
-      const start = new Date(); start.setDate(start.getDate() - 7);
-      entries = entries.filter(e => e.timeCompleted >= start.getTime());
-    }
-    // Sorting
-    entries = [...entries].sort((a, b) => {
-      let cmp = 0;
-      if (sortBy === 'score') cmp = a.score - b.score;
-      else if (sortBy === 'level') cmp = a.level - b.level;
-      else if (sortBy === 'time') cmp = a.timeCompleted - b.timeCompleted;
-      return sortDir === 'asc' ? cmp : -cmp;
-    });
-    setLeaderboard(entries.slice(0, 20));
-  };
+  const stats = [
+    { label: "Total Players", value: "1,247", icon: <Users className="w-5 h-5" /> },
+    { label: "Challenges Completed", value: "15.4K", icon: <Target className="w-5 h-5" /> },
+    { label: "This Week", value: "+234", icon: <TrendingUp className="w-5 h-5" /> },
+    { label: "Average Score", value: "2,450", icon: <Trophy className="w-5 h-5" /> },
+  ];
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
-      case 1:
-        return <Crown className="text-yellow-400" size={20} />;
-      case 2:
-        return <Medal className="text-gray-400" size={20} />;
-      case 3:
-        return <Award className="text-amber-600" size={20} />;
-      default:
-        return <span className="text-muted-foreground font-mono">#{rank}</span>;
+      case 1: return <Crown className="w-6 h-6 text-yellow-400" />;
+      case 2: return <Medal className="w-6 h-6 text-gray-300" />;
+      case 3: return <Medal className="w-6 h-6 text-amber-600" />;
+      default: return <span className="text-lg font-bold text-muted-foreground">#{rank}</span>;
     }
   };
 
-  const getGameName = (id: string) => {
-    if (id === "all") return "All Games";
-    const found = games.find(g => g.id === id);
-    return found ? found.name : id.charAt(0).toUpperCase() + id.slice(1);
+  const getRankStyle = (rank: number) => {
+    switch (rank) {
+      case 1: return "bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/30 shadow-lg shadow-yellow-500/10";
+      case 2: return "bg-gradient-to-r from-gray-400/20 to-gray-500/20 border-gray-400/30";
+      case 3: return "bg-gradient-to-r from-amber-600/20 to-orange-600/20 border-amber-600/30";
+      default: return "bg-card/50 border-primary/10 hover:border-primary/30";
+    }
   };
 
-  const formatTimeAgo = (timestamp: number) => {
-    const diff = Date.now() - timestamp;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-
-    if (days > 0) return `${days}d ago`;
-    if (hours > 0) return `${hours}h ago`;
-    if (minutes > 0) return `${minutes}m ago`;
-    return "Just now";
+  const getTrendIcon = (trend?: string) => {
+    switch (trend) {
+      case "up": return <TrendingUp className="w-4 h-4 text-green-400" />;
+      case "down": return <TrendingUp className="w-4 h-4 text-red-400 rotate-180" />;
+      default: return <span className="w-4 h-4 flex items-center justify-center text-muted-foreground">—</span>;
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background">
+    <div className="min-h-screen flex flex-col">
+      <BackgroundFX />
+      <SpotlightCursor />
       <Header />
-      
-      <main className="flex-1 pt-24 pb-12 px-4">
-        <div className="container mx-auto">
-          <Link to="/" className="inline-flex items-center mb-6 text-muted-foreground hover:text-foreground">
+
+      <main className="flex-1 pt-24 pb-16 px-4">
+        <div className="container mx-auto max-w-5xl">
+          <Link to="/" className="inline-flex items-center mb-8 text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft size={16} className="mr-2" />
             <span>Back to Home</span>
           </Link>
-          <div className="flex justify-between items-center max-w-4xl mx-auto mb-4">
-            <div />
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => { leaderboardManager.clearLeaderboard(); setLeaderboard([]); }}
-              className="text-xs"
-            >
-              Clear Leaderboard
-            </Button>
-          </div>
 
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-              🏆 Leaderboard
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6">
+              <Trophy className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Global Rankings</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-primary">Leaderboard</span>
             </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              See who's leading the charge in our hacking challenges. Compete with players worldwide!
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Compete with security enthusiasts worldwide. Climb the ranks by completing challenges and earning badges.
             </p>
           </div>
 
-          {/* Game Filter, Date Filter, Sorting */}
-          <div className="glass-card p-4 rounded-xl mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex flex-wrap gap-2 justify-center">
-              {games.map((game) => (
-                <Button
-                  key={game.id}
-                  variant={selectedGame === game.id ? "glow" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedGame(game.id)}
-                  className="flex items-center space-x-2"
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            {stats.map((stat) => (
+              <div key={stat.label} className="glass-card p-4 rounded-xl text-center">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-2 text-primary">
+                  {stat.icon}
+                </div>
+                <div className="text-2xl font-bold text-primary">{stat.value}</div>
+                <div className="text-xs text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Filters */}
+          <div className="glass-card p-4 rounded-xl mb-8">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Time:</span>
+                <div className="flex gap-2">
+                  {([
+                    { id: "all", label: "All Time" },
+                    { id: "month", label: "This Month" },
+                    { id: "week", label: "This Week" }
+                  ] as const).map((filter) => (
+                    <button
+                      key={filter.id}
+                      onClick={() => setTimeFilter(filter.id)}
+                      className={cn(
+                        "px-3 py-1.5 rounded-full text-sm font-medium transition-all",
+                        timeFilter === filter.id
+                          ? "bg-primary/20 text-primary border border-primary/30"
+                          : "bg-muted/20 text-muted-foreground hover:bg-muted/40"
+                      )}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="w-4 h-4" />
+                <span>Updated 5 min ago</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Top 3 Podium */}
+          <div className="grid grid-cols-3 gap-4 mb-10">
+            {/* 2nd Place */}
+            <div className="order-1 pt-8">
+              <div className="glass-card p-6 rounded-xl text-center border border-gray-400/30 bg-gradient-to-b from-gray-400/10 to-transparent">
+                <div className="relative inline-block mb-4">
+                  <Avatar className="w-16 h-16 mx-auto border-4 border-gray-400">
+                    <AvatarFallback className={cn("bg-gradient-to-br text-white text-xl font-bold", leaderboardData[1].avatarColor)}>
+                      {leaderboardData[1].displayName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold text-sm">
+                    2
+                  </div>
+                </div>
+                <div className="font-bold mb-1">{leaderboardData[1].displayName}</div>
+                <div className="text-2xl font-bold text-gray-300">{leaderboardData[1].score.toLocaleString()}</div>
+                <div className="text-xs text-muted-foreground mt-1">{leaderboardData[1].challengesCompleted} challenges</div>
+              </div>
+            </div>
+
+            {/* 1st Place */}
+            <div className="order-2">
+              <div className="glass-card p-6 rounded-xl text-center border border-yellow-500/30 bg-gradient-to-b from-yellow-500/20 to-transparent shadow-lg shadow-yellow-500/10 relative">
+                <Crown className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
+                <div className="relative inline-block mb-4">
+                  <Avatar className="w-20 h-20 mx-auto border-4 border-yellow-500">
+                    <AvatarFallback className={cn("bg-gradient-to-br text-white text-2xl font-bold", leaderboardData[0].avatarColor)}>
+                      {leaderboardData[0].displayName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  {leaderboardData[0].isOnline && (
+                    <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-background" />
+                  )}
+                </div>
+                <div className="font-bold text-lg mb-1">{leaderboardData[0].displayName}</div>
+                <div className="text-3xl font-bold text-yellow-400">{leaderboardData[0].score.toLocaleString()}</div>
+                <div className="text-sm text-muted-foreground mt-1">{leaderboardData[0].challengesCompleted} challenges</div>
+                <div className="flex items-center justify-center gap-1 mt-2 text-yellow-400">
+                  <Flame className="w-4 h-4" />
+                  <span className="text-sm font-medium">{leaderboardData[0].streak} day streak</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 3rd Place */}
+            <div className="order-3 pt-12">
+              <div className="glass-card p-6 rounded-xl text-center border border-amber-600/30 bg-gradient-to-b from-amber-600/10 to-transparent">
+                <div className="relative inline-block mb-4">
+                  <Avatar className="w-14 h-14 mx-auto border-4 border-amber-600">
+                    <AvatarFallback className={cn("bg-gradient-to-br text-white text-lg font-bold", leaderboardData[2].avatarColor)}>
+                      {leaderboardData[2].displayName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-amber-600 flex items-center justify-center text-white font-bold text-sm">
+                    3
+                  </div>
+                </div>
+                <div className="font-bold text-sm mb-1">{leaderboardData[2].displayName}</div>
+                <div className="text-xl font-bold text-amber-400">{leaderboardData[2].score.toLocaleString()}</div>
+                <div className="text-xs text-muted-foreground mt-1">{leaderboardData[2].challengesCompleted} challenges</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Full Leaderboard */}
+          <div className="glass-card rounded-xl overflow-hidden">
+            <div className="p-4 border-b border-primary/10">
+              <h3 className="font-bold text-lg">Full Rankings</h3>
+            </div>
+            <div className="divide-y divide-primary/10">
+              {leaderboardData.map((entry) => (
+                <div
+                  key={entry.rank}
+                  className={cn(
+                    "flex items-center gap-4 p-4 transition-all hover:bg-primary/5",
+                    entry.rank <= 3 && "bg-gradient-to-r",
+                    entry.rank === 1 && "from-yellow-500/5 to-transparent",
+                    entry.rank === 2 && "from-gray-400/5 to-transparent",
+                    entry.rank === 3 && "from-amber-600/5 to-transparent"
+                  )}
                 >
-                  {game.icon}
-                  <span>{game.name}</span>
-                </Button>
+                  {/* Rank */}
+                  <div className="w-12 flex justify-center">
+                    {getRankIcon(entry.rank)}
+                  </div>
+
+                  {/* Avatar & Name */}
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="relative">
+                      <Avatar className="w-10 h-10 border-2 border-primary/20">
+                        <AvatarFallback className={cn("bg-gradient-to-br text-white font-bold", entry.avatarColor)}>
+                          {entry.displayName.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      {entry.isOnline && (
+                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-medium truncate">{entry.displayName}</div>
+                      <div className="text-xs text-muted-foreground">@{entry.username}</div>
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="hidden sm:flex items-center gap-6">
+                    <div className="text-center">
+                      <div className="flex items-center gap-1 text-sm">
+                        <Target className="w-4 h-4 text-muted-foreground" />
+                        <span>{entry.challengesCompleted}</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground">Challenges</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center gap-1 text-sm">
+                        <Award className="w-4 h-4 text-muted-foreground" />
+                        <span>{entry.badges}</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground">Badges</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="flex items-center gap-1 text-sm">
+                        <Flame className="w-4 h-4 text-orange-400" />
+                        <span>{entry.streak}</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground">Streak</div>
+                    </div>
+                  </div>
+
+                  {/* Score & Trend */}
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <div className="font-bold text-primary">{entry.score.toLocaleString()}</div>
+                      <div className="text-xs text-muted-foreground">points</div>
+                    </div>
+                    {getTrendIcon(entry.trend)}
+                  </div>
+                </div>
               ))}
             </div>
-            <div className="flex flex-wrap gap-2 justify-center">
-              <select
-                className="border rounded px-2 py-1 text-sm bg-background"
-                value={dateRange}
-                onChange={e => setDateRange(e.target.value as any)}
-                aria-label="Filter by date range"
-              >
-                <option value="all">All Time</option>
-                <option value="week">This Week</option>
-                <option value="today">Today</option>
-              </select>
-              <select
-                className="border rounded px-2 py-1 text-sm bg-background"
-                value={sortBy}
-                onChange={e => setSortBy(e.target.value as any)}
-                aria-label="Sort by"
-              >
-                <option value="score">Score</option>
-                <option value="level">Level</option>
-                <option value="time">Time</option>
-              </select>
-              <select
-                className="border rounded px-2 py-1 text-sm bg-background"
-                value={sortDir}
-                onChange={e => setSortDir(e.target.value as any)}
-                aria-label="Sort direction"
-              >
-                <option value="desc">Desc</option>
-                <option value="asc">Asc</option>
-              </select>
-            </div>
           </div>
 
-          {/* Stats Overview */}
-          <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="glass-card p-6 rounded-xl text-center">
-              <Trophy className="mx-auto mb-2 text-primary" size={24} />
-              <div className="text-2xl font-bold text-primary">
-                {leaderboard.length}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Players</div>
-            </div>
-            <div className="glass-card p-6 rounded-xl text-center">
-              <Target className="mx-auto mb-2 text-accent" size={24} />
-              <div className="text-2xl font-bold text-accent">
-                {leaderboard.length > 0 ? Math.max(...leaderboard.map(e => e.score)) : 0}
-              </div>
-              <div className="text-sm text-muted-foreground">Highest Score</div>
-            </div>
-            <div className="glass-card p-6 rounded-xl text-center">
-              <Zap className="mx-auto mb-2 text-yellow-400" size={24} />
-              <div className="text-2xl font-bold text-yellow-400">
-                {leaderboard.length > 0 ? Math.round(leaderboard.reduce((sum, e) => sum + e.score, 0) / leaderboard.length) : 0}
-              </div>
-              <div className="text-sm text-muted-foreground">Average Score</div>
-            </div>
-          </div>
-
-          {/* Leaderboard Table */}
-          <div className="max-w-4xl mx-auto overflow-x-auto">
-            <div className="glass-card rounded-xl overflow-hidden min-w-[600px]">
-              <div className="p-6 border-b border-primary/20">
-                <h2 className="text-2xl font-bold flex items-center">
-                  <Trophy className="mr-3 text-primary" size={24} />
-                  {selectedGame === "all" ? "Global Rankings" : `${games.find(g => g.id === selectedGame)?.name} Rankings`}
-                </h2>
-              </div>
-              
-              {leaderboard.length === 0 ? (
-                <div className="p-12 text-center">
-                  <Trophy className="mx-auto mb-4 text-muted-foreground" size={48} />
-                  <h3 className="text-xl font-bold mb-2">No Scores Yet!</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Be the first to set a record in this challenge.
-                  </p>
-                  <Link to="/">
-                    <Button variant="glow">
-                      Start Playing
-                    </Button>
-                  </Link>
-                </div>
-              ) : (
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-primary/20">
-                      <th className="p-4 text-left">Rank</th>
-                      <th className="p-4 text-left">Player</th>
-                      <th className="p-4 text-left">Game</th>
-                      <th className="p-4 text-left">Score</th>
-                      <th className="p-4 text-left">Level</th>
-                      <th className="p-4 text-left">Time</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {leaderboard.map((entry, index) => {
-                      const isCurrentUser = currentUser && entry.name === currentUser.nickname;
-                      return (
-                        <tr
-                          key={entry.id}
-                          className={cn(
-                            "border-b border-primary/10 hover:bg-primary/5 transition-colors",
-                            isCurrentUser && "bg-accent/10 border-accent/30"
-                          )}
-                        >
-                          <td className="p-4">
-                            <div className="flex items-center">
-                              {getRankIcon(index + 1)}
-                              {index < 3 && (
-                                <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-400/20 text-yellow-700">Top {index+1}</span>
-                              )}
-                            </div>
-                          </td>
-                          <td className="p-4">
-                            <div className="flex items-center space-x-2">
-                              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-lg">
-                                {entry.name.slice(0,2).toUpperCase()}
-                              </span>
-                              <div className="font-mono font-medium">{entry.name}</div>
-                              {isCurrentUser && <span className="ml-1 px-2 py-0.5 rounded-full text-xs bg-accent/20 text-accent">You</span>}
-                            </div>
-                          </td>
-                          <td className="p-4">
-                            <div className="flex items-center space-x-2">
-                              {games.find(g => g.id === entry.game)?.icon}
-                              <span className="text-sm">{getGameName(entry.game)}</span>
-                            </div>
-                          </td>
-                          <td className="p-4">
-                            <div className="font-bold text-primary">{entry.score.toLocaleString()}</div>
-                          </td>
-                          <td className="p-4">
-                            <div className="text-accent font-mono">Level {entry.level}</div>
-                          </td>
-                          <td className="p-4">
-                            <div className="text-sm text-muted-foreground" title={format(new Date(entry.timeCompleted), 'PPpp')}>
-                              {formatTimeAgo(entry.timeCompleted)}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          </div>
-
-          {/* Call to Action */}
-          <div className="max-w-4xl mx-auto mt-8 text-center">
-            <div className="glass-card p-8 rounded-xl">
-              <Trophy className="mx-auto mb-4 text-primary" size={48} />
-              <h3 className="text-2xl font-bold mb-4">Ready to Climb the Rankings?</h3>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Test your skills across our collection of hacking challenges and secure your spot on the leaderboard!
-              </p>
-              <Link to="/">
-                <Button variant="glow" size="lg">
-                  Start Your Journey
-                </Button>
-              </Link>
-            </div>
+          {/* Your Rank CTA */}
+          <div className="mt-10 glass-card p-8 rounded-xl text-center border border-primary/20">
+            <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
+            <h3 className="text-xl font-bold mb-2">Want to See Your Rank?</h3>
+            <p className="text-muted-foreground mb-6">
+              Login to track your progress and compete with others on the leaderboard!
+            </p>
+            <Link to="/password-game">
+              <button className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg font-medium transition-colors">
+                <Star className="w-5 h-5" />
+                Start Your First Challenge
+              </button>
+            </Link>
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-muted/10 py-10 border-t border-primary/10">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <Terminal size={20} className="text-primary" />
+            <span className="font-mono font-bold text-lg">HackOps</span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} HackOps. Open source cybersecurity training platform.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };

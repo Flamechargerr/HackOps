@@ -4,8 +4,15 @@ import { cn } from "@/lib/utils";
 import Button from "./Button";
 import { ArrowRight, X, Maximize2, Minimize2 } from "lucide-react";
 
-// Simple unique id generator to avoid duplicate React keys
-const genId = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+// Robust unique id generator to avoid duplicate React keys
+let idCounter = 0;
+const genId = () => {
+  idCounter++;
+  const randomPart = typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+  return `msg-${idCounter}-${randomPart}-${Date.now()}`;
+};
 
 interface TerminalProps {
   className?: string;
@@ -53,18 +60,18 @@ const Terminal = ({
 
   const handleCommand = async () => {
     if (!input.trim() || isWaiting) return;
-    
+
     // Add user input to messages
     const userMessage: TerminalMessage = {
       id: Date.now().toString(),
       content: input,
       type: "user",
     };
-    
+
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsWaiting(true);
-    
+
     if (onCommand) {
       try {
         const response = await onCommand(input.trim());
@@ -80,7 +87,7 @@ const Terminal = ({
         setMessages((prev) => [...prev, errorMessage]);
       }
     }
-    
+
     setIsWaiting(false);
   };
 
@@ -121,9 +128,9 @@ const Terminal = ({
           </button>
         </div>
       </div>
-      
+
       {/* Terminal Body */}
-      <div 
+      <div
         ref={terminalBodyRef}
         className="flex-1 p-4 overflow-y-auto font-mono text-sm"
         onClick={focusInput}
@@ -155,7 +162,7 @@ const Terminal = ({
           </div>
         )}
       </div>
-      
+
       {/* Terminal Input */}
       <div className="flex items-center p-3 bg-muted/10 border-t border-primary/30">
         <span className="text-primary mr-2">$</span>
@@ -169,9 +176,9 @@ const Terminal = ({
           placeholder="Type a command..."
           disabled={isWaiting}
         />
-        <Button 
-          variant="terminal" 
-          size="icon" 
+        <Button
+          variant="terminal"
+          size="icon"
           onClick={handleCommand}
           disabled={isWaiting}
           className="ml-2"
