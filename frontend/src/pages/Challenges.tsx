@@ -17,11 +17,11 @@ import {
   Zap,
   Trophy
 } from "lucide-react";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
-import TiltCard from "@/components/TiltCard";
-import Button from "@/components/Button";
+import TiltCard from "@/components/common/TiltCard";
+import Button from "@/components/common/Button";
 import { cn } from "@/lib/utils";
 
 type Difficulty = "all" | "beginner" | "intermediate" | "advanced";

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, Lock, Unlock, RefreshCw, KeyRound, Lightbulb, CheckCircle, Terminal } from "lucide-react";
 import { Link } from "react-router-dom";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 import { toast } from "sonner";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { leaderboardManager } from "@/utils/leaderboard";
 import { Progress } from "@/components/ui/progress";
 import BackgroundFX from "@/components/FX/BackgroundFX";

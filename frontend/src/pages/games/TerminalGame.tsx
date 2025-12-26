@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import Header from "@/components/Header";
-import Terminal, { TerminalMessage, TerminalResponse } from "@/components/Terminal";
+import Header from "@/components/layout/Header";
+import Terminal, { TerminalMessage, TerminalResponse } from "@/components/common/Terminal";
 import { ArrowLeft, Terminal as TerminalIcon, Lightbulb, Target, Zap, Award } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { Progress } from "@/components/ui/progress";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";

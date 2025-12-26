@@ -1,6 +1,6 @@
 
 import { Trophy } from "lucide-react";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { useEffect } from "react";
 
 type GameCompletionProps = {

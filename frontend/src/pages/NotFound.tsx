@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AlertTriangle, Home } from "lucide-react";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 
 const NotFound = () => {
   const location = useLocation();

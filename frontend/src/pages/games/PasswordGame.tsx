@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 import PasswordGame from "@/components/PasswordGame";
 import { ArrowLeft, Trophy, Lock, Target, Zap, Terminal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { leaderboardManager } from "@/utils/leaderboard";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 

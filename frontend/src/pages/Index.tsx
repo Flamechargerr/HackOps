@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import TiltCard from "../components/TiltCard";
-import BackgroundFX from "../components/FX/BackgroundFX";
-import SpotlightCursor from "../components/FX/SpotlightCursor";
+import Header from "@/components/layout/Header";
+import Button from "@/components/common/Button";
+import TiltCard from "@/components/common/TiltCard";
+import BackgroundFX from "@/components/FX/BackgroundFX";
+import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
 import {
   Terminal,

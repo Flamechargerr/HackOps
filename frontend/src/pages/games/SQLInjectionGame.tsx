@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, Database, AlertCircle, RefreshCw, Terminal, Lightbulb, CheckCircle, Server, Table } from "lucide-react";
 import { Link } from "react-router-dom";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 import { toast } from "sonner";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import { Progress } from "@/components/ui/progress";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";

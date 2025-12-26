@@ -1,9 +1,9 @@
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Layers, Lightbulb, RefreshCw, CheckCircle, Terminal, Cpu, Zap, Hash } from "lucide-react";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";

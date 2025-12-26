@@ -15,7 +15,7 @@ import {
   Clock,
   Filter
 } from "lucide-react";
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";

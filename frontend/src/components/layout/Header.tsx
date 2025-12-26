@@ -17,11 +17,11 @@ import {
   Layers,
   ChevronDown
 } from "lucide-react";
-import Button from "./Button";
-import { LoginDialog } from "./auth/LoginDialog";
-import { Switch } from "./ui/switch";
-import { useAuth } from "../contexts/AuthContext";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Button from "@/components/common/Button";
+import { LoginDialog } from "@/components/auth/LoginDialog";
+import { Switch } from "@/components/ui/switch";
+import { useAuth } from "@/contexts/AuthContext";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,7 +30,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuGroup,
   DropdownMenuLabel
-} from "./ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
