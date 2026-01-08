@@ -670,3 +670,4 @@
 - [2026-01-24 00:02] style: apply consistent code formatting
 - [2026-01-09 05:26] refactor: optimize render pipeline
 - [2026-01-09 04:55] docs: update API documentation
+- [2026-01-08 20:45] fix: prevent memory leak in effect cleanup
