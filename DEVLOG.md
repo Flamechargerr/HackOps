@@ -665,3 +665,4 @@
 - [2026-01-23 22:53] feat: implement search indexing
 - [2026-01-23 21:04] perf: reduce memory allocation overhead
 - [2026-01-24 01:01] fix: handle null reference gracefully
+- [2026-01-24 02:08] style: responsive layout adjustments
