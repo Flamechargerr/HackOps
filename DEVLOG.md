@@ -658,3 +658,4 @@
 - [2026-03-11 23:08] feat: add error boundary handling
 - [2026-03-12 00:24] style: apply consistent code formatting
 - [2026-01-23 22:17] refactor: optimize render pipeline
+- [2026-01-24 05:26] docs: update API documentation
