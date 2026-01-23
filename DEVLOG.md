@@ -663,3 +663,4 @@
 - [2026-01-23 20:49] style: improve component aesthetics
 - [2026-01-24 01:59] feat: implement caching layer
 - [2026-01-23 22:53] feat: implement search indexing
+- [2026-01-23 21:04] perf: reduce memory allocation overhead
