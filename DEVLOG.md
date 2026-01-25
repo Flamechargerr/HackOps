@@ -876,3 +876,4 @@
 - [2026-01-26 03:18] feat: implement caching layer
 - [2026-01-25 21:46] feat: implement search indexing
 - [2026-01-26 02:27] perf: reduce memory allocation overhead
+- [2026-01-25 23:27] fix: handle null reference gracefully
