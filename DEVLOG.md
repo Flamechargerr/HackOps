@@ -369,3 +369,4 @@
 - [2026-01-25 21:02] feat: add error boundary handling
 - [2026-01-26 00:43] style: apply consistent code formatting
 - [2026-01-25 21:51] perf: optimize database query plan
+- [2026-01-26 01:33] fix: correct async state race condition
