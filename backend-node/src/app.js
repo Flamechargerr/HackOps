@@ -45,7 +45,7 @@ export function createApp({ jwtSecret, jwtExpiry, corsOrigin }) {
   app.use('/api/challenges', apiRateLimit, challengesRouter);
   app.use('/api/progress', apiRateLimit, authRequired(jwtSecret), progressRouter);
 
-  app.use((req, res) => sendError(res, 404, {
+  app.use((req, res, _next) => sendError(res, 404, {
     code: 'NOT_FOUND',
     message: 'Route not found',
     requestId: req.id,
