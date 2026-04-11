@@ -22,8 +22,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false },
 );
 
-userSchema.index({ username: 1 });
-userSchema.index({ email: 1 });
 userSchema.index({ 'progress.totalScore': -1, 'progress.challengesCompleted': -1 });
 
 export const User = mongoose.model('User', userSchema);

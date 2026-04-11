@@ -8,6 +8,7 @@ HackOps is an interactive learning platform that teaches practical cybersecurity
 
 ## Project Preview
 
+![HackOps Homepage Screenshot](docs/images/hackops-homepage.png)
 ![HackOps Architecture](docs/images/hackops-architecture.svg)
 ![MongoDB Schema Design](docs/images/mongodb-schema.svg)
 ![HackOps UI Preview](docs/images/hackops-ui-preview.svg)
