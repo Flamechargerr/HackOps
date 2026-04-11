@@ -255,3 +255,14 @@ Before deploying to production, ensure:
 ---
 
 *Happy deploying! 🚀*
+
+## 🔐 Required GitHub Actions Variables
+
+Set the following repository variables before running deployment workflows:
+
+- `VITE_API_BASE_URL` → production API origin (used by `deploy.yml`)
+- `STAGING_VITE_API_BASE_URL` → staging API origin (used by `deploy-staging.yml`)
+
+Workflows now fail fast when these variables are missing.
+
+---
