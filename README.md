@@ -2,7 +2,7 @@
 
 HackOps is an interactive learning platform that teaches practical cybersecurity concepts through game-like challenges, scoring, progression, hints, and leaderboard-ready user progress.
 
-> **Resume-ready stack:** React + Node.js + MongoDB (with an additional existing FastAPI backend still available in this repository).
+> **Production path:** React + Node.js + MongoDB (`/backend-node` is the only production backend path).
 
 ---
 
@@ -50,7 +50,8 @@ Location: `/backend-node`
 Location: `/backend`
 
 - FastAPI + Motor (MongoDB async client)
-- Large API surface and legacy tests under `/tests`
+- Retained for historical compatibility/local experimentation only
+- **Not part of production deployment path**
 
 ---
 
@@ -97,7 +98,7 @@ App starts on `http://localhost:3000` (or Vite default if configured differently
 ```bash
 cd backend-node
 cp .env.example .env
-# update JWT_SECRET and MONGODB_URI in .env
+# set JWT_SECRET, MONGODB_URI, CORS_ORIGIN
 npm install
 npm run start
 ```
@@ -180,3 +181,13 @@ If asked what’s hardest technically, discuss:
 ## License
 
 MIT
+
+
+---
+
+## Production Operations
+
+- Architecture: `docs/ARCHITECTURE.md`
+- Runbook: `docs/RUNBOOK.md`
+- Readiness checklist: `docs/PRODUCTION_CHECKLIST.md`
+- Initial challenge seeding: `cd backend-node && npm run seed:challenges`

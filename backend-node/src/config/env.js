@@ -2,10 +2,22 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const required = ['JWT_SECRET'];
-for (const key of required) {
+const isProduction = (process.env.NODE_ENV || 'development') === 'production';
+
+const requiredAlways = ['JWT_SECRET'];
+const requiredInProduction = ['MONGODB_URI', 'CORS_ORIGIN'];
+
+for (const key of requiredAlways) {
   if (!process.env[key]) {
     throw new Error(`Missing required environment variable: ${key}`);
+  }
+}
+
+if (isProduction) {
+  for (const key of requiredInProduction) {
+    if (!process.env[key]) {
+      throw new Error(`Missing required production environment variable: ${key}`);
+    }
   }
 }
 

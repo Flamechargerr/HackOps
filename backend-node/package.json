@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "seed:challenges": "node src/scripts/seedChallenges.js"
   },
   "dependencies": {
     "bcryptjs": "3.0.2",

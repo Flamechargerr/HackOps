@@ -77,10 +77,9 @@ Looking for easy ways to get started? Try these:
 ## 💻 Development Setup
 
 ### **Prerequisites**
-- **Node.js** 18+ 
-- **Python** 3.8+
+- **Node.js** 18+
 - **MongoDB** (local or Atlas)
-- **Yarn** package manager
+- **npm** package manager
 - **Git** for version control
 
 ### **🛠️ Local Development**
@@ -97,15 +96,15 @@ cd HackOps
 cd frontend
 yarn install
 
-# Backend
-cd ../backend
-pip install -r requirements.txt
+# Backend (production path)
+cd ../backend-node
+npm install
 ```
 
 3. **Set up environment variables:**
 ```bash
 # Copy example files
-cp backend/.env.example backend/.env
+cp backend-node/.env.example backend-node/.env
 cp frontend/.env.example frontend/.env
 
 # Edit .env files with your configurations
@@ -117,15 +116,14 @@ cp frontend/.env.example frontend/.env
 cd frontend
 yarn dev
 
-# Terminal 2: Backend  
-cd backend
-python server.py
+# Terminal 2: Backend
+cd backend-node
+npm run dev
 ```
 
 5. **Verify setup:**
 - Frontend: http://localhost:3000
-- Backend: http://localhost:8001/api
-- API Docs: http://localhost:8001/docs
+- Backend: http://localhost:4000/api
 
 ### **🧪 Running Tests**
 
@@ -135,8 +133,8 @@ cd frontend
 yarn test
 
 # Backend tests
-cd backend
-python -m pytest
+cd backend-node
+npm test
 
 # Linting
 yarn lint        # Frontend
