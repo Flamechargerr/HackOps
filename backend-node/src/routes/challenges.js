@@ -3,12 +3,18 @@ import { Challenge } from '../models/Challenge.js';
 
 export const challengesRouter = Router();
 
+const allowedCategories = new Set(['password', 'terminal', 'xss', 'sql_injection', 'encryption', 'blockchain']);
+const allowedDifficulties = new Set(['beginner', 'intermediate', 'advanced']);
+
 challengesRouter.get('/', async (req, res, next) => {
   try {
-    const { category, difficulty, limit = 25 } = req.query;
+    const category = typeof req.query.category === 'string' ? req.query.category.trim() : '';
+    const difficulty = typeof req.query.difficulty === 'string' ? req.query.difficulty.trim() : '';
+    const limit = typeof req.query.limit === 'string' ? Number.parseInt(req.query.limit, 10) : 25;
+
     const query = { isActive: true };
-    if (category) query.category = category;
-    if (difficulty) query.difficulty = difficulty;
+    if (allowedCategories.has(category)) query.category = category;
+    if (allowedDifficulties.has(difficulty)) query.difficulty = difficulty;
 
     const items = await Challenge.find(query)
       .sort({ points: -1 })

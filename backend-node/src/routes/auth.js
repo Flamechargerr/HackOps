@@ -2,13 +2,22 @@ import { Router } from 'express';
 import { User } from '../models/User.js';
 import { hashPassword, signToken, verifyPassword } from '../services/auth.js';
 
+const usernameRegex = /^[a-zA-Z0-9_]{3,32}$/;
+
+function normalizeUsername(value = '') {
+  return String(value).trim();
+}
+
 export function buildAuthRouter({ jwtSecret, jwtExpiry }) {
   const router = Router();
 
   router.post('/register', async (req, res, next) => {
     try {
-      const { username, email, password } = req.body ?? {};
-      if (!username || !email || !password || password.length < 8) {
+      const username = normalizeUsername(req.body?.username);
+      const email = String(req.body?.email ?? '').trim().toLowerCase();
+      const password = String(req.body?.password ?? '');
+
+      if (!usernameRegex.test(username) || !email || !password || password.length < 8) {
         return res.status(400).json({ error: 'Invalid registration payload' });
       }
 
@@ -30,8 +39,9 @@ export function buildAuthRouter({ jwtSecret, jwtExpiry }) {
 
   router.post('/login', async (req, res, next) => {
     try {
-      const { username, password } = req.body ?? {};
-      if (!username || !password) return res.status(400).json({ error: 'Invalid login payload' });
+      const username = normalizeUsername(req.body?.username);
+      const password = String(req.body?.password ?? '');
+      if (!usernameRegex.test(username) || !password) return res.status(400).json({ error: 'Invalid login payload' });
 
       const user = await User.findOne({ username });
       if (!user) return res.status(401).json({ error: 'Invalid credentials' });

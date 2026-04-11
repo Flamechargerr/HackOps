@@ -85,7 +85,7 @@ Tracks user performance:
 ## 1) Frontend (React)
 
 ```bash
-cd /home/runner/work/HackOps/HackOps/frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -95,7 +95,7 @@ App starts on `http://localhost:3000` (or Vite default if configured differently
 ## 2) Node backend (recommended for React + Node + Mongo stack)
 
 ```bash
-cd /home/runner/work/HackOps/HackOps/backend-node
+cd backend-node
 cp .env.example .env
 # update JWT_SECRET and MONGODB_URI in .env
 npm install
@@ -114,7 +114,7 @@ API starts on `http://localhost:4000`.
 ## 3) Existing FastAPI backend (legacy)
 
 ```bash
-cd /home/runner/work/HackOps/HackOps/backend
+cd backend
 pip install -r requirements.txt
 python server.py
 ```
@@ -126,7 +126,7 @@ python server.py
 ### Node backend tests
 
 ```bash
-cd /home/runner/work/HackOps/HackOps/backend-node
+cd backend-node
 npm test
 ```
 

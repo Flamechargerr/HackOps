@@ -6,6 +6,7 @@ import { buildAuthRouter } from './routes/auth.js';
 import { challengesRouter } from './routes/challenges.js';
 import { progressRouter } from './routes/progress.js';
 import { authRequired } from './middleware/auth.js';
+import { apiRateLimit, authRateLimit } from './middleware/rateLimit.js';
 
 export function createApp({ jwtSecret, jwtExpiry, corsOrigin }) {
   const app = express();
@@ -15,9 +16,9 @@ export function createApp({ jwtSecret, jwtExpiry, corsOrigin }) {
   app.use(express.json({ limit: '1mb' }));
 
   app.use('/api/health', healthRouter);
-  app.use('/api/auth', buildAuthRouter({ jwtSecret, jwtExpiry }));
-  app.use('/api/challenges', challengesRouter);
-  app.use('/api/progress', authRequired(jwtSecret), progressRouter);
+  app.use('/api/auth', authRateLimit, buildAuthRouter({ jwtSecret, jwtExpiry }));
+  app.use('/api/challenges', apiRateLimit, challengesRouter);
+  app.use('/api/progress', apiRateLimit, authRequired(jwtSecret), progressRouter);
 
   app.use((err, _req, res, _next) => {
     const status = err.name === 'ValidationError' ? 400 : 500;
