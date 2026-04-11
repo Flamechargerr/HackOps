@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#0b1220"/>
+  <text x="600" y="60" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="34" font-weight="700">HackOps Production Architecture</text>
+  <rect x="70" y="120" width="280" height="150" rx="12" fill="#1d4ed8"/>
+  <text x="210" y="170" text-anchor="middle" fill="#fff" font-family="Arial" font-size="24" font-weight="700">React Frontend</text>
+  <text x="210" y="205" text-anchor="middle" fill="#dbeafe" font-family="Arial" font-size="18">Vite + TypeScript</text>
+  <text x="210" y="232" text-anchor="middle" fill="#dbeafe" font-family="Arial" font-size="18">Gamified UI</text>
+
+  <rect x="460" y="120" width="300" height="170" rx="12" fill="#065f46"/>
+  <text x="610" y="170" text-anchor="middle" fill="#fff" font-family="Arial" font-size="24" font-weight="700">Node.js API</text>
+  <text x="610" y="205" text-anchor="middle" fill="#d1fae5" font-family="Arial" font-size="18">Express + JWT + Helmet</text>
+  <text x="610" y="232" text-anchor="middle" fill="#d1fae5" font-family="Arial" font-size="18">Auth • Challenges • Progress</text>
+  <text x="610" y="259" text-anchor="middle" fill="#d1fae5" font-family="Arial" font-size="18">Rate-limit ready design</text>
+
+  <rect x="860" y="120" width="270" height="150" rx="12" fill="#7c2d12"/>
+  <text x="995" y="170" text-anchor="middle" fill="#fff" font-family="Arial" font-size="24" font-weight="700">MongoDB</text>
+  <text x="995" y="205" text-anchor="middle" fill="#ffedd5" font-family="Arial" font-size="18">Users</text>
+  <text x="995" y="232" text-anchor="middle" fill="#ffedd5" font-family="Arial" font-size="18">Challenges • Attempts</text>
+
+  <rect x="160" y="390" width="300" height="170" rx="12" fill="#334155"/>
+  <text x="310" y="440" text-anchor="middle" fill="#fff" font-family="Arial" font-size="22" font-weight="700">Security & Reliability</text>
+  <text x="310" y="475" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18">JWT auth middleware</text>
+  <text x="310" y="502" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18">Input validation</text>
+  <text x="310" y="529" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18">Strict schema constraints</text>
+
+  <rect x="520" y="390" width="300" height="170" rx="12" fill="#3f3f46"/>
+  <text x="670" y="440" text-anchor="middle" fill="#fff" font-family="Arial" font-size="22" font-weight="700">Testing</text>
+  <text x="670" y="475" text-anchor="middle" fill="#f4f4f5" font-family="Arial" font-size="18">Node test contracts</text>
+  <text x="670" y="502" text-anchor="middle" fill="#f4f4f5" font-family="Arial" font-size="18">Frontend component tests</text>
+  <text x="670" y="529" text-anchor="middle" fill="#f4f4f5" font-family="Arial" font-size="18">Backend API regression suite</text>
+
+  <rect x="880" y="390" width="220" height="170" rx="12" fill="#1e293b"/>
+  <text x="990" y="440" text-anchor="middle" fill="#fff" font-family="Arial" font-size="22" font-weight="700">Scale</text>
+  <text x="990" y="475" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18">500+ users</text>
+  <text x="990" y="502" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18">Indexed queries</text>
+  <text x="990" y="529" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="18">Fast retrieval</text>
+
+  <line x1="350" y1="190" x2="460" y2="190" stroke="#93c5fd" stroke-width="4"/>
+  <polygon points="460,190 445,182 445,198" fill="#93c5fd"/>
+  <line x1="760" y1="190" x2="860" y2="190" stroke="#86efac" stroke-width="4"/>
+  <polygon points="860,190 845,182 845,198" fill="#86efac"/>
+</svg>
