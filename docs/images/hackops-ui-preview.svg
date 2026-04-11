@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#0f172a"/>
+  <rect x="30" y="30" width="1220" height="660" rx="18" fill="#111827" stroke="#334155"/>
+  <rect x="50" y="50" width="1180" height="60" rx="10" fill="#1f2937"/>
+  <circle cx="85" cy="80" r="8" fill="#ef4444"/>
+  <circle cx="110" cy="80" r="8" fill="#f59e0b"/>
+  <circle cx="135" cy="80" r="8" fill="#10b981"/>
+  <text x="640" y="87" text-anchor="middle" fill="#e5e7eb" font-family="Arial" font-size="24" font-weight="700">HackOps — Password Challenge</text>
+
+  <rect x="90" y="150" width="760" height="500" rx="16" fill="#0b1220" stroke="#2563eb"/>
+  <text x="470" y="205" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="34" font-weight="700">Security Level 4</text>
+  <rect x="140" y="235" width="660" height="50" rx="10" fill="#1e293b"/>
+  <text x="165" y="267" fill="#94a3b8" font-family="Arial" font-size="18">Type your password...</text>
+
+  <text x="140" y="330" fill="#cbd5e1" font-family="Arial" font-size="20" font-weight="700">Requirements</text>
+  <rect x="140" y="350" width="660" height="40" rx="8" fill="#064e3b"/>
+  <text x="165" y="376" fill="#d1fae5" font-family="Arial" font-size="16">✓ At least 12 characters</text>
+  <rect x="140" y="400" width="660" height="40" rx="8" fill="#064e3b"/>
+  <text x="165" y="426" fill="#d1fae5" font-family="Arial" font-size="16">✓ Include uppercase, lowercase and number</text>
+  <rect x="140" y="450" width="660" height="40" rx="8" fill="#7f1d1d"/>
+  <text x="165" y="476" fill="#fee2e2" font-family="Arial" font-size="16">✗ Include one special character</text>
+
+  <rect x="910" y="150" width="280" height="220" rx="14" fill="#1e293b"/>
+  <text x="1050" y="190" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="22" font-weight="700">Leaderboard</text>
+  <text x="930" y="230" fill="#cbd5e1" font-family="Arial" font-size="16">1. alice ........ 4200</text>
+  <text x="930" y="260" fill="#cbd5e1" font-family="Arial" font-size="16">2. bob .......... 3960</text>
+  <text x="930" y="290" fill="#cbd5e1" font-family="Arial" font-size="16">3. you .......... 3820</text>
+
+  <rect x="910" y="390" width="280" height="260" rx="14" fill="#1e293b"/>
+  <text x="1050" y="430" text-anchor="middle" fill="#e2e8f0" font-family="Arial" font-size="22" font-weight="700">Progress</text>
+  <text x="930" y="470" fill="#cbd5e1" font-family="Arial" font-size="16">Badges: 12</text>
+  <text x="930" y="500" fill="#cbd5e1" font-family="Arial" font-size="16">Streak: 7 days</text>
+  <text x="930" y="530" fill="#cbd5e1" font-family="Arial" font-size="16">Challenges solved: 48</text>
+  <text x="930" y="560" fill="#cbd5e1" font-family="Arial" font-size="16">Total score: 3820</text>
+</svg>

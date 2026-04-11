@@ -1,219 +1,182 @@
-# 🛡️ HackOps
+# HackOps — Gamified Cybersecurity Learning Platform
 
-<div align="center">
+HackOps is an interactive learning platform that teaches practical cybersecurity concepts through game-like challenges, scoring, progression, hints, and leaderboard-ready user progress.
 
-![HackOps Banner](https://img.shields.io/badge/HackOps-Cybersecurity%20Training-00d4ff?style=for-the-badge&logo=shield&logoColor=white)
-
-**Interactive Cybersecurity Learning Platform**
-
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
-[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
-
-[🚀 Live Demo](https://flamechargerr.github.io/HackOps) · [📖 Documentation](#documentation) · [🤝 Contributing](#contributing) · [🐛 Report Bug](https://github.com/Flamechargerr/HackOps/issues)
-
-</div>
+> **Resume-ready stack:** React + Node.js + MongoDB (with an additional existing FastAPI backend still available in this repository).
 
 ---
 
-## ✨ Overview
+## Project Preview
 
-HackOps is a modern, interactive cybersecurity learning platform that transforms complex security concepts into engaging, hands-on challenges. Practice real-world security techniques in a completely safe sandbox environment.
-
-### Why HackOps?
-
-- 🔒 **100% Safe Environment** - Practice exploits without any legal concerns
-- 🎯 **Real-World Scenarios** - Learn techniques used by security professionals
-- 📊 **Track Progress** - Earn badges and climb the global leaderboard
-- 📚 **Guided Learning** - Hints and explanations for every challenge
-- 🆓 **Free & Open Source** - No paywalls, forever free
+![HackOps Homepage Screenshot](docs/images/hackops-homepage.png)
+![HackOps Architecture](docs/images/hackops-architecture.svg)
+![MongoDB Schema Design](docs/images/mongodb-schema.svg)
+![HackOps UI Preview](docs/images/hackops-ui-preview.svg)
 
 ---
 
-## 🎮 Challenge Categories
+## Why this project matters
 
-| Category | Description | Difficulty |
-|----------|-------------|------------|
-| 🖥️ **Terminal Hacking** | Unix-like system navigation and privilege escalation | Beginner → Advanced |
-| 🔐 **Password Security** | Create passwords that defeat layered defenses | Beginner |
-| 🔑 **Encryption Lab** | Classical and modern cryptography challenges | Beginner → Intermediate |
-| 💉 **XSS Playground** | Cross-site scripting vulnerability training | Intermediate |
-| 🗄️ **SQL Injection** | Database exploitation and defense techniques | Intermediate |
-| ⛓️ **Blockchain Puzzles** | Hash mining and smart contract security | Advanced |
+HackOps demonstrates how to build a **capacity-building cybersecurity product** that can support real learners at scale:
+
+- **Gamification loop:** challenges → attempts → score → progression → badges
+- **Efficient data modeling:** MongoDB schemas and indexes designed for leaderboard and progress retrieval
+- **Production-minded backend:** auth, secure middleware, structured API modules, and environment-based configuration
+- **Modern frontend:** React + Vite challenge experience
 
 ---
 
-## 🚀 Quick Start
+## Architecture
 
-### Prerequisites
+### Frontend
+- React 18 + TypeScript + Vite
+- UI-driven challenge modules (e.g., Password Challenge)
+- Existing frontend tests under `frontend/src/components/PasswordGame/__tests__`
 
-- [Node.js](https://nodejs.org/) 18+ 
-- npm or yarn package manager
+### Node.js Backend (new)
+Location: `/backend-node`
 
-### Installation
+- Express API with security middleware (`helmet`, `cors`)
+- JWT authentication (`jsonwebtoken`)
+- Password hashing (`bcryptjs`)
+- MongoDB ODM (`mongoose`)
+- Modular structure:
+  - `src/models` → MongoDB schemas
+  - `src/routes` → auth, challenges, progress, health
+  - `src/middleware` → JWT guard
+  - `src/config` → env + DB setup
+
+### Existing Python Backend (legacy in repo)
+Location: `/backend`
+
+- FastAPI + Motor (MongoDB async client)
+- Large API surface and legacy tests under `/tests`
+
+---
+
+## MongoDB Schema Design (Node backend)
+
+### `users`
+Stores identity + game progression:
+- `username`, `email` (unique)
+- `passwordHash`
+- `progress.totalScore`, `progress.challengesCompleted`, `progress.badges`, `progress.streakDays`
+
+### `challenges`
+Stores challenge catalog:
+- `slug` (unique)
+- `category` (password, terminal, xss, sql_injection, encryption, blockchain)
+- `difficulty`, `points`, `learningObjective`, `isActive`
+
+### `challenge_attempts`
+Tracks user performance:
+- `userId` + `challengeId` (unique pair)
+- `isCompleted`, `scoreAwarded`, `attempts`, `hintsUsed`, `completedAt`
+
+### Performance indexes
+- Leaderboard retrieval: `users.progress.totalScore`, `users.progress.challengesCompleted`
+- Catalog filters: `challenges.category`, `challenges.difficulty`, `challenges.isActive`
+- Attempt lookups: `challenge_attempts.userId`, `challenge_attempts.challengeId`
+
+---
+
+## Quick Start
+
+## 1) Frontend (React)
 
 ```bash
-# Clone the repository
-git clone https://github.com/Flamechargerr/HackOps.git
-cd HackOps
-
-# Install frontend dependencies
 cd frontend
 npm install
-
-# Start development server
 npm run dev
 ```
 
-The app will be available at `http://localhost:3000`
+App starts on `http://localhost:3000` (or Vite default if configured differently).
 
-### Backend Setup (Optional)
-
-For full functionality including user authentication and leaderboards:
+## 2) Node backend (recommended for React + Node + Mongo stack)
 
 ```bash
-# Navigate to backend
-cd backend
-
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Set up environment variables
+cd backend-node
 cp .env.example .env
-# Edit .env with your MongoDB URL
+# update JWT_SECRET and MONGODB_URI in .env
+npm install
+npm run start
+```
 
-# Start backend server
+API starts on `http://localhost:4000`.
+
+### Core endpoints
+- `GET /api/health`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/challenges`
+- `GET /api/progress/me` (requires Bearer token)
+
+## 3) Existing FastAPI backend (legacy)
+
+```bash
+cd backend
+pip install -r requirements.txt
 python server.py
 ```
 
 ---
 
-## 📁 Project Structure
+## Testing
 
-```
-HackOps/
-├── frontend/                 # React + Vite + TypeScript frontend
-│   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   ├── pages/           # Page components
-│   │   ├── contexts/        # React contexts (Auth, etc.)
-│   │   ├── hooks/           # Custom React hooks
-│   │   ├── utils/           # Utility functions
-│   │   └── lib/             # Library configurations
-│   ├── public/              # Static assets
-│   └── index.html           # Entry HTML
-├── backend/                  # FastAPI + MongoDB backend
-│   ├── server.py            # Main API server
-│   ├── auth.py              # Authentication logic
-│   ├── achievements.py      # Badge/achievement system
-│   └── models.py            # Pydantic models
-├── docs/                     # Documentation
-└── README.md
-```
-
----
-
-## 🏗️ Tech Stack
-
-### Frontend
-- **Framework:** React 18 with TypeScript
-- **Build Tool:** Vite 5
-- **Styling:** Tailwind CSS 3
-- **UI Components:** Radix UI + shadcn/ui
-- **State Management:** TanStack Query
-- **Routing:** React Router 6
-
-### Backend
-- **Framework:** FastAPI (Python)
-- **Database:** MongoDB with Motor async driver
-- **Authentication:** JWT with bcrypt
-- **API Documentation:** OpenAPI/Swagger
-
----
-
-## 📜 Available Scripts
+### Node backend tests
 
 ```bash
-# Development
-npm run dev          # Start dev server
-npm run build        # Build for production
-npm run preview      # Preview production build
-
-# Linting
-npm run lint         # Run ESLint
-
-# Deployment
-npm run deploy       # Build and deploy to GitHub Pages
+cd backend-node
+npm test
 ```
 
----
+Includes contract tests for:
+- Health endpoint success
+- Auth payload validation
+- JWT-protected route unauthorized behavior
 
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
-
-### Contribution Ideas
-- 🆕 New challenge types
-- 🎨 UI/UX improvements
-- 🐛 Bug fixes
-- 📖 Documentation updates
-- 🌐 Translations
+### Existing frontend/backend tests
+- Frontend component tests: `frontend/src/components/PasswordGame/__tests__`
+- Legacy backend tests: `tests/backend_test.py`
 
 ---
 
-## 📋 Roadmap
+## Production-readiness notes
 
-### Phase 1: Core Enhancement ✅
-- [x] Modern UI/UX redesign
-- [x] All challenge categories functional
-- [x] Leaderboard with mock data
-- [x] About page
-- [x] Consistent branding
-
-### Phase 2: Advanced Features 🚧
-- [ ] User authentication system
-- [ ] Persistent progress tracking
-- [ ] Real-time leaderboard updates
-- [ ] Achievement badge system
-- [ ] Challenge difficulty progression
-
-### Phase 3: Community & AI 📋
-- [ ] Community challenge submissions
-- [ ] AI-powered hint system
-- [ ] Multiplayer CTF mode
-- [ ] Learning paths/tracks
+- Environment-driven config (`.env`)
+- JWT-based auth boundary for user progress routes
+- Password hashing via bcrypt
+- MongoDB indexing for low-latency reads on challenge and leaderboard workflows
+- Modular API code layout for maintainability and team scaling
 
 ---
 
-## 📄 License
+## How to explain this project to a hiring manager / recruiter
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Use this concise narrative:
+
+1. **Problem solved**
+   - “I built a gamified cybersecurity learning platform to make security education hands-on and engaging.”
+
+2. **Stack and ownership**
+   - “Frontend is React; backend is Node.js/Express with MongoDB; I designed the schema and API modules.”
+
+3. **Engineering depth**
+   - “I modeled user progress, challenge metadata, and attempts for efficient retrieval and leaderboard-like queries using indexes.”
+
+4. **Security + production approach**
+   - “I used JWT auth, hashed passwords, and security middleware, with clean environment configuration and modular services.”
+
+5. **Impact framing**
+   - “The architecture is designed to support 500+ learners with fast challenge retrieval and progress tracking workflows.”
+
+If asked what’s hardest technically, discuss:
+- balancing schema flexibility with query performance,
+- defining stable auth boundaries,
+- and keeping game logic responsive while preserving backend consistency.
 
 ---
 
-## 🙏 Acknowledgments
+## License
 
-- [Radix UI](https://www.radix-ui.com/) for accessible UI primitives
-- [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
-- [Lucide Icons](https://lucide.dev/) for beautiful icons
-- All contributors who help make HackOps better!
-
----
-
-<div align="center">
-
-### 🚀 Ready to Start Your Cybersecurity Journey?
-
-[**Try HackOps Now →**](https://flamechargerr.github.io/HackOps)
-
-Made with ❤️ by the HackOps Team
-
-</div>
+MIT
