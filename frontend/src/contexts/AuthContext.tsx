@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { ApiError, apiRequest } from '@/lib/api';
 
 interface User {
   id: string;
@@ -16,6 +17,12 @@ interface User {
     badges_earned: number;
     joined_challenges: string[];
   };
+}
+
+interface LoginResponse {
+  accessToken: string;
+  tokenType: 'Bearer';
+  expiresIn: string;
 }
 
 interface AuthContextType {
@@ -47,103 +54,73 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://c570e31d-5459-4af1-99dd-a14daf228a64.preview.emergentagent.com';
-
-  useEffect(() => {
-    // Check for stored token on app load
-    const storedToken = localStorage.getItem('hackops_token');
-    if (storedToken) {
-      setToken(storedToken);
-      fetchUserProfile(storedToken);
-    } else {
-      setIsLoading(false);
-    }
+  const clearAuthState = useCallback(() => {
+    localStorage.removeItem('hackops_token');
+    setToken(null);
+    setUser(null);
   }, []);
 
-  const fetchUserProfile = async (authToken: string) => {
+  const fetchUserProfile = useCallback(async (authToken: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json'
-        }
+      const userData = await apiRequest<User>('/api/auth/me', {
+        method: 'GET',
+        token: authToken,
+        retry: 1,
       });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        // Token is invalid
-        localStorage.removeItem('hackops_token');
-        setToken(null);
-      }
+      setUser(userData);
+      return true;
     } catch (error) {
-      console.error('Failed to fetch user profile:', error);
-      localStorage.removeItem('hackops_token');
-      setToken(null);
+      clearAuthState();
+      return false;
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [clearAuthState]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('hackops_token');
+    if (!storedToken) {
+      setIsLoading(false);
+      return;
+    }
+
+    setToken(storedToken);
+    void fetchUserProfile(storedToken);
+  }, [fetchUserProfile]);
 
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      const data = await apiRequest<LoginResponse>('/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
+        body: { username, password },
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        const authToken = data.access_token;
-        
-        setToken(authToken);
-        localStorage.setItem('hackops_token', authToken);
-        
-        await fetchUserProfile(authToken);
-        return true;
-      } else {
-        const errorData = await response.json();
-        console.error('Login failed:', errorData);
-        return false;
-      }
+      const authToken = data.accessToken;
+      setToken(authToken);
+      localStorage.setItem('hackops_token', authToken);
+
+      return fetchUserProfile(authToken);
     } catch (error) {
-      console.error('Login error:', error);
+      if (error instanceof ApiError && error.status === 401) return false;
       return false;
     }
   };
 
   const register = async (username: string, email: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      await apiRequest('/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, email, password })
+        body: { username, email, password },
       });
 
-      if (response.ok) {
-        // Auto-login after successful registration
-        return await login(username, password);
-      } else {
-        const errorData = await response.json();
-        console.error('Registration failed:', errorData);
-        return false;
-      }
-    } catch (error) {
-      console.error('Registration error:', error);
+      return login(username, password);
+    } catch {
       return false;
     }
   };
 
   const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('hackops_token');
+    clearAuthState();
   };
 
   const value: AuthContextType = {
@@ -153,7 +130,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     register,
     logout,
     isAuthenticated: !!user,
-    isLoading
+    isLoading,
   };
 
   return (
