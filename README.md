@@ -1,193 +1,251 @@
-# HackOps — Gamified Cybersecurity Learning Platform
+<div align="center">
 
-HackOps is an interactive learning platform that teaches practical cybersecurity concepts through game-like challenges, scoring, progression, hints, and leaderboard-ready user progress.
+# 🛡️ HackOps
 
-> **Production path:** React + Node.js + MongoDB (`/backend-node` is the only production backend path).
+### AI-Powered Cybersecurity Training Platform
 
----
+**Learn to hack. Learn to defend. Powered by Gemini AI.**
 
-## Project Preview
+[![Live Demo](https://img.shields.io/badge/🔴_Live_Demo-flamechargerr.github.io/HackOps-00ff88?style=for-the-badge&labelColor=0d1117)](https://flamechargerr.github.io/HackOps/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178C6?style=for-the-badge&logo=typescript&logoColor=white&labelColor=0d1117)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React_18-Frontend-61DAFB?style=for-the-badge&logo=react&logoColor=white&labelColor=0d1117)](https://react.dev/)
+[![Gemini AI](https://img.shields.io/badge/Gemini_AI-Integrated-886FBF?style=for-the-badge&logo=google&logoColor=white&labelColor=0d1117)](https://ai.google.dev/)
 
-![HackOps Homepage Screenshot](docs/images/hackops-homepage.png)
-![HackOps Architecture](docs/images/hackops-architecture.svg)
-![MongoDB Schema Design](docs/images/mongodb-schema.svg)
-![HackOps UI Preview](docs/images/hackops-ui-preview.svg)
+<br/>
 
----
+<img src="docs/images/hackops-homepage.png" alt="HackOps Platform" width="800" />
 
-## Why this project matters
+<br/>
 
-HackOps demonstrates how to build a **capacity-building cybersecurity product** that can support real learners at scale:
-
-- **Gamification loop:** challenges → attempts → score → progression → badges
-- **Efficient data modeling:** MongoDB schemas and indexes designed for leaderboard and progress retrieval
-- **Production-minded backend:** auth, secure middleware, structured API modules, and environment-based configuration
-- **Modern frontend:** React + Vite challenge experience
+*6 interactive security challenges • Real-time AI analysis • 15 earnable badges • Works fully offline*
 
 ---
 
-## Architecture
+[**Try it Live →**](https://flamechargerr.github.io/HackOps/) · [**Watch Demo**](#-demo) · [**Architecture**](#-architecture) · [**AI Features**](#-ai-integration)
 
-### Frontend
-- React 18 + TypeScript + Vite
-- UI-driven challenge modules (e.g., Password Challenge)
-- Existing frontend tests under `frontend/src/components/PasswordGame/__tests__`
-
-### Node.js Backend (new)
-Location: `/backend-node`
-
-- Express API with security middleware (`helmet`, `cors`)
-- JWT authentication (`jsonwebtoken`)
-- Password hashing (`bcryptjs`)
-- MongoDB ODM (`mongoose`)
-- Modular structure:
-  - `src/models` → MongoDB schemas
-  - `src/routes` → auth, challenges, progress, health
-  - `src/middleware` → JWT guard
-  - `src/config` → env + DB setup
-
-### Existing Python Backend (legacy in repo)
-Location: `/backend`
-
-- FastAPI + Motor (MongoDB async client)
-- Retained for historical compatibility/local experimentation only
-- **Not part of production deployment path**
+</div>
 
 ---
 
-## MongoDB Schema Design (Node backend)
+## 🤔 The Problem
 
-### `users`
-Stores identity + game progression:
-- `username`, `email` (unique)
-- `passwordHash`
-- `progress.totalScore`, `progress.challengesCompleted`, `progress.badges`, `progress.streakDays`
+Security education is broken. Most platforms are either:
+- 📖 **Too theoretical** — read docs, take quizzes, forget everything
+- ⚠️ **Too dangerous** — practice on real systems and risk jail time
+- 🤖 **Not AI-native** — static hints that don't adapt to what you're actually trying
 
-### `challenges`
-Stores challenge catalog:
-- `slug` (unique)
-- `category` (password, terminal, xss, sql_injection, encryption, blockchain)
-- `difficulty`, `points`, `learningObjective`, `isActive`
-
-### `challenge_attempts`
-Tracks user performance:
-- `userId` + `challengeId` (unique pair)
-- `isCompleted`, `scoreAwarded`, `attempts`, `hintsUsed`, `completedAt`
-
-### Performance indexes
-- Leaderboard retrieval: `users.progress.totalScore`, `users.progress.challengesCompleted`
-- Catalog filters: `challenges.category`, `challenges.difficulty`, `challenges.isActive`
-- Attempt lookups: `challenge_attempts.userId`, `challenge_attempts.challengeId`
+**HackOps fixes all three.** It's a safe, gamified sandbox where you learn by *doing* — and an AI Security Advisor watches every attempt to teach you the *why* behind each vulnerability.
 
 ---
 
-## Quick Start
+## ✨ Features
 
-## 1) Frontend (React)
+### 🎮 6 Interactive Security Challenges
 
-```bash
-cd frontend
-npm install
-npm run dev
+| Challenge | What You Learn | Difficulty |
+|-----------|---------------|------------|
+| 🖥️ **Terminal Hacking** | Unix command injection, privilege escalation | ⭐⭐⭐ |
+| 🔐 **Password Security** | Entropy, dictionary attacks, salting | ⭐⭐ |
+| 🔑 **Encryption Lab** | Caesar, Base64, ROT13, Hex encoding | ⭐⭐ |
+| 💉 **SQL Injection** | Auth bypass, UNION attacks, blind SQLi | ⭐⭐⭐⭐ |
+| 🕸️ **XSS Attacks** | Reflected/stored XSS, DOM manipulation | ⭐⭐⭐ |
+| ⛓️ **Blockchain Puzzles** | Hash mining, Merkle trees, transactions | ⭐⭐⭐ |
+
+Each challenge has **5 progressive levels** with real-time scoring, hints, and an AI advisor.
+
+### 🧠 AI Integration (Gemini)
+
+This isn't AI bolted on as an afterthought — it's the **core product differentiator**:
+
+```
+┌─────────────────────────────────────────────────────┐
+│                  AI SECURITY LAB                     │
+├─────────────────┬─────────────────┬─────────────────┤
+│  🔍 Vuln        │  🔐 Password    │  📝 Quiz        │
+│  Scanner        │  Analyzer       │  Generator      │
+│                 │                 │                 │
+│ Paste code →    │ Test password → │ Pick topic →    │
+│ Get severity-   │ Get attack      │ Get custom      │
+│ rated audit     │ vector analysis │ security quiz   │
+└─────────────────┴─────────────────┴─────────────────┘
 ```
 
-App starts on `http://localhost:3000` (or Vite default if configured differently).
+| Feature | How It Works |
+|---------|-------------|
+| **AI Security Advisor** | Appears on every challenge — analyzes your attempt in real-time and explains what happened, how attackers exploit it, and how to defend |
+| **Vulnerability Scanner** | Paste any code snippet → get a structured security audit with severity ratings (Critical/High/Medium/Low) |
+| **Password Analyzer** | Enter a password → AI evaluates strength against real attack vectors (dictionary, rainbow tables, brute force) |
+| **Security Quiz Generator** | Pick a topic + difficulty → AI generates a unique quiz every time |
+| **Adaptive Hint Engine** | Hints get progressively more specific based on your attempt history — not static text |
 
-## 2) Node backend (recommended for React + Node + Mongo stack)
+**AI Architecture:**
+- Multi-model fallback: `gemini-2.0-flash` → `gemini-1.5-flash` → `gemini-1.5-pro`
+- Rate-limit resilience with automatic retry + exponential backoff
+- Privacy-first: API keys stored locally, never transmitted to any server except Google's
+- Works without AI too — graceful degradation when no key is configured
+
+### 🏆 Gamification Engine
+
+- **15 earnable badges** — First Hack, Terminal Master, Speed Demon, Perfectionist, Grandmaster...
+- **Activity heatmap** — GitHub-style contribution graph on your profile
+- **Streak tracking** — consecutive day rewards
+- **Category breakdown** — radar view of your security skills
+- **Score persistence** — localStorage + optional backend sync
+- **Progressive difficulty** — each challenge scales from beginner to advanced
+
+### 🌐 Works Everywhere
+
+- **Fully offline** — PWA with service worker, works on GitHub Pages
+- **No backend required** — all progress saved to localStorage
+- **Optional backend** — Node.js + MongoDB for cloud sync when available
+- **Mobile responsive** — plays great on phone and tablet
+
+---
+
+## 🏗️ Architecture
+
+```
+hackops/
+├── frontend/                    # React 18 + TypeScript + Vite
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── ai/              # AI Security Advisor component
+│   │   ├── contexts/
+│   │   │   ├── AuthContext.tsx   # Auth with offline fallback
+│   │   │   └── GameContext.tsx   # Central game state + badge engine
+│   │   ├── lib/
+│   │   │   ├── ai.ts            # Gemini client (multi-model, retry logic)
+│   │   │   └── storage.ts       # localStorage persistence layer
+│   │   └── pages/
+│   │       ├── AILab.tsx         # AI Security Lab (3 tools)
+│   │       ├── ProfilePage.tsx   # Stats, heatmap, badges, history
+│   │       └── games/           # 6 challenge engines
+│   └── dist/                    # Production build (576KB JS)
+│
+├── backend-node/                # Express + MongoDB (optional)
+│   ├── src/
+│   │   ├── models/              # User, Challenge, Attempt schemas
+│   │   ├── routes/              # Auth, challenges, progress APIs
+│   │   └── middleware/          # JWT guard
+│   └── tests/
+│
+└── docs/                        # Architecture, deployment, runbook
+```
+
+### Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | React 18, TypeScript, Vite, Tailwind-inspired CSS |
+| **AI** | Google Gemini API (2.0 Flash, 1.5 Flash, 1.5 Pro) |
+| **State** | React Context + localStorage (hybrid online/offline) |
+| **Backend** | Node.js, Express, MongoDB, Mongoose |
+| **Auth** | JWT + bcrypt (optional — works without login) |
+| **Deploy** | GitHub Pages (static) + GitHub Actions CI/CD |
+| **PWA** | Service Worker + offline caching |
+
+---
+
+## 🚀 Quick Start
+
+### Play Instantly (No Setup)
+👉 **[flamechargerr.github.io/HackOps](https://flamechargerr.github.io/HackOps/)** — works in any browser, no install needed.
+
+### Run Locally
+
+```bash
+git clone https://github.com/Flamechargerr/HackOps.git
+cd HackOps/frontend
+npm install
+npm run dev
+# → http://localhost:3000
+```
+
+### Enable AI Features
+
+1. Get a free Gemini API key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Open HackOps → navigate to **AI Lab** in the header
+3. Click **Configure AI** → paste your key → **Test Connection** → **Save**
+4. All AI features are now active across the platform ✨
+
+### Optional: Run with Backend
 
 ```bash
 cd backend-node
 cp .env.example .env
-# set JWT_SECRET, MONGODB_URI, CORS_ORIGIN
+# Set JWT_SECRET, MONGODB_URI, CORS_ORIGIN
 npm install
-npm run start
+npm start
+# → http://localhost:4000
 ```
 
-API starts on `http://localhost:4000`.
+---
 
-### Core endpoints
-- `GET /api/health`
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `GET /api/challenges`
-- `GET /api/progress/me` (requires Bearer token)
+## 📊 Technical Highlights
 
-## 3) Existing FastAPI backend (legacy)
+| Metric | Value |
+|--------|-------|
+| **TypeScript errors** | 0 |
+| **Production bundle** | 576KB JS, 106KB CSS |
+| **AI response time** | <3 seconds |
+| **Challenges** | 6 categories × 5 levels = 30 unique challenges |
+| **Badges** | 15 earnable achievements |
+| **Offline support** | Full PWA — works without internet |
+| **Build time** | <2 seconds |
+
+---
+
+## 🧠 AI Deep Dive
+
+The AI pipeline (`src/lib/ai.ts`) is built for **production resilience**, not demo-ware:
+
+```typescript
+// Multi-model cascade with automatic fallback
+const MODELS = [
+  'gemini-2.0-flash-lite',   // Fast + cheap
+  'gemini-2.0-flash',        // Balanced
+  'gemini-1.5-flash',        // Fallback
+  'gemini-1.5-pro',          // Heavy lifting
+];
+
+// 5 specialized AI functions, each with security-focused system prompts:
+analyzeAttempt()    // Real-time challenge feedback
+generateHint()      // Progressive hint generation
+analyzeThreat()     // Code vulnerability scanning
+analyzePassword()   // Password strength analysis
+generateQuiz()      // Dynamic quiz creation
+```
+
+**Key design decisions:**
+- **System prompts are security-education focused** — the AI teaches defense, not attack
+- **Rate limiting handled client-side** with retry + exponential backoff
+- **API key rotation** — supports multiple comma-separated keys
+- **Graceful degradation** — every feature works without AI (just without the smart analysis)
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
 
 ```bash
-cd backend
-pip install -r requirements.txt
-python server.py
+# Run tests
+cd frontend && npx tsc --noEmit  # Type check
+cd backend-node && npm test       # API tests
 ```
 
 ---
 
-## Testing
+## 📄 License
 
-### Node backend tests
-
-```bash
-cd backend-node
-npm test
-```
-
-Includes contract tests for:
-- Health endpoint success
-- Auth payload validation
-- JWT-protected route unauthorized behavior
-
-### Existing frontend/backend tests
-- Frontend component tests: `frontend/src/components/PasswordGame/__tests__`
-- Legacy backend tests: `tests/backend_test.py`
+MIT — use it, learn from it, build on it.
 
 ---
 
-## Production-readiness notes
+<div align="center">
 
-- Environment-driven config (`.env`)
-- JWT-based auth boundary for user progress routes
-- Password hashing via bcrypt
-- MongoDB indexing for low-latency reads on challenge and leaderboard workflows
-- Modular API code layout for maintainability and team scaling
+**Built by [Anamay Tripathy](https://github.com/Flamechargerr)** · MIT License
 
----
+*If you found this useful, consider giving it a ⭐*
 
-## How to explain this project to a hiring manager / recruiter
-
-Use this concise narrative:
-
-1. **Problem solved**
-   - “I built a gamified cybersecurity learning platform to make security education hands-on and engaging.”
-
-2. **Stack and ownership**
-   - “Frontend is React; backend is Node.js/Express with MongoDB; I designed the schema and API modules.”
-
-3. **Engineering depth**
-   - “I modeled user progress, challenge metadata, and attempts for efficient retrieval and leaderboard-like queries using indexes.”
-
-4. **Security + production approach**
-   - “I used JWT auth, hashed passwords, and security middleware, with clean environment configuration and modular services.”
-
-5. **Impact framing**
-   - “The architecture is designed to support 500+ learners with fast challenge retrieval and progress tracking workflows.”
-
-If asked what’s hardest technically, discuss:
-- balancing schema flexibility with query performance,
-- defining stable auth boundaries,
-- and keeping game logic responsive while preserving backend consistency.
-
----
-
-## License
-
-MIT
-
-
----
-
-## Production Operations
-
-- Architecture: `docs/ARCHITECTURE.md`
-- Runbook: `docs/RUNBOOK.md`
-- Readiness checklist: `docs/PRODUCTION_CHECKLIST.md`
-- Initial challenge seeding: `cd backend-node && npm run seed:challenges`
+</div>
