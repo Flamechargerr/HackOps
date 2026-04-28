@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Lock, Unlock, RefreshCw, KeyRound, Lightbulb, CheckCircle, Terminal } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
+import { useGame } from "@/contexts/GameContext";
 
 const maxLevel = 5;
 
@@ -71,6 +72,7 @@ const levelData = [
 ];
 
 const EncryptionGame = () => {
+  const { completeChallenge } = useGame();
   const [level, setLevel] = useState(1);
   const [input, setInput] = useState("");
   const [score, setScore] = useState(0);
@@ -78,6 +80,7 @@ const EncryptionGame = () => {
   const [showHint, setShowHint] = useState(false);
   const [attempts, setAttempts] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
+  const startTimeRef = useRef(Date.now());
 
   const current = levelData[level - 1];
 
@@ -103,6 +106,14 @@ const EncryptionGame = () => {
       setCompletedLevels(prev => [...prev, level]);
       const pointsEarned = Math.max(100 - (attempts * 10), 50);
       setScore(score + pointsEarned);
+      completeChallenge({
+        challengeId: `encryption-${level}`,
+        score: pointsEarned,
+        hintsUsed: showHint ? 1 : 0,
+        attempts: attempts + 1,
+        timeMs: Date.now() - startTimeRef.current,
+        completedAt: new Date().toISOString(),
+      });
 
       toast.success(`Level Complete! +${pointsEarned} points`, {
         description: level < maxLevel ? "Advancing to next level..." : "You've mastered encryption!",

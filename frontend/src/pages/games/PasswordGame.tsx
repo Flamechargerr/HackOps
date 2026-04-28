@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "@/components/layout/Header";
 import PasswordGame from "@/components/PasswordGame";
 import { ArrowLeft, Trophy, Lock, Target, Zap, Terminal } from "lucide-react";
@@ -8,12 +8,16 @@ import { leaderboardManager } from "@/utils/leaderboard";
 import Button from "@/components/common/Button";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
+import { useGame } from "@/contexts/GameContext";
+import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
 
 const PasswordGamePage = () => {
+  const { completeChallenge } = useGame();
   const [playerName, setPlayerName] = useState("");
   const [showNameInput, setShowNameInput] = useState(false);
   const [gameScore, setGameScore] = useState(0);
   const [gameLevel, setGameLevel] = useState(1);
+  const startTimeRef = useRef(Date.now());
 
   useEffect(() => {
     toast.info("Password Security Challenge", {
@@ -26,6 +30,14 @@ const PasswordGamePage = () => {
     setGameScore(finalScore);
     setGameLevel(finalLevel);
     setShowNameInput(true);
+    completeChallenge({
+      challengeId: `password-level-${finalLevel}`,
+      score: finalScore,
+      hintsUsed: 0,
+      attempts: 1,
+      timeMs: Date.now() - startTimeRef.current,
+      completedAt: new Date().toISOString(),
+    });
   };
 
   const submitScore = () => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Code, ShieldAlert, RefreshCw, Terminal, Lightbulb, CheckCircle, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
@@ -8,6 +8,8 @@ import { Progress } from "@/components/ui/progress";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
+import { useGame } from "@/contexts/GameContext";
+import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
 
 const maxLevel = 5;
 
@@ -71,6 +73,7 @@ const levelData = [
 ];
 
 const XSSGame = () => {
+  const { completeChallenge } = useGame();
   const [level, setLevel] = useState(1);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -78,7 +81,9 @@ const XSSGame = () => {
   const [isVulnerable, setIsVulnerable] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
+  const startTimeRef = useRef(Date.now());
 
   const current = levelData[level - 1];
 
@@ -105,6 +110,14 @@ const XSSGame = () => {
       const pointsEarned = Math.max(100 - (attempts * 10), 50);
       setScore(score + pointsEarned);
       setCompletedLevels(prev => [...prev, level]);
+      completeChallenge({
+        challengeId: `xss-${level}`,
+        score: pointsEarned,
+        hintsUsed,
+        attempts: attempts + 1,
+        timeMs: Date.now() - startTimeRef.current,
+        completedAt: new Date().toISOString(),
+      });
 
       toast.success(`Vulnerability found! +${pointsEarned} points`, {
         description: level < maxLevel ? "Advancing to next level..." : "You've mastered XSS!",
@@ -337,6 +350,15 @@ const XSSGame = () => {
                 </Button>
               </div>
             )}
+
+            {/* AI Security Advisor */}
+            <AISecurityAdvisor
+              challengeType="Cross-Site Scripting (XSS)"
+              level={level}
+              lastInput={input}
+              wasSuccessful={isVulnerable}
+              context={`Challenge: ${current.challenge}. Difficulty: ${current.difficulty}`}
+            />
           </div>
         </div>
       </main>

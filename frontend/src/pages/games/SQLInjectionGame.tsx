@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Database, AlertCircle, RefreshCw, Terminal, Lightbulb, CheckCircle, Server, Table } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
+import { useGame } from "@/contexts/GameContext";
 
 const maxLevel = 5;
 
@@ -75,6 +76,7 @@ const levelData = [
 ];
 
 const SQLInjectionGame = () => {
+  const { completeChallenge } = useGame();
   const [level, setLevel] = useState(1);
   const [query, setQuery] = useState("");
   const [result, setResult] = useState<string[]>([]);
@@ -83,6 +85,7 @@ const SQLInjectionGame = () => {
   const [attempts, setAttempts] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
   const [isSuccess, setIsSuccess] = useState(false);
+  const startTimeRef = useRef(Date.now());
 
   const current = levelData[level - 1];
 
@@ -111,6 +114,14 @@ const SQLInjectionGame = () => {
         setCompletedLevels(prev => [...prev, level]);
         const pointsEarned = Math.max(100 - (attempts * 10), 50);
         setScore(score + pointsEarned);
+        completeChallenge({
+          challengeId: `sql-${level}`,
+          score: pointsEarned,
+          hintsUsed: showHint ? 1 : 0,
+          attempts: attempts + 1,
+          timeMs: Date.now() - startTimeRef.current,
+          completedAt: new Date().toISOString(),
+        });
 
         switch (level) {
           case 1:

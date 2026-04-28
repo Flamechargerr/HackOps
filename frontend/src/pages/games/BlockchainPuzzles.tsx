@@ -1,5 +1,5 @@
 import Header from "@/components/layout/Header";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, Layers, Lightbulb, RefreshCw, CheckCircle, Terminal, Cpu, Zap, Hash } from "lucide-react";
@@ -8,6 +8,7 @@ import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useGame } from "@/contexts/GameContext";
 
 function sha256(str: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -97,6 +98,7 @@ const BlockchainVisual = () => (
 );
 
 const BlockchainPuzzles = () => {
+  const { completeChallenge } = useGame();
   const [level, setLevel] = useState(1);
   const [input, setInput] = useState("");
   const [hash, setHash] = useState("");
@@ -105,6 +107,7 @@ const BlockchainPuzzles = () => {
   const [showHint, setShowHint] = useState(false);
   const [miningProgress, setMiningProgress] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
+  const startTimeRef = useRef(Date.now());
 
   const current = levelData[level - 1];
 
@@ -182,6 +185,14 @@ const BlockchainPuzzles = () => {
   const handleSubmit = () => {
     if (success) {
       setCompletedLevels(prev => [...prev, level]);
+      completeChallenge({
+        challengeId: `blockchain-${level}`,
+        score: 100,
+        hintsUsed: showHint ? 1 : 0,
+        attempts: 1,
+        timeMs: Date.now() - startTimeRef.current,
+        completedAt: new Date().toISOString(),
+      });
       if (level < maxLevel) {
         toast.success(`Level ${level} complete!`, {
           description: "Advancing to next challenge...",

@@ -15,7 +15,8 @@ import {
   Code,
   Database,
   Layers,
-  ChevronDown
+  ChevronDown,
+  Brain
 } from "lucide-react";
 import Button from "@/components/common/Button";
 import { LoginDialog } from "@/components/auth/LoginDialog";
@@ -160,6 +161,7 @@ const Header = () => {
           </DropdownMenu>
 
           <NavLink to="/leaderboard" icon={<Trophy size={16} />}>Leaderboard</NavLink>
+          <NavLink to="/ai-lab" icon={<Brain size={16} />}>AI Lab</NavLink>
           <NavLink to="/about">About</NavLink>
 
           <div className="ml-4">
@@ -282,10 +284,9 @@ const Header = () => {
             ))}
             <div className="h-px bg-primary/10 my-2" />
             <MobileNavLink to="/leaderboard" icon={<Trophy size={18} />}>Leaderboard</MobileNavLink>
+            <MobileNavLink to="/ai-lab" icon={<Brain size={18} />}>AI Lab</MobileNavLink>
+            <MobileNavLink to="/profile" icon={<User size={18} />}>Profile</MobileNavLink>
             <MobileNavLink to="/about" icon={<User size={18} />}>About</MobileNavLink>
-            {isAuthenticated && (
-              <MobileNavLink to="/profile" icon={<User size={18} />}>Profile</MobileNavLink>
-            )}
             <div className="pt-4">
               <Button
                 variant="glow"

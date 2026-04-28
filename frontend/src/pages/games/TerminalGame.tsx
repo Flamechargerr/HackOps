@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "@/components/layout/Header";
 import Terminal, { TerminalMessage, TerminalResponse } from "@/components/common/Terminal";
 import { ArrowLeft, Terminal as TerminalIcon, Lightbulb, Target, Zap, Award } from "lucide-react";
@@ -9,6 +9,8 @@ import { Progress } from "@/components/ui/progress";
 import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
+import { useGame } from "@/contexts/GameContext";
+import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
 
 const maxLevel = 5;
 
@@ -21,11 +23,15 @@ const levelDescriptions = [
 ];
 
 const TerminalGamePage = () => {
+  const { completeChallenge } = useGame();
   const [level, setLevel] = useState(1);
   const [hints, setHints] = useState<string[]>([]);
   const [showHint, setShowHint] = useState(false);
   const [commandsUsed, setCommandsUsed] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
+  const [lastCommand, setLastCommand] = useState<string>('');
+  const [hintsUsed, setHintsUsed] = useState(0);
+  const startTimeRef = useRef(Date.now());
 
   const initialMessages: TerminalMessage[] = [
     { id: "welcome-1", content: "╔══════════════════════════════════════════════════════════╗", type: "system" },
@@ -121,6 +127,7 @@ const TerminalGamePage = () => {
     if (normalized === "hint") {
       const random = hints[Math.floor(Math.random() * hints.length)];
       setShowHint(true);
+      setHintsUsed(prev => prev + 1);
       return {
         messages: [
           { id: `hint-${Date.now()}`, content: `💡 HINT: ${random}`, type: "warning" }
@@ -244,6 +251,15 @@ const TerminalGamePage = () => {
   const handleLevelComplete = (completedLevel: number) => {
     if (!completedLevels.includes(completedLevel)) {
       setCompletedLevels(prev => [...prev, completedLevel]);
+      const score = Math.max(100 - commandsUsed * 5, 50);
+      completeChallenge({
+        challengeId: `terminal-${completedLevel}`,
+        score,
+        hintsUsed,
+        attempts: commandsUsed,
+        timeMs: Date.now() - startTimeRef.current,
+        completedAt: new Date().toISOString(),
+      });
       if (completedLevel < maxLevel) {
         setTimeout(() => setLevel(completedLevel + 1), 1500);
       }
@@ -351,6 +367,17 @@ const TerminalGamePage = () => {
               initialMessages={initialMessages}
               onCommand={handleCommand}
               title={`HackOps Terminal - Level ${level}`}
+            />
+          </div>
+
+          {/* AI Security Advisor */}
+          <div className="mt-6">
+            <AISecurityAdvisor
+              challengeType="Terminal Hacking"
+              level={level}
+              lastInput={lastCommand}
+              wasSuccessful={completedLevels.includes(level)}
+              context={`Level objective: ${levelDescriptions[level - 1]}`}
             />
           </div>
 

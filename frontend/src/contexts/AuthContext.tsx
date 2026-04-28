@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import { ApiError, apiRequest } from '@/lib/api';
+import { ApiError, apiRequest, isBackendAvailable } from '@/lib/api';
+import { getGuestName } from '@/lib/storage';
 
 interface User {
   id: string;
@@ -33,6 +34,8 @@ interface AuthContextType {
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
+  isOfflineMode: boolean;
+  guestName: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,6 +56,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const offline = !isBackendAvailable();
+  const guestName = getGuestName();
 
   const clearAuthState = useCallback(() => {
     localStorage.removeItem('hackops_token');
@@ -78,6 +83,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [clearAuthState]);
 
   useEffect(() => {
+    // In offline mode, skip backend auth entirely
+    if (offline) {
+      setIsLoading(false);
+      return;
+    }
+
     const storedToken = localStorage.getItem('hackops_token');
     if (!storedToken) {
       setIsLoading(false);
@@ -86,9 +97,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     setToken(storedToken);
     void fetchUserProfile(storedToken);
-  }, [fetchUserProfile]);
+  }, [fetchUserProfile, offline]);
 
   const login = async (username: string, password: string): Promise<boolean> => {
+    if (offline) {
+      // In offline mode, there's no backend to auth against
+      return false;
+    }
+
     try {
       const data = await apiRequest<LoginResponse>('/api/auth/login', {
         method: 'POST',
@@ -107,6 +123,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const register = async (username: string, email: string, password: string): Promise<boolean> => {
+    if (offline) return false;
+
     try {
       await apiRequest('/api/auth/register', {
         method: 'POST',
@@ -131,6 +149,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     logout,
     isAuthenticated: !!user,
     isLoading,
+    isOfflineMode: offline,
+    guestName,
   };
 
   return (

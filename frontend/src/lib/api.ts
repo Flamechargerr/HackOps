@@ -1,9 +1,12 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 const DEFAULT_TIMEOUT_MS = Number(import.meta.env.VITE_API_TIMEOUT_MS ?? 8000);
 
-if (!API_BASE_URL) {
-  throw new Error('Missing VITE_API_BASE_URL environment variable');
-}
+/**
+ * Whether a backend is configured. When false the app runs in
+ * offline / static-site mode (GitHub Pages) and all API calls
+ * return graceful fallbacks instead of crashing.
+ */
+export const isBackendAvailable = (): boolean => Boolean(API_BASE_URL);
 
 export class ApiError extends Error {
   status: number;
@@ -41,6 +44,13 @@ async function parseResponse(response: Response) {
 }
 
 export async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
+  if (!isBackendAvailable()) {
+    throw new ApiError('Backend not configured — running in offline mode', {
+      status: 0,
+      code: 'OFFLINE_MODE',
+    });
+  }
+
   const {
     method = 'GET',
     token,
