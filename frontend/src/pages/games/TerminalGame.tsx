@@ -100,6 +100,7 @@ const TerminalGamePage = () => {
 
   const handleCommand = async (command: string): Promise<TerminalResponse> => {
     setCommandsUsed(prev => prev + 1);
+    setLastCommand(command);
     const normalized = command.trim().toLowerCase();
 
     if (normalized === "help") {

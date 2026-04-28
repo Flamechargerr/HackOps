@@ -124,6 +124,17 @@ const PasswordGamePage = () => {
             <PasswordGame onGameComplete={handleGameComplete} />
           </div>
 
+          {/* AI Security Advisor */}
+          <div className="mt-6">
+            <AISecurityAdvisor
+              challengeType="Password Security"
+              level={gameLevel}
+              lastInput=""
+              wasSuccessful={showNameInput}
+              context={`Password challenge level ${gameLevel}`}
+            />
+          </div>
+
           {/* Score Submission Modal */}
           {showNameInput && (
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">

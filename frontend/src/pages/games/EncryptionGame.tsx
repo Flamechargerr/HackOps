@@ -10,6 +10,7 @@ import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
 import { useGame } from "@/contexts/GameContext";
+import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
 
 const maxLevel = 5;
 
@@ -336,6 +337,16 @@ const EncryptionGame = () => {
                 </Button>
               </div>
             )}
+          </div>
+          {/* AI Security Advisor */}
+          <div className="mt-6">
+            <AISecurityAdvisor
+              challengeType="Encryption"
+              level={level}
+              lastInput={input}
+              wasSuccessful={isLevelComplete}
+              context={`Encryption level ${level}: ${current?.type || 'cipher'} challenge`}
+            />
           </div>
         </div>
       </main>

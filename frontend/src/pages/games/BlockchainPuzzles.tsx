@@ -9,6 +9,7 @@ import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
+import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
 
 function sha256(str: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -436,6 +437,16 @@ const BlockchainPuzzles = () => {
                 </Button>
               </div>
             )}
+          </div>
+          {/* AI Security Advisor */}
+          <div className="mt-6">
+            <AISecurityAdvisor
+              challengeType="Blockchain"
+              level={level}
+              lastInput={input}
+              wasSuccessful={success}
+              context={`Blockchain level ${level}: ${current?.title || 'blockchain puzzle'}`}
+            />
           </div>
         </div>
       </main>

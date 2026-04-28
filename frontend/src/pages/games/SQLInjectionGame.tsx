@@ -9,6 +9,7 @@ import BackgroundFX from "@/components/FX/BackgroundFX";
 import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
 import { useGame } from "@/contexts/GameContext";
+import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
 
 const maxLevel = 5;
 
@@ -441,6 +442,16 @@ const SQLInjectionGame = () => {
                 </Button>
               </div>
             )}
+          </div>
+          {/* AI Security Advisor */}
+          <div className="mt-6">
+            <AISecurityAdvisor
+              challengeType="SQL Injection"
+              level={level}
+              lastInput={query}
+              wasSuccessful={isSuccess}
+              context={`SQL Injection level ${level}: ${current?.title || 'SQL challenge'}`}
+            />
           </div>
         </div>
       </main>
