@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Button from "@/components/common/Button";
 import TiltCard from "@/components/common/TiltCard";
@@ -605,12 +605,13 @@ const Index = () => {
               </ul>
             </div>
 
-            {/* Resources */}
+             {/* Resources */}
             <div>
               <h4 className="font-bold mb-4 text-sm uppercase tracking-wider text-muted-foreground">Resources</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About</a></li>
-                <li><a href="/leaderboard" className="text-muted-foreground hover:text-primary transition-colors">Leaderboard</a></li>
+                <li><Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">About</Link></li>
+                <li><Link to="/leaderboard" className="text-muted-foreground hover:text-primary transition-colors">Leaderboard</Link></li>
+                <li><Link to="/suggestions" className="text-muted-foreground hover:text-primary transition-colors">Suggestions</Link></li>
                 <li><a href="https://github.com/Flamechargerr/HackOps" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">GitHub</a></li>
                 <li><a href="https://github.com/Flamechargerr/HackOps#contributing" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">Contribute</a></li>
               </ul>

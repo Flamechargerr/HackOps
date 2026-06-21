@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ArrowLeft, Code, ShieldAlert, RefreshCw, Terminal, Lightbulb, CheckCircle, XCircle } from "lucide-react";
+import { ArrowLeft, Code, ShieldAlert, RefreshCw, Terminal, Lightbulb, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
 import { useGame } from "@/contexts/GameContext";
 import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
+import { leaderboardManager } from "@/utils/leaderboard";
 
 const maxLevel = 5;
 
@@ -100,9 +101,22 @@ const XSSGame = () => {
     setIsVulnerable(false);
     setShowHint(false);
     setAttempts(0);
+    setHintsUsed(0);
+    startTimeRef.current = Date.now();
   }, [level]);
 
+  useEffect(() => {
+    try {
+      const sanitized = input.replace(/[<>]/g, (char) => `&${char === '<' ? 'lt' : 'gt'};`);
+      setOutput(sanitized);
+      setIsVulnerable(current?.check(input) ?? false);
+    } catch (error) {
+      setOutput("Error rendering output");
+    }
+  }, [input, level, current]);
+
   const handleSubmit = () => {
+    if (completedLevels.includes(level)) return;
     setAttempts(prev => prev + 1);
 
     if (current.check(input)) {
@@ -126,22 +140,21 @@ const XSSGame = () => {
 
       if (level < maxLevel) {
         setTimeout(() => setLevel(level + 1), 1500);
+      } else {
+        const playerName = leaderboardManager.generatePlayerName();
+        leaderboardManager.addScore({
+          name: playerName,
+          game: "xss",
+          score: score + pointsEarned,
+          level: level,
+          difficulty: 'Expert',
+        });
       }
     } else {
       toast.error("Not quite right", {
         description: "Check your payload and try again. Use hints if needed.",
         icon: "❌"
       });
-    }
-  };
-
-  const renderOutput = () => {
-    try {
-      const sanitized = input.replace(/[<>]/g, (char) => `&${char === '<' ? 'lt' : 'gt'};`);
-      setOutput(sanitized);
-      setIsVulnerable(current.check(input));
-    } catch (error) {
-      setOutput("Error rendering output");
     }
   };
 
@@ -257,7 +270,6 @@ const XSSGame = () => {
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onBlur={renderOutput}
                     className="w-full h-32 p-4 bg-muted/30 rounded-lg border border-primary/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 focus:outline-none font-mono text-sm resize-none"
                     placeholder="Enter your XSS payload here..."
                   />
@@ -308,7 +320,10 @@ const XSSGame = () => {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => setShowHint(v => !v)}
+                    onClick={() => {
+                      if (!showHint) setHintsUsed(prev => prev + 1);
+                      setShowHint(v => !v);
+                    }}
                     className={showHint ? "border-yellow-400/50" : ""}
                   >
                     <Lightbulb size={16} className={cn("mr-2", showHint && "text-yellow-400")} />

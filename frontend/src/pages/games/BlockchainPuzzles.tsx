@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
+import { leaderboardManager } from "@/utils/leaderboard";
 
 function sha256(str: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -107,6 +108,7 @@ const BlockchainPuzzles = () => {
   const [mining, setMining] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [miningProgress, setMiningProgress] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
   const startTimeRef = useRef(Date.now());
 
@@ -125,6 +127,8 @@ const BlockchainPuzzles = () => {
     setSuccess(false);
     setShowHint(false);
     setMiningProgress(0);
+    setHintsUsed(0);
+    startTimeRef.current = Date.now();
   }, [level]);
 
   const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,8 +142,9 @@ const BlockchainPuzzles = () => {
         const hb = await sha256('b');
         const concat = ha + hb;
         const merkle = await sha256(concat);
-        setHash(merkle);
-        setSuccess(val === merkle);
+        const h = await sha256(val);
+        setHash(h);
+        setSuccess(val.trim().toLowerCase() === merkle.toLowerCase());
       } else {
         const h = await sha256(val);
         setHash(h);
@@ -164,6 +169,7 @@ const BlockchainPuzzles = () => {
 
       if (nonce % 1000 === 0) {
         setMiningProgress(Math.min((nonce / maxAttempts) * 100, 95));
+        await new Promise(resolve => setTimeout(resolve, 0));
       }
 
       if (current.targetPrefix && h.startsWith(current.targetPrefix)) {
@@ -184,12 +190,13 @@ const BlockchainPuzzles = () => {
   };
 
   const handleSubmit = () => {
+    if (completedLevels.includes(level)) return;
     if (success) {
       setCompletedLevels(prev => [...prev, level]);
       completeChallenge({
         challengeId: `blockchain-${level}`,
         score: 100,
-        hintsUsed: showHint ? 1 : 0,
+        hintsUsed,
         attempts: 1,
         timeMs: Date.now() - startTimeRef.current,
         completedAt: new Date().toISOString(),
@@ -202,6 +209,19 @@ const BlockchainPuzzles = () => {
         setTimeout(() => {
           setLevel(level + 1);
         }, 1000);
+      } else {
+        toast.success("All challenges completed!", {
+          description: "You've mastered Blockchain Puzzles!",
+          icon: "🎉"
+        });
+        const playerName = leaderboardManager.generatePlayerName();
+        leaderboardManager.addScore({
+          name: playerName,
+          game: "blockchain",
+          score: 100,
+          level: level,
+          difficulty: 'Expert',
+        });
       }
     }
   };
@@ -395,7 +415,10 @@ const BlockchainPuzzles = () => {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => setShowHint(v => !v)}
+                    onClick={() => {
+                      if (!showHint) setHintsUsed(prev => prev + 1);
+                      setShowHint(v => !v);
+                    }}
                     className={showHint ? "border-yellow-400/50" : ""}
                   >
                     <Lightbulb size={16} className={cn("mr-2", showHint && "text-yellow-400")} />

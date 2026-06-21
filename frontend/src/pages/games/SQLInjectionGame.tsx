@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ArrowLeft, Database, AlertCircle, RefreshCw, Terminal, Lightbulb, CheckCircle, Server, Table } from "lucide-react";
+import { ArrowLeft, Database, RefreshCw, Terminal, Lightbulb, CheckCircle, Server, Table } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import SpotlightCursor from "@/components/FX/SpotlightCursor";
 import { cn } from "@/lib/utils";
 import { useGame } from "@/contexts/GameContext";
 import { AISecurityAdvisor } from "@/components/ai/AISecurityAdvisor";
+import { leaderboardManager } from "@/utils/leaderboard";
 
 const maxLevel = 5;
 
@@ -63,7 +64,7 @@ const levelData = [
     baseQuery: "SELECT * FROM users WHERE id = [INPUT]"
   },
   {
-    check: (input: string) => input.toUpperCase().includes("DROP") || input.toUpperCase().includes("DELETE") || input.includes(";"),
+    check: (input: string) => (input.toUpperCase().includes("DROP") || input.toUpperCase().includes("DELETE")) && input.includes(";"),
     hints: [
       "Try using DROP or DELETE statements.",
       "Example: '; DROP TABLE users; --",
@@ -84,6 +85,7 @@ const SQLInjectionGame = () => {
   const [score, setScore] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
   const [isSuccess, setIsSuccess] = useState(false);
   const startTimeRef = useRef(Date.now());
@@ -103,9 +105,12 @@ const SQLInjectionGame = () => {
     setShowHint(false);
     setAttempts(0);
     setIsSuccess(false);
+    setHintsUsed(0);
+    startTimeRef.current = Date.now();
   }, [level]);
 
   const executeQuery = () => {
+    if (isSuccess || completedLevels.includes(level)) return;
     setAttempts(prev => prev + 1);
     let mockResults: string[] = [];
 
@@ -118,7 +123,7 @@ const SQLInjectionGame = () => {
         completeChallenge({
           challengeId: `sql-${level}`,
           score: pointsEarned,
-          hintsUsed: showHint ? 1 : 0,
+          hintsUsed,
           attempts: attempts + 1,
           timeMs: Date.now() - startTimeRef.current,
           completedAt: new Date().toISOString(),
@@ -187,6 +192,15 @@ const SQLInjectionGame = () => {
 
         if (level < maxLevel) {
           setTimeout(() => setLevel(level + 1), 2000);
+        } else {
+          const playerName = leaderboardManager.generatePlayerName();
+          leaderboardManager.addScore({
+            name: playerName,
+            game: "sql",
+            score: score + pointsEarned,
+            level: level,
+            difficulty: 'Expert',
+          });
         }
       } else {
         setIsSuccess(false);
@@ -400,7 +414,10 @@ const SQLInjectionGame = () => {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => setShowHint(v => !v)}
+                    onClick={() => {
+                      if (!showHint) setHintsUsed(prev => prev + 1);
+                      setShowHint(v => !v);
+                    }}
                     className={showHint ? "border-yellow-400/50" : ""}
                   >
                     <Lightbulb size={16} className={cn("mr-2", showHint && "text-yellow-400")} />

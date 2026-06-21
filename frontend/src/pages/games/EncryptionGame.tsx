@@ -80,6 +80,7 @@ const EncryptionGame = () => {
   const [isLevelComplete, setIsLevelComplete] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const [hintsUsed, setHintsUsed] = useState(0);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
   const startTimeRef = useRef(Date.now());
 
@@ -97,9 +98,12 @@ const EncryptionGame = () => {
     setShowHint(false);
     setIsLevelComplete(false);
     setAttempts(0);
+    setHintsUsed(0);
+    startTimeRef.current = Date.now();
   }, [level]);
 
   const handleSubmit = () => {
+    if (isLevelComplete) return;
     setAttempts(prev => prev + 1);
 
     if (input.toLowerCase() === current.expected.toLowerCase()) {
@@ -110,7 +114,7 @@ const EncryptionGame = () => {
       completeChallenge({
         challengeId: `encryption-${level}`,
         score: pointsEarned,
-        hintsUsed: showHint ? 1 : 0,
+        hintsUsed,
         attempts: attempts + 1,
         timeMs: Date.now() - startTimeRef.current,
         completedAt: new Date().toISOString(),
@@ -294,7 +298,10 @@ const EncryptionGame = () => {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => setShowHint(v => !v)}
+                    onClick={() => {
+                      if (!showHint) setHintsUsed(prev => prev + 1);
+                      setShowHint(v => !v);
+                    }}
                     disabled={isLevelComplete}
                     className={showHint ? "border-yellow-400/50" : ""}
                   >
@@ -345,7 +352,7 @@ const EncryptionGame = () => {
               level={level}
               lastInput={input}
               wasSuccessful={isLevelComplete}
-              context={`Encryption level ${level}: ${current?.type || 'cipher'} challenge`}
+              context={`Encryption level ${level}: ${current?.method || 'cipher'} challenge`}
             />
           </div>
         </div>

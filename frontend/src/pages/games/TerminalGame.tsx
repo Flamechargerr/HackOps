@@ -48,11 +48,12 @@ const TerminalGamePage = () => {
       description: "Use terminal commands to hack into the system.",
       icon: "💻"
     });
-    updateHints();
   }, []);
 
   useEffect(() => {
     updateHints();
+    setCommandsUsed(0);
+    startTimeRef.current = Date.now();
   }, [level]);
 
   const updateHints = () => {
@@ -189,17 +190,8 @@ const TerminalGamePage = () => {
       if (normalized === "cat .secret") {
         return { messages: [{ id: `sec-${Date.now()}`, content: "🔐 Encoded data: YWNjZXNzX2dyYW50ZWQ=\n\nHint: This looks like Base64 encoding...", type: "system" }] };
       }
-      if (normalized.startsWith("decode ") && normalized.includes("ywnjzxnzx2dyyw50zwq=")) {
-        handleLevelComplete(2);
-        return {
-          messages: [
-            { id: `deco-${Date.now()}`, content: "✓ Decoded: access_granted", type: "success" },
-            { id: `deco-${Date.now()}-1`, content: "🎉 Level 2 completed! Accessing admin panel...", type: "success" },
-          ]
-        };
-      }
-      // Accept the actual base64 decode
-      if (normalized === "decode ywnjzxnzx2dyyw50zwq=" || normalized === "decode access_granted") {
+      const cmdArgs = command.trim().split(/\s+/).slice(1).join(" ");
+      if (normalized.startsWith("decode ") && (cmdArgs === "YWNjZXNzX2dyYW50ZWQ=" || cmdArgs.toLowerCase() === "access_granted")) {
         handleLevelComplete(2);
         return {
           messages: [
@@ -229,12 +221,34 @@ const TerminalGamePage = () => {
       }
     }
 
-    if (level >= 4) {
+    if (level === 4) {
       if (normalized === "ls") {
-        return { messages: [{ id: `ls4-${Date.now()}`, content: "system_core/\nroot_access.key\nfinal_challenge.txt", type: "system" }] };
+        return { messages: [{ id: `ls4-${Date.now()}`, content: "system_core/\nroot_access.key.enc", type: "system" }] };
       }
-      if (normalized === "cat final_challenge.txt") {
-        handleLevelComplete(level);
+      if (normalized === "cat root_access.key.enc") {
+        return { messages: [{ id: `rak-${Date.now()}`, content: "⚠ File is encrypted. Use the master key to decrypt.", type: "warning" }] };
+      }
+      if (normalized === "decrypt root_access.key.enc r00t_4cc3ss_2024") {
+        handleLevelComplete(4);
+        return {
+          messages: [
+            { id: `dec4-${Date.now()}`, content: "✓ Privileges escalated to root!", type: "success" },
+            { id: `dec4-${Date.now()}-1`, content: "ROOT_KEY=rt_9988_sys", type: "system" },
+            { id: `dec4-${Date.now()}-2`, content: "🎉 Level 4 completed! Gaining root access...", type: "success" },
+          ]
+        };
+      }
+    }
+
+    if (level === 5) {
+      if (normalized === "ls") {
+        return { messages: [{ id: `ls5-${Date.now()}`, content: "system_core/\nroot_access.key.enc\nfinal_challenge.enc", type: "system" }] };
+      }
+      if (normalized === "cat final_challenge.enc") {
+        return { messages: [{ id: `fce-${Date.now()}`, content: "⚠ Root access required. Decrypt using ROOT_KEY.", type: "warning" }] };
+      }
+      if (normalized === "decrypt final_challenge.enc rt_9988_sys") {
+        handleLevelComplete(5);
         return {
           messages: [
             { id: `fin-${Date.now()}`, content: "╔═══════════════════════════════════════╗", type: "success" },

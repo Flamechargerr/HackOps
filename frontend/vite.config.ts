@@ -33,15 +33,15 @@ export default defineConfig(({ mode }) => ({
         theme_color: '#0a192f',
         background_color: '#0a192f',
         display: 'standalone',
-        start_url: '/',
+        start_url: './',
         icons: [
           {
-            src: '/favicon.ico',
+            src: 'favicon.ico',
             sizes: '48x48 64x64 96x96 128x128 256x256',
             type: 'image/x-icon',
           },
           {
-            src: '/og-image.png',
+            src: 'og-image.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
@@ -50,7 +50,7 @@ export default defineConfig(({ mode }) => ({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
-        navigateFallback: '/index.html',
+        navigateFallback: 'index.html',
       },
     }),
   ].filter(Boolean),

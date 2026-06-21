@@ -14,6 +14,7 @@ import Challenges from "./pages/Challenges";
 import Leaderboard from "./pages/Leaderboard";
 import { ProfilePage } from "./pages/ProfilePage";
 import AILab from "./pages/AILab";
+import Suggestions from "./pages/Suggestions";
 
 // Game Pages
 import {
@@ -43,6 +44,7 @@ const App = () => (
               <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/ai-lab" element={<AILab />} />
+              <Route path="/suggestions" element={<Suggestions />} />
 
               {/* Game Routes */}
               <Route path="/password-game" element={<PasswordGamePage />} />
